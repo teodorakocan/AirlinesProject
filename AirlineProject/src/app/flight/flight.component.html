@@ -1,0 +1,79 @@
+<style>
+table, td, th {
+  border: 1px solid black;
+  border-radius: 8px;
+}
+td{
+    background-color: white;
+    width: 25%;
+}
+
+input{
+    border: 0px;
+}
+.resize:hover{
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+</style>
+<div class="container">
+    <h1 class="mt-4" style="color:#a033d3; text-shadow: 2px 2px black;">Find your flight and travel</h1>
+    <br/><br/>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle btn-style" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Class
+                </button>
+                <div class="dropdown dropdown-menu" aria-labelledby="dropdownMenu">
+                  <button class="dropdown-item" type="button">Economy</button>
+                  <button class="dropdown-item" type="button">Business</button>
+                  <button class="dropdown-item" type="button">First</button>
+                </div>
+              </div>
+        </div>
+
+      <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="studentEdit" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+      </div>
+    </div>
+      <br/>
+      <table class="table" id="table1" style="border-collapse: separate; border-spacing: 10px; background-color: rgb(115, 52, 173); width: 60%;">
+        <tr>
+          <td><input type="text" placeholder="From"></td>
+          <td><input type="text" placeholder="To"></td>
+          <td><input type="date"></td>
+          <td><input type="date"></td>
+        </tr>
+      </table>
+        <br/>
+      <h2 style="text-align: center; color:#a033d3; text-shadow: 2px 2px black;">Trips</h2>
+        <br/> <br/>
+            <div class="row justify-content-center">
+                <div class="col-xs-4 col-md-4 " >
+                    <img class="resize" src="assets/img/London.jpg">
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <img class="resize" src="assets/img/Paris.jpg">
+                </div>
+            </div>
+            <br/>
+            <div class="row justify-content-center">
+                <div class="col-xs-4 col-md-4 " >
+                    <img class="resize" src="assets/img/Barcelona.jpg" style="height: 140px;">
+                </div>
+                <div class="col-xs-3 col-md-3">
+                    <img class="resize" src="assets/img/Moskva.jpg" style="height: 140px; width: 240px;">
+                </div>
+            </div>
+</div>
