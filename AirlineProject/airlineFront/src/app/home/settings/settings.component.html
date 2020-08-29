@@ -1,0 +1,137 @@
+<div class="container" style="height: 100%;"><br/><br/>
+    <mat-tab-group>
+    
+        <mat-tab label="My account"> 
+            <div *ngIf="user"><br/><br/>
+                <label style="font-size: 36px; color: purple;">{{user.name}} {{user.surname}}</label><br/>
+                <label style="font-size: 24px;">E-mial: <label style="font-size: 24px; color: purple;">{{user.email}}</label></label><br/>
+                <label style="font-size: 24px;">City: <label style="font-size: 24px; color: purple;">{{user.city}}</label></label><br/>
+                <label style="font-size: 24px;">Phone number: <label style="font-size: 24px; color: purple;">{{user.phone_Number}}</label></label><br/>
+            </div><br/>
+
+            <button type="button" class="btn btn-danger" (click)="DeleteAccount()">Delete account</button>
+        </mat-tab>
+        
+        <mat-tab label="Add airline or rent-a-car admin" >
+            <div style="overflow: hidden;">
+            <form [formGroup]="service.formModel" (submit)="onSubmit()">
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label class="formlabel">Name</label>
+                    <input type="text" class="form-control" id="Name" placeholder="Name.." formControlName="Name">
+                    <label class="text-danger" *ngIf="service.formModel.get('Name').touched && service.formModel.get('Name').errors?.required">This
+                      field is required.</label>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label class="formlabel">Surname</label>
+                    <input type="text" class="form-control" id="Surname" placeholder="Surname.." formControlName="Surname">
+                    <label class="text-danger" *ngIf="service.formModel.get('Surname').touched && service.formModel.get('Surname').errors?.required">This
+                      field is required.</label>
+                  </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label class="formlabel">Email (Username)</label>
+                      <input type="email" class="form-control" id="Email" placeholder="Email.." formControlName="Email"><label class="text-danger" *ngIf="service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email">Invalid
+                        email address.</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label class="formlabel">Phone number</label>
+                      <input class="form-control" id="PhoneNumber" placeholder="Phone number.." formControlName="PhoneNumber">
+                      <label class="form-control-feedback" *ngIf="service.formModel.get('PhoneNumber').errors && (service.formModel.get('PhoneNumber').dirty || service.formModel.get('PhoneNumber').touched)">
+                        <p *ngIf="service.formModel.get('PhoneNumber').errors.pattern" class="text-danger">Number Only</p>
+                      </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label class="formlabel">City</label>
+                      <input type="text" class="form-control" id="City" placeholder="City.." formControlName="City">
+                    </div>
+                </div>
+                <div formGroupName="Passwords">
+                  <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label class="formlabel">Password</label>
+                      <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="Password1" placeholder="Password.." formControlName="Password">
+                      <label class="text-danger" *ngIf="service.formModel.get('Passwords.Password').touched && service.formModel.get('Passwords.Password').errors?.required">This
+                        field is required.</label>
+                      <label class="text-danger" *ngIf="service.formModel.get('Passwords.Password').errors?.pattern">Has to have
+                          8 characters with least 1 symbol, uppercase letter and number.</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label class="formlabel">Confirm password</label>
+                      <div class="input-group" >
+                        <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="ConfirmPassword" placeholder="Confirm password.." formControlName="ConfirmPassword">
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}" (click)="toggleFieldTextType()"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <label class="text-danger" *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.required">This
+                        field is required.</label>
+                      <label class="text-danger" *ngIf="service.formModel.get('Passwords.ConfirmPassword').touched && service.formModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
+                        Passwords does not match.</label>
+                    </div>
+                  </div>
+                </div><br/>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label class="formlabel">Admin</label>
+                        <select formControlName="Admin" class="form-control">
+                          <option value="airline">Airline admin</option>
+                          <option value="rent-a-car">Rent-a-car admin</option>
+                        </select>
+                        <label class="text-danger" *ngIf="service.formModel.get('Admin').touched && service.formModel.get('Admin').errors?.required">
+                            You must select the administrator role that you want to add.</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-8 offset-md-2">
+                      <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!service.formModel.valid">Sign up</button>
+                    </div>
+                  </div>
+              </form>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="All admins" >
+            <table mat-table class="mat-elevation-z8">
+                <ng-container>
+                    <th mat-header-cell> Name </th>
+                </ng-container>
+                <ng-container>
+                    <th mat-header-cell> Surname </th>
+                </ng-container>
+                <ng-container>
+                    <th mat-header-cell> Email </th>
+                </ng-container>
+                <ng-container>
+                    <th mat-header-cell> City </th>
+                </ng-container>
+                <ng-container>
+                    <th mat-header-cell> Phone number </th>
+                </ng-container>
+
+                <ng-container *ngFor="let admin of admins">
+                    <td mat-cell> {{admin.name}} </td>
+                </ng-container>
+                <ng-container *ngFor="let admin of admins">
+                    <td mat-cell> {{admin.surname}} </td>
+                </ng-container>
+                <ng-container *ngFor="let admin of admins">
+                    <td mat-cell> {{admin.email}} </td>
+                </ng-container>
+                <ng-container *ngFor="let admin of admins">
+                    <td mat-cell> {{admin.city}} </td>
+                </ng-container>
+                <ng-container *ngFor="let admin of admins">
+                    <td mat-cell> {{admin.phone_Number}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['name', 'surname', 'email', 'city', 'phone_number']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name', 'surname', 'email', 'city', 'phone_number'];"></tr>
+              </table>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -48,29 +48,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "06746913-762a-4a30-a8b0-3ea38c6b6db1",
-                            ConcurrencyStamp = "31615e5a-8b6e-4ba3-8339-d403d09c1c9a",
+                            Id = "6f943a8a-4c6c-4a60-84ab-efe0d39764e6",
+                            ConcurrencyStamp = "74123e05-eeaa-4994-a928-ac059d1a3ea7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "c3eb266c-f722-46c4-b6ce-e4e02f6da8ff",
-                            ConcurrencyStamp = "d59bf6c4-2877-4edf-9dfa-0d9c05ed5520",
+                            Id = "1f812b7f-3aab-46bb-9fc1-e3696d611242",
+                            ConcurrencyStamp = "13d24918-661c-4e95-89eb-29abecd0f71e",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "2e331ca1-dcff-4f8a-a74b-3cddc60736c7",
-                            ConcurrencyStamp = "8a6a21c2-682a-4eb6-a000-ee117667aae1",
+                            Id = "49c4d06b-25cf-49e7-a4e0-08d53cb95ec6",
+                            ConcurrencyStamp = "370636f4-0bac-420c-a965-407ce3641565",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "a5ee3244-181d-4c08-a6c3-4d8c9f439a56",
-                            ConcurrencyStamp = "340040f4-b5e1-4b5f-be76-732b94b5c195",
+                            Id = "6cf093ea-0ab7-486f-8dd0-9bb580e9afd8",
+                            ConcurrencyStamp = "6f59cadc-15fc-4046-b0d8-665c7a8ce657",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -127,10 +127,12 @@ namespace WebApp.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -167,10 +169,12 @@ namespace WebApp.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -405,6 +409,36 @@ namespace WebApp.Migrations
                     b.ToTable("Branches");
                 });
 
+            modelBuilder.Entity("WebApp.Models.CarReservation", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("Car_Reservations")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reservation_Period")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("User_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Vehicle_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Car_Reservations");
+
+                    b.HasIndex("User_ID");
+
+                    b.HasIndex("Vehicle_ID");
+
+                    b.ToTable("CarReservations");
+                });
+
             modelBuilder.Entity("WebApp.Models.Destination", b =>
                 {
                     b.Property<int>("ID")
@@ -583,15 +617,10 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Rent_Price_List")
-                        .HasColumnType("int");
-
                     b.Property<int>("Rent_a_Car_ID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("Rent_Price_List");
 
                     b.HasIndex("Rent_a_Car_ID");
 
@@ -721,17 +750,12 @@ namespace WebApp.Migrations
                     b.Property<bool>("Reserved")
                         .HasColumnType("bit");
 
-                    b.Property<int>("User_ID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Vehicle")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("Branche_ID");
-
-                    b.HasIndex("User_ID");
 
                     b.HasIndex("Vehicle");
 
@@ -860,6 +884,29 @@ namespace WebApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebApp.Models.CarReservation", b =>
+                {
+                    b.HasOne("WebApp.Models.User", null)
+                        .WithMany("Car_Reservations")
+                        .HasForeignKey("Car_Reservations");
+
+                    b.HasOne("WebApp.Models.Vehicle", null)
+                        .WithMany("Car_Reservations")
+                        .HasForeignKey("Car_Reservations");
+
+                    b.HasOne("WebApp.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("Vehicle_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebApp.Models.FastReservation", b =>
                 {
                     b.HasOne("WebApp.Models.Airline", "Airline")
@@ -928,10 +975,6 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.RentPriceList", b =>
                 {
-                    b.HasOne("WebApp.Models.RentACar", null)
-                        .WithMany("RentPriceLists")
-                        .HasForeignKey("Rent_Price_List");
-
                     b.HasOne("WebApp.Models.RentACar", "Rent_a_Car")
                         .WithMany()
                         .HasForeignKey("Rent_a_Car_ID")
@@ -958,17 +1001,7 @@ namespace WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("User_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebApp.Models.Branche", null)
-                        .WithMany("Vehicles")
-                        .HasForeignKey("Vehicle");
-
-                    b.HasOne("WebApp.Models.User", null)
                         .WithMany("Vehicles")
                         .HasForeignKey("Vehicle");
                 });

@@ -23,7 +23,7 @@ namespace WebApp.Models
 
         [ForeignKey("User")]
         public int User_ID { get; set; }
-        public User User { get; set; }
+        public MyUser User { get; set; }
 
         public AircraftConfiguration()
         {

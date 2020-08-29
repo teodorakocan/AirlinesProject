@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Teodora\\Desktop\\WEB2_II\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj": {}
+    "C:\\Users\\Teodora\\Desktop\\Projekat_WEB2\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Teodora\\Desktop\\WEB2_II\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj": {
+    "C:\\Users\\Teodora\\Desktop\\Projekat_WEB2\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Teodora\\Desktop\\WEB2_II\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj",
+        "projectUniqueName": "C:\\Users\\Teodora\\Desktop\\Projekat_WEB2\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj",
         "projectName": "WebApp",
-        "projectPath": "C:\\Users\\Teodora\\Desktop\\WEB2_II\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj",
+        "projectPath": "C:\\Users\\Teodora\\Desktop\\Projekat_WEB2\\AirlineProject\\WebApp\\WebApp\\WebApp.csproj",
         "packagesPath": "C:\\Users\\Teodora\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Teodora\\Desktop\\WEB2_II\\AirlineProject\\WebApp\\WebApp\\obj\\",
+        "outputPath": "C:\\Users\\Teodora\\Desktop\\Projekat_WEB2\\AirlineProject\\WebApp\\WebApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -47,6 +47,10 @@
               "version": "[3.1.7, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.7, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
               "version": "[3.1.7, )"
             },

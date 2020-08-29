@@ -25,7 +25,7 @@ namespace WebApp.Authentication
 
         }
 
-        public DbSet<User> MyUsers { get; set; }
+        public DbSet<MyUser> MyUsers { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Airline> Airlines { get; set; }
         public DbSet<AircraftConfiguration> AircraftConfigurations { get; set; }
@@ -42,5 +42,6 @@ namespace WebApp.Authentication
         public DbSet<RentService> RentServices { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<CarReservation> CarReservations { get; set; }
     }
 }

@@ -1,0 +1,111 @@
+<div class="container"><br/><br/>
+    <mat-tab-group>
+    
+        <mat-tab label="Flights"> 
+            <div style="overflow: hidden;">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label style="font-size: 24px; color: purple;">Serach flight</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <select class="browser-default custom-select" style="width: 200px;">
+                                <option selected>Trip type</option>
+                                <option value="1">Round-trip</option>
+                                <option value="2">One-way</option>
+                                <option value="3">Multi-city</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="browser-default custom-select" style="width: 200px;">
+                                <option selected>Number of persons</option>
+                                <option value="1">1 adult</option>
+                                <option value="2">2 adult</option>
+                                <option value="3">3 adult</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="browser-default custom-select" style="width: 200px;">
+                                <option selected>Flight type</option>
+                                <option value="1">Economy</option>
+                                <option value="2">Business</option>
+                                <option value="3">First</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="browser-default custom-select" style="width: 200px;">
+                                <option selected>Airlines</option>
+                                <option *ngFor="let airline of airlines">{{airline}}</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <input style="width: 100px; " type="text" name="from" placeholder="From..">
+                            <mdb-icon fas icon="arrow-right"></mdb-icon>
+                            <input style="width: 100px;" type="text" name="to" placeholder="To..">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Depart">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Return">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button style="border:none"><mdb-icon fas icon="search" aria-hidden="true"></mdb-icon></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br/>
+            <div class="allFlights" *ngFor="let flight of flights">
+                <div style="width: 90%; height: 130px; border: 2px solid black;">
+                    <label>{{flight.flight_NUmber}}</label><br/>
+                    <label>{{flight.destination_Transfer}}            {{flight.price}}</label><br/>
+                    <label>{{flight.start_DateTime}} - {{flight.end_DateTime}}</label><br/>
+                    <label>{{flight.number_Transfer}}</label><br/>
+                    <label>{{flight.travel_Lenght}}</label><br/>
+                </div><br/>
+            </div>
+        </mat-tab>
+        
+        <mat-tab label="Car rent">
+            <div style="overflow: hidden;">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label style="font-size: 24px; color: purple;">Serach vehicle</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <select class="browser-default custom-select" style="width: 200px;">
+                                <option selected>Choose city</option>
+                                <option value="1">Round-trip</option>
+                              </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="browser-default custom-select" style="width: 200px;">
+                                <option selected>Choose rent-a-car service</option>
+                                <option value="1">1 adult</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Depart">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Return">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button style="border:none"><mdb-icon fas icon="search" aria-hidden="true"></mdb-icon></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

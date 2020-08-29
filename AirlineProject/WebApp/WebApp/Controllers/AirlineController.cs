@@ -171,9 +171,9 @@ namespace WebApp.Controllers
         {
             List<Airline> airlines = new List<Airline>();
             airlines = _context.Airlines.ToList();
-            foreach(Airline airline in airlines)
+            foreach (Airline airline in airlines)
             {
-                if(airline.Name.Equals(name))
+                if (airline.Name.Equals(name))
                 {
                     return airline;
                 }
@@ -181,5 +181,64 @@ namespace WebApp.Controllers
 
             return NotFound();
         }
+
+        [HttpGet]
+        [Route("airiline_destinations/{name}")]
+        public async Task<ActionResult<IEnumerable<Destination>>> AirlineDestinations(string name)
+        {
+            var airlines = _context.Airlines.ToList();
+            Airline airline = new Airline();
+            foreach (var a in airlines)
+            {
+                if (a.Name.Equals(name))
+                {
+                    airline = a;
+                }
+            }
+
+            var airlineDestinations = _context.AirlineDestinations.ToList();
+            List<int> destinations_id = new List<int>();
+            foreach (var airlineDestination in airlineDestinations)
+            {
+                if (airlineDestination.Airline_ID == airline.ID)
+                {
+                    destinations_id.Add(airlineDestination.Destination_ID);
+                }
+            }
+
+            var destinations = _context.Destinations.ToList();
+            List<Destination> airlineDesinations = new List<Destination>();
+            foreach (int id in destinations_id)
+            {
+                foreach (var destination in destinations)
+                {
+                    if (id == destination.ID)
+                    {
+                        airlineDesinations.Add(destination);
+                    }
+                }
+            }
+
+            if (airlineDesinations == null)
+            {
+                return NotFound();
+            }
+
+            return airlineDesinations;
+        }
+
+        [HttpGet]
+        [Route("all-flights")]
+        public async Task<ActionResult<IEnumerable<Flight>>> AllFlights()
+        {
+            return _context.Flights.ToList();
+        }
+
+        /*[HttpGet]
+        [Route("airline-flights/{name}")]
+        public async Task<ActionResult<IEnumerable<Flight>>> AirlineFlights(string name)
+        {
+            ne mogu da se izvuku pojedinacni letovi tabee nisu dobro povezane
+        }*/
     }
 }

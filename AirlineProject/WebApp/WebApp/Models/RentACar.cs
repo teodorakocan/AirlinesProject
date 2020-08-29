@@ -19,12 +19,12 @@ namespace WebApp.Models
         [ForeignKey("Branche")]
         public ICollection<Branche> Branches { get; set; }
 
-        [ForeignKey("Rent_Price_List")]
-        public ICollection<RentPriceList> RentPriceLists { get; set; }
+        /*[ForeignKey("Rent_Price_List")]
+        public ICollection<RentPriceList> RentPriceLists { get; set; }*/
 
         public RentACar()
         {
-            this.RentPriceLists = new HashSet<RentPriceList>();
+            //this.RentPriceLists = new HashSet<RentPriceList>();
             this.Branches = new HashSet<Branche>();
         }
     }

@@ -22,8 +22,13 @@ namespace WebApp.Models
         public int Branche_ID { get; set; }
         public Branche Branche { get; set; }
 
-        [ForeignKey("User")]
-        public int User_ID { get; set; }
-        public User User { get; set; }
-}
+        [ForeignKey("Car_Reservations")]
+        public ICollection<CarReservation> Car_Reservations { get; set; }
+
+        public Vehicle()
+        {
+            this.Car_Reservations = new HashSet<CarReservation>();
+        }
+
+    }
 }

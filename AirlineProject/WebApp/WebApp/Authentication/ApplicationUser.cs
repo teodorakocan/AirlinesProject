@@ -12,7 +12,7 @@ namespace WebApp.Authentication
     {
         [ForeignKey("User")]
         public int? User_ID { get; set; }
-        public virtual User User { get; set; }
+        public virtual MyUser User { get; set; }
 
         [ForeignKey("Admin")]
         public int? Admin_ID { get; set; }

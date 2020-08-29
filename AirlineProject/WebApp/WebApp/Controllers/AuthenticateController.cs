@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebApp.Authentication;
@@ -24,13 +27,15 @@ namespace WebApp.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public AuthenticateController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthenticateController(IEmailSender emailSender, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
             _context = context;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
@@ -87,10 +92,10 @@ namespace WebApp.Controllers
             var userExists = await userManager.FindByEmailAsync(model.Email);
             if(userExists != null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "User already exists!" });
             }
 
-            User new_user = new User()
+            MyUser new_user = new MyUser()
             {
                 Name = model.Name,
                 Surname = model.Surname,
@@ -107,93 +112,15 @@ namespace WebApp.Controllers
                 User_ID = new_user.ID,
                 User = new_user,
                 Admin_ID = null,
-                UserName = model.Name
+                UserName = model.Name,
+                EmailConfirmed = false
             };
 
             var result2 = await userManager.CreateAsync(user, model.Password);
             userManager.AddToRoleAsync(user, "User").Wait();
-
-            if (!result2.Succeeded)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-            }
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
-        }
-
-        [HttpPost]
-        [Route("register-airline-admin")]
-        public async Task<IActionResult> RegisterAirlineAdmin([FromBody] RegisterModel model)
-        {
-            var userExists = await userManager.FindByEmailAsync(model.Email);
-            if (userExists != null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-            }
-
-            Admin airline_admin = new Admin()
-            {
-                Name = model.Name,
-                Surname = model.Surname,
-                Email = model.Email,
-                City = model.City,
-                Password = model.Password, // TODO: enkriptovati kasnije 
-                Phone_Number = model.PhoneNumber
-            };
-
-            ApplicationUser admin = new ApplicationUser()
-            {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                User_ID = null,
-                Admin_ID = airline_admin.ID,
-                Admin = airline_admin,
-                UserName = model.Name
-            };
-
-            var result2 = await userManager.CreateAsync(admin, model.Password);
-            userManager.AddToRoleAsync(admin, "Airline_Admin").Wait();
-
-            if (!result2.Succeeded)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-            }
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
-        }
-
-        [HttpPost]
-        [Route("register-service-admin")]
-        public async Task<IActionResult> RegisterServiceAdmin([FromBody] RegisterModel model)
-        {
-            var userExists = await userManager.FindByEmailAsync(model.Email);
-            if (userExists != null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-            }
-
-            Admin service_admin = new Admin()
-            {
-                Name = model.Name,
-                Surname = model.Surname,
-                Email = model.Email,
-                City = model.City,
-                Password = model.Password, // TODO: enkriptovati kasnije 
-                Phone_Number = model.PhoneNumber
-            };
-
-            ApplicationUser admin = new ApplicationUser()
-            {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                User_ID = null,
-                Admin_ID = service_admin.ID,
-                Admin = service_admin,
-                UserName = model.Name
-            };
-
-            var result2 = await userManager.CreateAsync(admin, model.Password);
-            userManager.AddToRoleAsync(admin, "Service_Admin").Wait();
+            string link = "http://localhost:4200/confirmation/" + model.Email;
+            string htmlMessage = "<a href = '" + link + "'>Verify email</a>";
+            await _emailSender.SendEmailAsync(model.Email, "Verify your email", htmlMessage);
 
             if (!result2.Succeeded)
             {
@@ -244,7 +171,7 @@ namespace WebApp.Controllers
                         });
                     }
 
-                    User user = new User()
+                    MyUser user = new MyUser()
                     {
                         Name = model.Name,
                         Surname = model.Surname,
@@ -285,6 +212,28 @@ namespace WebApp.Controllers
             return Unauthorized();
         }
 
-        
+        [HttpPut]
+        [Route("confirm-email/{email}")]
+        public async Task<IActionResult> Confirmation(string email)
+        {
+            if(email == "")
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Please create your account" });
+            }
+            var userExists = await userManager.FindByEmailAsync(email);
+            if(userExists.EmailConfirmed)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "You already verified your email" });
+            }
+            else
+            {
+                userExists.EmailConfirmed = true;
+            }
+            
+            _context.Entry(userExists).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
