@@ -7,20 +7,21 @@ import { RegistrationComponent } from './signin/registration/registration.compon
 import { AirlineComponent } from './home/profile/airline/airline.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AppComponent } from './app.component';
+import { AuthGuard } from './auth/auth.guard';
 import { SettingsComponent } from './home/settings/settings.component';
 
 const routes: Routes = [
   {
     path: "",
     redirectTo: "/home",
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   { path: 'home',component: HomeComponent },
   { path: 'signin', component: SigninComponent},
   { path: 'registration', component: RegistrationComponent },
   { path: 'airline/:name', component:AirlineComponent},
   { path: 'confirmation/:email', component: ConfirmationComponent},
-  { path: 'settings', component: SettingsComponent}
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

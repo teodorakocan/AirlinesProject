@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -38,18 +39,19 @@ namespace WebApp.Controllers
             _emailSender = emailSender;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);
-            if(!user.EmailConfirmed)
-            {
-                return Unauthorized();
-            }
 
-            if(user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
+                if (!user.EmailConfirmed)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "User already exists!" });
+                }
                 var userRoles = await userManager.GetRolesAsync(user);
 
                 var authClaims = new List<Claim>
@@ -85,6 +87,7 @@ namespace WebApp.Controllers
             return Unauthorized();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("register")] //registracija za obicne korisnike
         public async Task<IActionResult> Register(RegisterModel model)
@@ -130,6 +133,7 @@ namespace WebApp.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("social-login")]
         public async Task<IActionResult> SocialLogin([FromBody] SocialLoginModel model)

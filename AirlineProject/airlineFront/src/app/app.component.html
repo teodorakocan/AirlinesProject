@@ -36,12 +36,15 @@
   <!-- Links -->
 
   <ul class="navbar-nav ml-auto nav-flex-icons">
-      <li class="nav-item">
-          <a class="nav-link" *ngIf="logged" routerLink="/settings">Settings<mdb-icon fas icon="Settings"></mdb-icon></a>
-          </li>
-      <li class="nav-item">
-      <a class="nav-link" routerLink="/signin">Sign in<mdb-icon fas icon="user"></mdb-icon></a>
-      </li>
+    <li class="nav-item">
+        <a class="nav-link" *ngIf="logged" routerLink="/settings">Settings<i class="fas fa-cogs"></i></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" (click)="SignOut()" *ngIf="logged">Sing out<i class="fas fa-sign-out-alt"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/signin" *ngIf="!logged">Sign in<mdb-icon fas icon="user"></mdb-icon></a>
+    </li>
   </ul>
   </links>
   <!-- Collapsible content -->

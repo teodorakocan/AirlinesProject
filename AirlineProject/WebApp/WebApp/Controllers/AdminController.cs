@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Authentication;
 using WebApp.Models;
 
@@ -85,6 +87,76 @@ namespace WebApp.Controllers
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             return _context.Admins.ToList();
+        }
+
+        [HttpGet]
+        [Route("find-admin/{id}")]
+        public async Task<IEnumerable<Admin>> FindAdmin(int id, string name, string surname)
+        {
+            List<Admin> admins = new List<Admin>();
+            List<Admin> listAdmins = new List<Admin>();
+            listAdmins = await _context.Admins.ToListAsync();
+            int adminId = 0;
+            string adminName = "";
+            string adminSurname = "";
+            if(id != 0)
+            {
+                adminId = id;
+            }
+            if(name != "")
+            {
+                adminName = name;
+            }
+
+            if(surname != "")
+            {
+                adminSurname = surname;
+            }
+
+            foreach(Admin admin in listAdmins)
+            {
+                if(admin.ID == adminId || admin.Name.Equals(adminName) || admin.Surname.Equals(adminSurname))
+                {
+                    admins.Add(admin);
+                }
+            }
+
+            return admins;
+        }
+
+        [HttpGet]
+        [Route("find-user/{id}")]
+        public async Task<IEnumerable<MyUser>> FindUser(int id, string name, string surname)
+        {
+            List<MyUser> users = new List<MyUser>();
+            List<MyUser> listUsers = new List<MyUser>();
+            listUsers = await _context.MyUsers.ToListAsync();
+            int userId = 0;
+            string userName = "";
+            string userSurname = "";
+            if (id != 0)
+            {
+                userId = id;
+            }
+            if (name != "")
+            {
+                userName = name;
+            }
+
+            if (surname != "")
+            {
+                userSurname = surname;
+            }
+
+            foreach (MyUser user in listUsers)
+            {
+                if (user.ID == userId || user.Name.Equals(userName) || user.Surname.Equals(userSurname))
+                {
+                    users.Add(user);
+                }
+            }
+
+            return users;
         }
     }
 }

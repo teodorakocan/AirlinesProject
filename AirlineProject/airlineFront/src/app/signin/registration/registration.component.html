@@ -19,8 +19,11 @@
         <div class="form-row">
             <div class="form-group col-md-4">
               <label class="formlabel">Email (Username)</label>
-              <input type="email" class="form-control" id="Email" placeholder="Email.." formControlName="Email"><label class="text-danger" *ngIf="service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email">Invalid
+              <input type="email" class="form-control" id="Email" placeholder="Email.." formControlName="Email">
+              <label class="text-danger" *ngIf="service.formModel.get('Email').touched && service.formModel.get('Email').errors?.email">Invalid
                 email address.</label>
+              <label class="text-danger" *ngIf="service.formModel.get('Email').touched && service.formModel.get('Email').errors?.required">This
+                  field is required.</label>
             </div>
             <div class="form-group col-md-4">
               <label class="formlabel">Phone number</label>
@@ -34,6 +37,8 @@
             <div class="form-group col-md-4">
               <label class="formlabel">City</label>
               <input type="text" class="form-control" id="City" placeholder="City.." formControlName="City">
+              <label class="text-danger" *ngIf="service.formModel.get('City').touched && service.formModel.get('City').errors?.required">This
+                field is required.</label>
             </div>
         </div>
         <div formGroupName="Passwords">

@@ -32,7 +32,15 @@ export class AppComponent {
       this.airlines = names;
     });
   }
+
   onChange(airline: string){
     this.router.navigateByUrl('airline/' + airline);
+  }
+  
+  SignOut(){
+      localStorage.removeItem('token');
+      localStorage.removeItem('email');
+      localStorage.removeItem('role');
+      window.location.replace('/signin');
   }
 }
