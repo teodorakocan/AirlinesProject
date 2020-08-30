@@ -268,5 +268,55 @@
                 </form>
             </div>
         </mat-tab>
+
+        <mat-tab *ngIf="role=='Admin'" label="Discounts"> <br/>
+            <small style="color: red;">If you put 0 in the points field or in the discount field, you will delete the discount.</small>
+                <table class="table table-dark" style="overflow-x: hidden;">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Points</th>
+                        <th scope="col">Discount</th>
+                    </tr>
+                    </thead>
+                </table>
+                <form #form2='ngForm' (submit)="EditDiscount(form2, discount.id)" *ngFor="let discount of discounts">
+                    <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope="row" style="width: 200px;">{{discount.id}}</th>
+                            <td><input type="number" #Pints="ngModel" name="Pints" [(ngModel)]="discount.pints"></td>
+                            <td><input type="number" #Discount="ngModel" style="width: 50px;" name="Discount" [(ngModel)]="discount.discount">%</td>
+                            <td><button type="number" type="submit" style="float: right; width: 100px;" class="btn btn-dark">Edit/Delete</button></td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </form>
+
+                <p style="color: purple; font-size:24px"> Add new discount</p>
+                <form [formGroup]="service.formModel3" (submit)="addDiscount()">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="formlabel">Points</label>
+                            <input type="number" class="form-control" id="Pints" placeholder="Points.." formControlName="Pints">
+                            <label class="form-control-feedback" *ngIf="service.formModel3.get('Pints').errors && (service.formModel3.get('Pints').dirty || service.formModel3.get('Pints').touched)">
+                                Field is required.</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="formlabel">Discount</label>
+                            <input type="number" class="form-control" id="Discount" placeholder="Discount.." formControlName="Discount">
+                            <label class="form-control-feedback" *ngIf="service.formModel3.get('Discount').errors && (service.formModel3.get('Discount').dirty || service.formModel3.get('Discount').touched)">
+                                Field is required.</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-8 offset-md-2">
+                            <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!service.formModel3.valid">Add discount</button>
+                        </div>
+                    </div>
+                </form>
+        </mat-tab>
     </mat-tab-group>
 </div>

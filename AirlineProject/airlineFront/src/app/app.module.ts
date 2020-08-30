@@ -23,6 +23,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { TokenInterceptor } from './auth/TokenInterceptor';
 import { SettingsComponent } from './home/settings/settings.component';
 import { RegistrationComponent } from './signin/registration/registration.component';
+import { AdminConfirmationComponent } from './admin-confirmation/admin-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RegistrationComponent } from './signin/registration/registration.compon
     RentACarComponent,
     ConfirmationComponent,
     SettingsComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    AdminConfirmationComponent
   ],
   imports: [
     BrowserModule,

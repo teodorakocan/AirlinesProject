@@ -72,6 +72,11 @@ export class UserService{
       }, { validator: this.comparePasswords })
     });
 
+    formModel3 = this.fb.group({
+      Pints: ['',Validators.required],
+      Discount: ['',Validators.required]
+    });
+
 
     comparePasswords(fb: FormGroup) {
       let confirmPswrdCtrl = fb.get('ConfirmPassword');
@@ -121,7 +126,7 @@ export class UserService{
     confirmation(email: string){
       return this._http.put(this._baseUrl + '/api/authenticate/confirm-email/' + email, { });
     }
-
+    
     getUserinfo(email){
       return this._http.get(this._baseUrl + '/api/user/user-info/'+ email);
     }
@@ -153,5 +158,24 @@ export class UserService{
         ConfirmedPassword: this.formModel2.value.Passwords.ConfirmPassword
       };
       return this._http.put(this._baseUrl + '/api/user/change-password/' + email, newPassword, {params:{token:localStorage.getItem('token')}});
+    }
+
+    allDiscounts()
+    {
+      return this._http.get(this._baseUrl + '/api/admin/dicounts');
+    }
+    
+    editDiscount(discount, id){
+      return this._http.put(this._baseUrl + '/api/admin/edit-discount/' + id, discount);
+    }
+
+    addDiscount()
+    {
+      debugger
+      var discount = {
+        Pints: this.formModel3.value.Pints,
+        Discount: this.formModel3.value.Discount
+      };
+      return this._http.post(this._baseUrl + '/api/admin/add-discount', discount);
     }
 }

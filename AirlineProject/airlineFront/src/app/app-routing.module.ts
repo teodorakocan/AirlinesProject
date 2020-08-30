@@ -9,6 +9,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './auth/auth.guard';
 import { SettingsComponent } from './home/settings/settings.component';
+import { AdminConfirmationComponent } from './admin-confirmation/admin-confirmation.component';
 
 const routes: Routes = [
   {
@@ -17,11 +18,12 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   { path: 'home',component: HomeComponent },
-  { path: 'signin', component: SigninComponent},
+  { path: 'signin', component: SigninComponent },
   { path: 'registration', component: RegistrationComponent },
-  { path: 'airline/:name', component:AirlineComponent},
-  { path: 'confirmation/:email', component: ConfirmationComponent},
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]}
+  { path: 'airline/:name', component:AirlineComponent },
+  { path: 'confirmation/:email', component: ConfirmationComponent },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'adminConfirmation/:email', component: AdminConfirmationComponent }
 ];
 
 @NgModule({

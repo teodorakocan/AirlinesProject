@@ -105,7 +105,8 @@ namespace WebApp.Controllers
                 Email = model.Email,
                 City = model.City,
                 Password = model.Password, // TODO: enkriptovati kasnije 
-                Phone_Number = model.PhoneNumber
+                Phone_Number = model.PhoneNumber,
+                Points = 0
             };
 
             ApplicationUser user = new ApplicationUser()
@@ -185,7 +186,8 @@ namespace WebApp.Controllers
                         Phone_Number = null,
                         Provider = model.Provider,
                         PictureURL = model.PictureUrl,
-                        IdToken = model.IdToken
+                        IdToken = model.IdToken,
+                        Points = 0
                     };
 
                     ApplicationUser admin = new ApplicationUser()

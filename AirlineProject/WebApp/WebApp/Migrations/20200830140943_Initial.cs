@@ -50,6 +50,20 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Discounts",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Pints = table.Column<int>(nullable: false),
+                    Discount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discounts", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MyUsers",
                 columns: table => new
                 {
@@ -63,7 +77,8 @@ namespace WebApp.Migrations
                     Phone_Number = table.Column<string>(nullable: true),
                     Provider = table.Column<string>(nullable: true),
                     PictureURL = table.Column<string>(nullable: true),
-                    IdToken = table.Column<string>(nullable: true)
+                    IdToken = table.Column<string>(nullable: true),
+                    Points = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -541,8 +556,8 @@ namespace WebApp.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -586,8 +601,8 @@ namespace WebApp.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -646,10 +661,10 @@ namespace WebApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6f943a8a-4c6c-4a60-84ab-efe0d39764e6", "74123e05-eeaa-4994-a928-ac059d1a3ea7", "Admin", "ADMIN" },
-                    { "1f812b7f-3aab-46bb-9fc1-e3696d611242", "13d24918-661c-4e95-89eb-29abecd0f71e", "Airline_Admin", "AIRLINE_ADMIN" },
-                    { "49c4d06b-25cf-49e7-a4e0-08d53cb95ec6", "370636f4-0bac-420c-a965-407ce3641565", "Service_Admin", "SERVICE_ADMIN" },
-                    { "6cf093ea-0ab7-486f-8dd0-9bb580e9afd8", "6f59cadc-15fc-4046-b0d8-665c7a8ce657", "User", "USER" }
+                    { "2a8dfd84-50fc-4ccf-b1d2-d4bf82e99632", "7ece8be9-c405-4ee6-be87-0cbe3c5609f4", "Admin", "ADMIN" },
+                    { "41c273b8-89a2-4c20-a323-5758f7dfaba3", "eb3615a9-6810-4a2e-9b28-4c7902da3187", "Airline_Admin", "AIRLINE_ADMIN" },
+                    { "d72c3634-0ac6-4b9a-91ef-0848ec87729e", "5be36eba-24fe-4584-8ffe-30dc96126a5c", "Service_Admin", "SERVICE_ADMIN" },
+                    { "58804e22-851c-4264-8597-1d8fa8bc74f1", "6a973bcc-ec1c-4702-b20a-453cf60bf260", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -852,6 +867,9 @@ namespace WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "CarReservations");
+
+            migrationBuilder.DropTable(
+                name: "Discounts");
 
             migrationBuilder.DropTable(
                 name: "FastReservations");

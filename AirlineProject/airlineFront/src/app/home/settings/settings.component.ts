@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { Admin, User } from 'src/app/models';
+import { Admin, User, Discounts } from 'src/app/models';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { from } from 'rxjs';
@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
   fieldTextType: boolean;
   public admins: Admin[];
   public users: User[];
+  public discounts: Discounts[];
   searchedUser = {
     Name: '',
     Surname: '',
@@ -32,7 +33,6 @@ export class SettingsComponent implements OnInit {
     this.role = localStorage.getItem('role');
     this.service.getUserinfo(this.email).subscribe(
       (res)=>{
-        debugger
           this.user = res;
       },
       err=>{
@@ -50,14 +50,23 @@ export class SettingsComponent implements OnInit {
             this.toastr.error('There is no registered admins.', 'Not found.')
         }
       )
+
+      this.service.allDiscounts().subscribe(
+        (res: Discounts[])=>{
+            this.discounts = res;
+        },
+        err=>{
+            this.toastr.error('There is no registered admins.', 'Not found.')
+        }
+      )
     }
   }
 
   onSubmit(){
-    debugger
+    //debugger
     this.service.registerAdmin().subscribe(
       (res: any) => {
-        this.service.formModel.reset();
+        this.service.formModel1.reset();
         this.toastr.success('Admin is successfully made', 'Registration successful.');
       },
       err=>{
@@ -139,5 +148,49 @@ export class SettingsComponent implements OnInit {
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
+  }
+
+  EditDiscount(form: NgForm, id){
+    var disount={
+      Pints: form.value.Pints,
+      Discount: form.value.Discount
+    }
+    this.service.editDiscount(disount, id).subscribe(
+      (res)=>{
+        this.toastr.success('You have successfully changed discount.', 'Discount changed.')
+        this.service.allDiscounts().subscribe(
+          (res: Discounts[])=>{
+              this.discounts = res;
+          },
+          err=>{
+              this.toastr.error('There is no registered admins.', 'Not found.')
+          }
+        )
+      },
+      err=>
+      {
+        this.toastr.error('Error 500.', 'Server faild.')
+      }
+    );
+  }
+
+  addDiscount(){
+    this.service.addDiscount().subscribe(
+      (res: any) => {
+        this.service.formModel3.reset();
+        this.toastr.success('Discount is successfully added', 'Adding successful.');
+        this.service.allDiscounts().subscribe(
+          (res: Discounts[])=>{
+              this.discounts = res;
+          },
+          err=>{
+              this.toastr.error('There is no registered admins.', 'Not found.')
+          }
+        )
+      },
+      err=>{
+          this.toastr.error('Error 500','Server failed.');
+      }
+    )
   }
 }

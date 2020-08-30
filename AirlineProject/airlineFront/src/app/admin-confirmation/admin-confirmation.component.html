@@ -1,0 +1,41 @@
+<div class="container"><br/><br/>
+    <p style="font-size: 24px; align-content: center;">Please change your password.</p><br/>
+    <div class="form-control">
+        <form [formGroup]="service.formModel2" (submit)="changePassword()">
+            <div formGroupName="Passwords">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label class="formlabel">New password</label>
+                        <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="Password1" placeholder="Password.." formControlName="Password">
+                        <label class="text-danger" *ngIf="service.formModel2.get('Passwords.Password').touched && service.formModel2.get('Passwords.Password').errors?.required">This
+                            field is required.</label>
+                        <label class="text-danger" *ngIf="service.formModel2.get('Passwords.Password').errors?.pattern">Has to have
+                            8 characters with least 1 symbol, uppercase letter and number.</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label class="formlabel">Confirm password</label>
+                        <div class="input-group" >
+                            <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="ConfirmPassword" placeholder="Confirm password.." formControlName="ConfirmPassword">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}" (click)="toggleFieldTextType()"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <label class="text-danger" *ngIf="service.formModel2.get('Passwords.ConfirmPassword').touched && service.formModel2.get('Passwords.ConfirmPassword').errors?.required">This
+                            field is required.</label>
+                        <label class="text-danger" *ngIf="service.formModel2.get('Passwords.ConfirmPassword').touched && service.formModel2.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
+                            Passwords does not match.</label>
+                    </div>
+                </div>
+            </div><br/>
+            <div class="form-row">
+                <div class="form-group col-md-8 offset-md-2">
+                    <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!service.formModel2.valid">Change password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

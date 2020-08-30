@@ -10,7 +10,7 @@ using WebApp.Authentication;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200827165734_Initial")]
+    [Migration("20200830140943_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,29 +50,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6f943a8a-4c6c-4a60-84ab-efe0d39764e6",
-                            ConcurrencyStamp = "74123e05-eeaa-4994-a928-ac059d1a3ea7",
+                            Id = "2a8dfd84-50fc-4ccf-b1d2-d4bf82e99632",
+                            ConcurrencyStamp = "7ece8be9-c405-4ee6-be87-0cbe3c5609f4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1f812b7f-3aab-46bb-9fc1-e3696d611242",
-                            ConcurrencyStamp = "13d24918-661c-4e95-89eb-29abecd0f71e",
+                            Id = "41c273b8-89a2-4c20-a323-5758f7dfaba3",
+                            ConcurrencyStamp = "eb3615a9-6810-4a2e-9b28-4c7902da3187",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "49c4d06b-25cf-49e7-a4e0-08d53cb95ec6",
-                            ConcurrencyStamp = "370636f4-0bac-420c-a965-407ce3641565",
+                            Id = "d72c3634-0ac6-4b9a-91ef-0848ec87729e",
+                            ConcurrencyStamp = "5be36eba-24fe-4584-8ffe-30dc96126a5c",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "6cf093ea-0ab7-486f-8dd0-9bb580e9afd8",
-                            ConcurrencyStamp = "6f59cadc-15fc-4046-b0d8-665c7a8ce657",
+                            Id = "58804e22-851c-4264-8597-1d8fa8bc74f1",
+                            ConcurrencyStamp = "6a973bcc-ec1c-4702-b20a-453cf60bf260",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -129,12 +129,10 @@ namespace WebApp.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -171,12 +169,10 @@ namespace WebApp.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -456,6 +452,24 @@ namespace WebApp.Migrations
                     b.ToTable("Destinations");
                 });
 
+            modelBuilder.Entity("WebApp.Models.Discounts", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Discount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pints")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("WebApp.Models.FastReservation", b =>
                 {
                     b.Property<int>("ID")
@@ -542,6 +556,48 @@ namespace WebApp.Migrations
                     b.HasIndex("Flight");
 
                     b.ToTable("Flights");
+                });
+
+            modelBuilder.Entity("WebApp.Models.MyUser", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone_Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Provider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("MyUsers");
                 });
 
             modelBuilder.Entity("WebApp.Models.PriceList", b =>
@@ -691,45 +747,6 @@ namespace WebApp.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("WebApp.Models.User", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IdToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone_Number")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PictureURL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Provider")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("MyUsers");
-                });
-
             modelBuilder.Entity("WebApp.Models.Vehicle", b =>
                 {
                     b.Property<int>("ID")
@@ -821,7 +838,7 @@ namespace WebApp.Migrations
                         .WithMany()
                         .HasForeignKey("Admin_ID");
 
-                    b.HasOne("WebApp.Models.User", "User")
+                    b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
                         .HasForeignKey("User_ID");
                 });
@@ -839,11 +856,11 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.AircraftConfiguration", b =>
                 {
-                    b.HasOne("WebApp.Models.User", null)
+                    b.HasOne("WebApp.Models.MyUser", null)
                         .WithMany("Aircraft_Configurations")
                         .HasForeignKey("Aircraft_Configuration");
 
-                    b.HasOne("WebApp.Models.User", "User")
+                    b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
                         .HasForeignKey("User_ID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -888,7 +905,7 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.CarReservation", b =>
                 {
-                    b.HasOne("WebApp.Models.User", null)
+                    b.HasOne("WebApp.Models.MyUser", null)
                         .WithMany("Car_Reservations")
                         .HasForeignKey("Car_Reservations");
 
@@ -896,7 +913,7 @@ namespace WebApp.Migrations
                         .WithMany("Car_Reservations")
                         .HasForeignKey("Car_Reservations");
 
-                    b.HasOne("WebApp.Models.User", "User")
+                    b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
                         .HasForeignKey("User_ID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -921,11 +938,11 @@ namespace WebApp.Migrations
                         .WithMany("Fast_Reservations")
                         .HasForeignKey("Fast_Reservation");
 
-                    b.HasOne("WebApp.Models.User", null)
+                    b.HasOne("WebApp.Models.MyUser", null)
                         .WithMany("Fast_Reservations")
                         .HasForeignKey("Fast_Reservation");
 
-                    b.HasOne("WebApp.Models.User", "User")
+                    b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
                         .HasForeignKey("User_ID")
                         .OnDelete(DeleteBehavior.Cascade)

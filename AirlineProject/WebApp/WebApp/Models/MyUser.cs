@@ -21,6 +21,7 @@ namespace WebApp.Models
         public string Provider { get; set; }
         public string PictureURL { get; set; }
         public string IdToken { get; set; }
+        public int Points { get; set; }
 
 
         [ForeignKey("Aircraft_Configuration")]

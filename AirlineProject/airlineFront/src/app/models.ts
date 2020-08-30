@@ -37,3 +37,8 @@ export class Admin{
     City: string;
     Phone_Number: string;
 }
+
+export class Discounts{
+    Pints: number;
+    Discount: number;
+}

@@ -56,7 +56,7 @@ namespace WebApp.Controllers
                 Admin_ID = service_admin.ID,
                 Admin = service_admin,
                 UserName = model.Name,
-                EmailConfirmed = false
+                EmailConfirmed = true
             };
 
             var result2 = await userManager.CreateAsync(admin, model.Password);
@@ -69,8 +69,8 @@ namespace WebApp.Controllers
                 userManager.AddToRoleAsync(admin, "Service_Admin").Wait();
             }
 
-            string link = "http://localhost:4200/confirmation/" + model.Email;
-            string htmlMessage = "<p>Your account was made by admin system. Please go on link below and confirm your email. Your password is " + model.Password + "</p><br/><a href = '" + link + "'>Verify email</a>";
+            string link = "http://localhost:4200/adminConfirmation/" + model.Email;
+            string htmlMessage = "<p>Your account was made by admin system. Please go on link below and change your password. Now your password is " + model.Password + "</p><br/><a href = '" + link + "'>Verify email</a>";
             await _emailSender.SendEmailAsync(model.Email, "Wellcome on Flu-buy app", htmlMessage);
 
 
@@ -157,6 +157,46 @@ namespace WebApp.Controllers
             }
 
             return users;
+        }
+
+        [HttpGet]
+        [Route("dicounts")]
+        public async Task<IEnumerable<Discounts>> GetDiscounts()
+        {
+            return await _context.Discounts.ToListAsync();
+        }
+
+        [HttpPut]
+        [Route("edit-discount/{id}")]
+        public async Task<ActionResult> EditDiscount(int id, Discounts newDiscount)
+        {
+            Discounts discount = new Discounts();
+            discount = await _context.Discounts.FindAsync(id);
+            if(newDiscount.Discount == 0 || newDiscount.Pints == 0)
+            {
+                _context.Discounts.Remove(discount);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+
+            discount.Discount = newDiscount.Discount;
+            discount.Pints = newDiscount.Pints;
+
+            _context.Entry(discount).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("add-discount")]
+        public async Task<IActionResult> AddDiscount(Discounts discount)
+        {
+            _context.Discounts.Add(discount);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
