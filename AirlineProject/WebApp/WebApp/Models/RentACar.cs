@@ -16,8 +16,8 @@ namespace WebApp.Models
         public string Address { get; set; }
         public string Promo_Description { get; set; }
 
-        [ForeignKey("Branche")]
-        public ICollection<Branche> Branches { get; set; }
+        [ForeignKey("Branch")]
+        public ICollection<Branch> Branches { get; set; }
 
         /*[ForeignKey("Rent_Price_List")]
         public ICollection<RentPriceList> RentPriceLists { get; set; }*/
@@ -25,7 +25,7 @@ namespace WebApp.Models
         public RentACar()
         {
             //this.RentPriceLists = new HashSet<RentPriceList>();
-            this.Branches = new HashSet<Branche>();
+            this.Branches = new HashSet<Branch>();
         }
     }
 }

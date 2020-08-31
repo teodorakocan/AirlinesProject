@@ -132,11 +132,6 @@ C:\Users\Teodora\Desktop\WEB2_II\AirlineProject\WebApp\WebApp\obj\Debug\netcorea
 C:\Users\Teodora\Desktop\WEB2_II\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.pdb
 C:\Users\Teodora\Desktop\WEB2_II\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.genruntimeconfig.cache
 C:\Users\Teodora\Desktop\WEB2_II\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.csprojAssemblyReference.cache
-C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.AssemblyInfoInputs.cache
-C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.AssemblyInfo.cs
-C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.csproj.CoreCompileInputs.cache
-C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
@@ -198,6 +193,12 @@ C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\bin\Debug\ne
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.csprojAssemblyReference.cache
+C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.AssemblyInfoInputs.cache
+C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.AssemblyInfo.cs
+C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.csproj.CoreCompileInputs.cache
+C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.RazorTargetAssemblyInfo.cache
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.csproj.CopyComplete
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\staticwebassets\WebApp.StaticWebAssets.Manifest.cache
@@ -205,4 +206,3 @@ C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\ne
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.dll
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.pdb
 C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.genruntimeconfig.cache
-C:\Users\Teodora\Desktop\Projekat_WEB2\AirlineProject\WebApp\WebApp\obj\Debug\netcoreapp3.1\WebApp.csprojAssemblyReference.cache

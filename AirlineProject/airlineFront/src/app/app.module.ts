@@ -24,6 +24,12 @@ import { TokenInterceptor } from './auth/TokenInterceptor';
 import { SettingsComponent } from './home/settings/settings.component';
 import { RegistrationComponent } from './signin/registration/registration.component';
 import { AdminConfirmationComponent } from './admin-confirmation/admin-confirmation.component';
+import { RentServiceComponent } from './rent-service/rent-service.component';
+import { UploadComponent } from './upload/upload.component';
+import { NewBranchComponent } from './branch/new-branch/new-branch.component';
+import { EditBranchComponent } from './branch/edit-branch/edit-branch.component';
+import { NewVehicleComponent } from './vehicle/new-vehicle/new-vehicle.component';
+import { EditVehicleComponent } from './vehicle/edit-vehicle/edit-vehicle.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +42,13 @@ import { AdminConfirmationComponent } from './admin-confirmation/admin-confirmat
     ConfirmationComponent,
     SettingsComponent,
     RegistrationComponent,
-    AdminConfirmationComponent
+    AdminConfirmationComponent,
+    RentServiceComponent,
+    UploadComponent,
+    NewBranchComponent,
+    EditBranchComponent,
+    NewVehicleComponent,
+    EditVehicleComponent
   ],
   imports: [
     BrowserModule,

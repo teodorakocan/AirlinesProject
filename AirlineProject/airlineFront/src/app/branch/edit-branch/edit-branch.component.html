@@ -1,0 +1,36 @@
+<div class="container"><br/>
+    <p style="font-size: 24px; color:purple"> Edit brach office</p>
+    <form #form='ngForm' (submit)="Edit(form)" *ngIf="branch">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label class="formlabel">Name</label>
+                <input type="text" class="form-control" #Name="ngModel" name="Name" [(ngModel)]="branch.name" [class.is-invalid]="Name.invalid && Name.touched" required>
+                <label class="text-danger" [class.d-none] = "Name.valid || Name.untouched">Required field!</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label class="formlabel">Address</label>
+                <input type="text" class="form-control" #Address="ngModel" name="Address" [(ngModel)]="branch.address" [class.is-invalid]="Address.invalid && Address.touched" required>
+                <label class="text-danger" [class.d-none] = "Address.valid || Address.untouched">Required field!</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label class="formlabel">Number of vehicle</label>
+                <input class="form-control" #Number_Of_Vehicle="ngModel" pattern="^[0-9]*$" name="Number_Of_Vehicle" [(ngModel)]="branch.number_Of_Vehicle" [class.is-invalid]="Number_Of_Vehicle.touched" required>
+                <label class="text-danger" [class.d-none] = "Number_Of_Vehicle.valid || Number_Of_Vehicle.untouched">Required field!</label>
+                <small class="text-danger" *ngIf="Number_Of_Vehicle.errors?.pattern">
+                    Phone number must contain only numbers! </small>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-8 offset-md-2">
+                <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="form.form.invalid">Edit</button>
+            </div>
+        </div>
+    </form><br/>
+
+    <button type="button" class="btn btn-dark" (click)="AddVehicle()">Add vehicle</button>
+    <button type="button" class="btn btn-danger" style="float:right; width: 200px;" (click)="DeleteBranch()"> Delete branche office</button>
+</div>

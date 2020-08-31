@@ -10,7 +10,7 @@ using WebApp.Authentication;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200830140943_Initial")]
+    [Migration("20200830213417_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,29 +50,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2a8dfd84-50fc-4ccf-b1d2-d4bf82e99632",
-                            ConcurrencyStamp = "7ece8be9-c405-4ee6-be87-0cbe3c5609f4",
+                            Id = "5b51c132-73b8-4a39-8e33-957dce6b3a11",
+                            ConcurrencyStamp = "7db56da8-f3f1-4e0d-b7c7-ea7b9cc90776",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "41c273b8-89a2-4c20-a323-5758f7dfaba3",
-                            ConcurrencyStamp = "eb3615a9-6810-4a2e-9b28-4c7902da3187",
+                            Id = "aa387b78-8df9-4fd1-8404-3fa989611a6e",
+                            ConcurrencyStamp = "3bd76808-5bb3-4569-9f41-5493706a693e",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "d72c3634-0ac6-4b9a-91ef-0848ec87729e",
-                            ConcurrencyStamp = "5be36eba-24fe-4584-8ffe-30dc96126a5c",
+                            Id = "cd6aa222-e047-4978-ab8f-e9d1cf57c801",
+                            ConcurrencyStamp = "6ec06093-efe0-4c07-ac80-f0629c792f34",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "58804e22-851c-4264-8597-1d8fa8bc74f1",
-                            ConcurrencyStamp = "6a973bcc-ec1c-4702-b20a-453cf60bf260",
+                            Id = "63db630a-7b1b-4793-ac83-55c31ab727a0",
+                            ConcurrencyStamp = "b49c6ae7-7b31-45bf-964d-749c7a05b768",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -379,7 +379,7 @@ namespace WebApp.Migrations
                     b.ToTable("AirlineDestinations");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Branche", b =>
+            modelBuilder.Entity("WebApp.Models.Branch", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -389,7 +389,7 @@ namespace WebApp.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Branche")
+                    b.Property<int?>("Branch")
                         .HasColumnType("int");
 
                     b.Property<int>("Number_Of_Vehicle")
@@ -400,7 +400,7 @@ namespace WebApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Branche");
+                    b.HasIndex("Branch");
 
                     b.HasIndex("Rent_a_Car_ID");
 
@@ -754,13 +754,16 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Branche_ID")
+                    b.Property<int>("Branch_ID")
                         .HasColumnType("int");
 
                     b.Property<string>("Brand")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Desription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
@@ -774,7 +777,7 @@ namespace WebApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Branche_ID");
+                    b.HasIndex("Branch_ID");
 
                     b.HasIndex("Vehicle");
 
@@ -890,11 +893,11 @@ namespace WebApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApp.Models.Branche", b =>
+            modelBuilder.Entity("WebApp.Models.Branch", b =>
                 {
                     b.HasOne("WebApp.Models.RentACar", null)
                         .WithMany("Branches")
-                        .HasForeignKey("Branche");
+                        .HasForeignKey("Branch");
 
                     b.HasOne("WebApp.Models.RentACar", "Rent_a_Car")
                         .WithMany()
@@ -1014,13 +1017,13 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Vehicle", b =>
                 {
-                    b.HasOne("WebApp.Models.Branche", "Branche")
+                    b.HasOne("WebApp.Models.Branch", "Branch")
                         .WithMany()
-                        .HasForeignKey("Branche_ID")
+                        .HasForeignKey("Branch_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApp.Models.Branche", null)
+                    b.HasOne("WebApp.Models.Branch", null)
                         .WithMany("Vehicles")
                         .HasForeignKey("Vehicle");
                 });

@@ -13,12 +13,14 @@ export class AppComponent {
   selected; 
   open;
   public logged:boolean;
+  public role: string;
 
   constructor(public service: AirlineService, private router: Router) { }
   
   ngOnInit(){
     if(localStorage.getItem("token") != null)
     {
+      this.role = localStorage.getItem('role');
       this.logged = true;
     }
     else

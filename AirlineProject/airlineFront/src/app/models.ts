@@ -42,3 +42,23 @@ export class Discounts{
     Pints: number;
     Discount: number;
 }
+
+export class Service{
+    Name: string;
+    Address: string;
+    Promo_Description: string;
+}
+
+export class Branch{
+    Name: string;
+    Address: string;
+    Number_Of_Vehicle: number;
+}
+
+export class Vehicle{
+    Brand: string;
+    NumberOfSeats: number;
+    Class: string;
+    Price: number;
+    Image: string;
+}

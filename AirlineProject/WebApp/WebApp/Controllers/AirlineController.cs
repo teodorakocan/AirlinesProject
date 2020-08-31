@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Authentication;
 using WebApp.Models;
 
@@ -154,7 +155,7 @@ namespace WebApp.Controllers
         public async Task<ActionResult<IEnumerable<string>>> GetAirlinesName()
         {
             List<Airline> airlines = new List<Airline>();
-            airlines = _context.Airlines.ToList();
+            airlines = await _context.Airlines.ToListAsync();
             List<string> names = new List<string>();
 
             foreach (Airline airline in airlines)
@@ -170,7 +171,7 @@ namespace WebApp.Controllers
         public async Task<ActionResult<Airline>> AirlineInfo(string name)
         {
             List<Airline> airlines = new List<Airline>();
-            airlines = _context.Airlines.ToList();
+            airlines = await _context.Airlines.ToListAsync();
             foreach (Airline airline in airlines)
             {
                 if (airline.Name.Equals(name))
@@ -186,7 +187,7 @@ namespace WebApp.Controllers
         [Route("airiline_destinations/{name}")]
         public async Task<ActionResult<IEnumerable<Destination>>> AirlineDestinations(string name)
         {
-            var airlines = _context.Airlines.ToList();
+            var airlines = await _context.Airlines.ToListAsync();
             Airline airline = new Airline();
             foreach (var a in airlines)
             {
@@ -231,7 +232,7 @@ namespace WebApp.Controllers
         [Route("all-flights")]
         public async Task<ActionResult<IEnumerable<Flight>>> AllFlights()
         {
-            return _context.Flights.ToList();
+            return  await _context.Flights.ToListAsync();
         }
 
         /*[HttpGet]

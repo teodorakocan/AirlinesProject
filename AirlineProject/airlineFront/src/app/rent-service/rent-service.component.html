@@ -1,0 +1,146 @@
+<div class="container"><br/><br/>
+    <mat-tab-group>
+    
+        <mat-tab label="My service"><br/>
+            <div *ngIf="exist1">
+                <div *ngIf="myService"><br/><br/>
+                    <label style="font-size: 36px; color: purple;">{{myService.name}}</label><br/>
+                    <label style="font-size: 24px;">Promo desription: <label style="font-size: 24px; color: purple;">{{myService.promo_Description}}</label></label><br/>
+                    <label style="font-size: 24px;">Address: <label style="font-size: 24px; color: purple;">{{myService.address}}</label></label><br/>
+                </div>
+                <button type="button" class="btn btn-danger" style="width: 200px;" (click)="DeleteService()">Delete service</button>
+            </div>
+            <div *ngIf="!exist1">
+                <p style="font-size: 24px; color: purple;">Add your rent-a-car service</p>
+                <div style="overflow: hidden;">
+                    <form [formGroup]="service.formModel" (submit)="AddService()">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label class="formlabel">Name</label>
+                                <input type="text" class="form-control" id="Name" placeholder="Name.." formControlName="Name">
+                                <label class="text-danger" *ngIf="service.formModel.get('Name').touched && service.formModel.get('Name').errors?.required">This
+                                field is required.</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label class="formlabel">Promo description:</label>
+                                <input type="text" class="form-control" id="Promo_Description" placeholder="Promo description.." formControlName="Promo_Description">
+                                <label class="text-danger" *ngIf="service.formModel.get('Promo_Description').touched && service.formModel.get('Promo_Description').errors?.required">This
+                                field is required.</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label class="formlabel">Address:</label>
+                                <input type="text" class="form-control" id="Address" placeholder="Address.." formControlName="Address">
+                                <label class="text-danger" *ngIf="service.formModel.get('Address').touched && service.formModel.get('Address').errors?.required">This
+                                field is required.</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-8 offset-md-2">
+                                <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!service.formModel.valid">Add service</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </mat-tab>
+        
+        <mat-tab *ngIf="exist1" label="All branche offices">
+            <div *ngIf="exist2">
+                <section class="Vehicles">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Number of vehicles</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let branch of branches">
+                          <td>{{branch.name}}</td>
+                          <td>{{branch.address}}</td>
+                          <td>{{branch.number_Of_Vehicle}}</td>
+                          <td><button type="button" class="btn btn-dark" (click)="EditBranch(branch.id)">Edit branch</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section>
+            </div>
+            <div *ngIf="!exist2"><br/><br/>
+                <p style="font: 28px;">There is no branch office.</p>
+            </div><br/>
+            <button type="button" class="btn btn-dark" style="float: right; width: 200px;" (click)="CreateBranch()"> Create branche office</button>
+        </mat-tab>
+
+        <mat-tab *ngIf="exist2" label="All vehicles">
+            <div *ngIf="exist3">
+                <section class="Vehicles">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Number of seats</th>
+                            <th scope="col">Class</th>
+                            <th scope="col">Price per day</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let vehicle of vehicles">
+                          <td><img [src]="createImgPath(vehicle.image)" alt="vehicle picture" style="width:60px; height:60px;"></td>
+                          <td>{{vehicle.brand}}</td>
+                          <td>{{vehicle.numberOfSeats}}</td>
+                          <td>{{vehicle.class}}</td>
+                          <td>{{vehicle.price}}$</td>
+                          <td><button type="button" class="btn btn-primary" (click)="EditVehicle(vehicle.id)">Edit vehicle</button></td>
+                          <td><button type="button" class="btn btn-danger" (click)="DeleteVehicle(vehicle.id)">Delete vehicle</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section>
+            </div>
+            <div *ngIf="!exist3"><br/><br/>
+                <p style="font: 28px;">There is no vehicle</p>
+            </div><br/>
+        </mat-tab>
+
+        <mat-tab *ngIf="exist1" label="Edit your rent-a-car service profile">
+            <div style="overflow: hidden;">
+                <form #form='ngForm' (submit)="EditService(form)" *ngIf="myService">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="formlabel">Name</label>
+                            <input type="text" class="form-control" #Name="ngModel" name="Name" [(ngModel)]="myService.name" [class.is-invalid]="Name.invalid && Name.touched" required>
+                            <label class="text-danger" [class.d-none] = "Name.valid || Name.untouched">Required field!</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="formlabel">Promo description</label>
+                            <input type="text" class="form-control" #Promo_Description="ngModel" name="Promo_Description" [(ngModel)]="myService.promo_Description" [class.is-invalid]="Promo_Description.invalid && Promo_Description.touched" required>
+                            <label class="text-danger" [class.d-none] = "Promo_Description.valid || Promo_Description.untouched">Required field!</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="formlabel">Address</label>
+                            <input type="text" class="form-control" #Address="ngModel" name="Address" [(ngModel)]="myService.address" [class.is-invalid]="Address.invalid && Address.touched" required>
+                            <label class="text-danger" [class.d-none] = "Address.valid || Address.untouched">Required field!</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-8 offset-md-2">
+                            <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="form.form.invalid">Edit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-tab>
+
+    </mat-tab-group>
+</div>

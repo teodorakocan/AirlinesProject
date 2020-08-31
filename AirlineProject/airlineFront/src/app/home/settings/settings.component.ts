@@ -28,7 +28,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.formModel.reset();
+    this.service.formModel1.reset();
     this.email = localStorage.getItem('email');
     this.role = localStorage.getItem('role');
     this.service.getUserinfo(this.email).subscribe(

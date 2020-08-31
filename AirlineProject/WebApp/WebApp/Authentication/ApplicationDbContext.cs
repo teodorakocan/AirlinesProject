@@ -30,7 +30,7 @@ namespace WebApp.Authentication
         public DbSet<Airline> Airlines { get; set; }
         public DbSet<AircraftConfiguration> AircraftConfigurations { get; set; }
         public DbSet<AirlineDestinationConnection> AirlineDestinations { get; set; }
-        public DbSet<Branche> Branches { get; set; }
+        public DbSet<Branch> Branches { get; set; }
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<FastReservation> FastReservations { get; set; }
         public DbSet<Flight> Flights { get; set; }

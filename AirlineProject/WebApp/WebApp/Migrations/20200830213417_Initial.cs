@@ -364,14 +364,14 @@ namespace WebApp.Migrations
                     Address = table.Column<string>(nullable: true),
                     Number_Of_Vehicle = table.Column<int>(nullable: false),
                     Rent_a_Car_ID = table.Column<int>(nullable: false),
-                    Branche = table.Column<int>(nullable: true)
+                    Branch = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Branches", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Branches_RentACars_Branche",
-                        column: x => x.Branche,
+                        name: "FK_Branches_RentACars_Branch",
+                        column: x => x.Branch,
                         principalTable: "RentACars",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -484,15 +484,16 @@ namespace WebApp.Migrations
                     Desription = table.Column<string>(nullable: true),
                     Reserved = table.Column<bool>(nullable: false),
                     Price = table.Column<double>(nullable: false),
-                    Branche_ID = table.Column<int>(nullable: false),
+                    Image = table.Column<string>(nullable: true),
+                    Branch_ID = table.Column<int>(nullable: false),
                     Vehicle = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicles", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Vehicles_Branches_Branche_ID",
-                        column: x => x.Branche_ID,
+                        name: "FK_Vehicles_Branches_Branch_ID",
+                        column: x => x.Branch_ID,
                         principalTable: "Branches",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -661,10 +662,10 @@ namespace WebApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2a8dfd84-50fc-4ccf-b1d2-d4bf82e99632", "7ece8be9-c405-4ee6-be87-0cbe3c5609f4", "Admin", "ADMIN" },
-                    { "41c273b8-89a2-4c20-a323-5758f7dfaba3", "eb3615a9-6810-4a2e-9b28-4c7902da3187", "Airline_Admin", "AIRLINE_ADMIN" },
-                    { "d72c3634-0ac6-4b9a-91ef-0848ec87729e", "5be36eba-24fe-4584-8ffe-30dc96126a5c", "Service_Admin", "SERVICE_ADMIN" },
-                    { "58804e22-851c-4264-8597-1d8fa8bc74f1", "6a973bcc-ec1c-4702-b20a-453cf60bf260", "User", "USER" }
+                    { "5b51c132-73b8-4a39-8e33-957dce6b3a11", "7db56da8-f3f1-4e0d-b7c7-ea7b9cc90776", "Admin", "ADMIN" },
+                    { "aa387b78-8df9-4fd1-8404-3fa989611a6e", "3bd76808-5bb3-4569-9f41-5493706a693e", "Airline_Admin", "AIRLINE_ADMIN" },
+                    { "cd6aa222-e047-4978-ab8f-e9d1cf57c801", "6ec06093-efe0-4c07-ac80-f0629c792f34", "Service_Admin", "SERVICE_ADMIN" },
+                    { "63db630a-7b1b-4793-ac83-55c31ab727a0", "b49c6ae7-7b31-45bf-964d-749c7a05b768", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -752,9 +753,9 @@ namespace WebApp.Migrations
                 column: "User_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Branches_Branche",
+                name: "IX_Branches_Branch",
                 table: "Branches",
-                column: "Branche");
+                column: "Branch");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Branches_Rent_a_Car_ID",
@@ -832,9 +833,9 @@ namespace WebApp.Migrations
                 column: "Rent_a_Car_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehicles_Branche_ID",
+                name: "IX_Vehicles_Branch_ID",
                 table: "Vehicles",
-                column: "Branche_ID");
+                column: "Branch_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_Vehicle",

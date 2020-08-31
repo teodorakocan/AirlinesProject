@@ -14,13 +14,15 @@ namespace WebApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string Brand { get; set; }
-        public string Desription { get; set; }
+        public int NumberOfSeats { get; set; }
+        public string Class { get; set; }
         public bool Reserved { get; set; }
         public double Price { get; set; }
+        public string Image { get; set; }
 
-        [ForeignKey("Branche")]
-        public int Branche_ID { get; set; }
-        public Branche Branche { get; set; }
+        [ForeignKey("Branch")]
+        public int Branch_ID { get; set; }
+        public Branch Branch { get; set; }
 
         [ForeignKey("Car_Reservations")]
         public ICollection<CarReservation> Car_Reservations { get; set; }

@@ -71,7 +71,7 @@ namespace WebApp.Controllers
 
             string link = "http://localhost:4200/adminConfirmation/" + model.Email;
             string htmlMessage = "<p>Your account was made by admin system. Please go on link below and change your password. Now your password is " + model.Password + "</p><br/><a href = '" + link + "'>Verify email</a>";
-            await _emailSender.SendEmailAsync(model.Email, "Wellcome on Flu-buy app", htmlMessage);
+            await _emailSender.SendEmailAsync(model.Email, "Wellcome on Fly-buy app", htmlMessage);
 
 
             if (!result2.Succeeded)
@@ -86,7 +86,7 @@ namespace WebApp.Controllers
         [Route("all-admins")]
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
-            return _context.Admins.ToList();
+            return await _context.Admins.ToListAsync();
         }
 
         [HttpGet]

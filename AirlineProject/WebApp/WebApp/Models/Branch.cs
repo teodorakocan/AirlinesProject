@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class Branche
+    public class Branch
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
+        public string Name { get; set; }
         public string Address { get; set; }
         public int Number_Of_Vehicle { get; set; }
 
@@ -22,7 +23,7 @@ namespace WebApp.Models
         public int Rent_a_Car_ID { get; set; }
         public RentACar Rent_a_Car { get;set;}
 
-        public Branche()
+        public Branch()
         {
             this.Vehicles = new HashSet<Vehicle>();
         }
