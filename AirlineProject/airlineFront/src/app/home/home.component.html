@@ -1,111 +1,78 @@
 <div class="container"><br/><br/>
     <mat-tab-group>
     
-        <mat-tab label="Flights"> 
-            <div style="overflow: hidden;">
-                <form>
+        <mat-tab label="Airline company"> 
+            <div style="overflow: hidden;" class="search">
+                <form #form='ngForm' (submit)="SearchAirlines(form)" style="padding: 50px; padding-bottom: 5%;">
                     <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label style="font-size: 24px; color: purple;">Serach flight</label>
+                        <div class="form-group col-md-auto">
+                            <label style="color: white;">Name of airline company</label><br/>
+                            <select style="width: 200px; height: 30px;" id="Name">
+                                <option selected disabled>Airlines</option>
+                                <option *ngFor="let airline of airlines" value="airline" #Name="ngModel" [(ngModel)]="search.Name">{{airline}}</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <select class="browser-default custom-select" style="width: 200px;">
-                                <option selected>Trip type</option>
-                                <option value="1">Round-trip</option>
-                                <option value="2">One-way</option>
-                                <option value="3">Multi-city</option>
-                              </select>
+                        <div class="form-group col-md-auto">
+                            <label style="color: white;">City of airline company</label><br/>
+                             <input style="width: 200px;" type="text" placeholder="City.." name="City" #City="ngModel" [(ngModel)]="search.City">
+                        </div> 
+                        <div class="form-group col-md-auto">
+                            <label style="color: white;">State of airline company</label><br/>
+                             <input style="width: 200px;" type="text" placeholder="State.." name="State" #Satet="ngModel" [(ngModel)]="search.State">
                         </div>
-                        <div class="form-group col-md-3">
-                            <select class="browser-default custom-select" style="width: 200px;">
-                                <option selected>Number of persons</option>
-                                <option value="1">1 adult</option>
-                                <option value="2">2 adult</option>
-                                <option value="3">3 adult</option>
-                              </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <select class="browser-default custom-select" style="width: 200px;">
-                                <option selected>Flight type</option>
-                                <option value="1">Economy</option>
-                                <option value="2">Business</option>
-                                <option value="3">First</option>
-                              </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <select class="browser-default custom-select" style="width: 200px;">
-                                <option selected>Airlines</option>
-                                <option *ngFor="let airline of airlines">{{airline}}</option>
-                              </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <input style="width: 100px; " type="text" name="from" placeholder="From..">
-                            <mdb-icon fas icon="arrow-right"></mdb-icon>
-                            <input style="width: 100px;" type="text" name="to" placeholder="To..">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Depart">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Return">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <button style="border:none"><mdb-icon fas icon="search" aria-hidden="true"></mdb-icon></button>
+                        <div class="form-group col-md-auto" style="padding-top: 30px;">
+                            <button data-toggle="tooltip" title="Search" type="submit" class="btn btn-default" style="padding-top: 2px;">
+                                <span class="fa fa-search"></span> 
+                            </button>
                         </div>
                     </div>
                 </form>
-            </div>
-            <br/>
-            <div class="allFlights" *ngFor="let flight of flights">
-                <div style="width: 90%; height: 130px; border: 2px solid black;">
-                    <label>{{flight.flight_NUmber}}</label><br/>
-                    <label>{{flight.destination_Transfer}}            {{flight.price}}</label><br/>
-                    <label>{{flight.start_DateTime}} - {{flight.end_DateTime}}</label><br/>
-                    <label>{{flight.number_Transfer}}</label><br/>
-                    <label>{{flight.travel_Lenght}}</label><br/>
-                </div><br/>
-            </div>
+            </div><br/>
+
+            <div class="comanies" *ngFor="let airlinesCompanie of airlinesCompanies">
+                <label style="font-size:24px; color: purple;">{{airlinesCompanie.name}}</label><br/>
+                <label style="font-size:20px;">{{airlinesCompanie.city}}, {{airlinesCompanie.state}}</label><br/>
+                <label style="font-size:20px;">{{airlinesCompanie.address}}</label><br/>
+                <label style="font-size:20px;">{{airlinesCompanie.promoDescription}}</label><br/>
+                <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileAirline(airlinesCompanie.name)">More</button><br/>
+            </div><br/>
         </mat-tab>
         
-        <mat-tab label="Car rent">
-            <div style="overflow: hidden;">
-                <form>
+        <mat-tab label="Car rent"><br/>
+            <div style="overflow: hidden;" class="search">
+                <form #form='ngForm' (submit)="SearchServices(form)"  style="padding: 50px; padding-bottom: 5%;">
                     <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label style="font-size: 24px; color: purple;">Serach vehicle</label>
+                        <div class="form-group col-md-auto">
+                            <label style="color: white;">Name of rent-a-car service:</label><br/>
+                            <select style="width: 200px; height: 30px;" id="Name" #Name="ngModel" name="Name" [(ngModel)]="search.Name">
+                                <option selected disabled>Names</option>
+                                <option *ngFor="let rentservice of rentservices" value="rentservice">{{rentservice}}</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <select class="browser-default custom-select" style="width: 200px;">
-                                <option selected>Choose city</option>
-                                <option value="1">Round-trip</option>
-                              </select>
+                        <div class="form-group col-md-auto">
+                            <label style="color: white;">City of rent-a-car service:</label><br/>
+                             <input style="width: 200px;" type="text" placeholder="City.." name="City" #City="ngModel" [(ngModel)]="search.City">
+                        </div> 
+                        <div class="form-group col-md-auto">
+                            <label style="color: white;">State of rent-a-car service:</label><br/>
+                             <input style="width: 200px;" type="text" placeholder="State.." name="State" #Satet="ngModel" [(ngModel)]="search.State">
                         </div>
-                        <div class="form-group col-md-3">
-                            <select class="browser-default custom-select" style="width: 200px;">
-                                <option selected>Choose rent-a-car service</option>
-                                <option value="1">1 adult</option>
-                              </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-2">
-                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Depart">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <input onfocus="(this.type='date')" onblur="(this.type='text')" type="date" name="from" placeholder="Return">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <button style="border:none"><mdb-icon fas icon="search" aria-hidden="true"></mdb-icon></button>
+                        <div class="form-group col-md-auto" style="padding-top: 30px;">
+                            <button data-toggle="tooltip" title="Search" type="submit" class="btn btn-default" style="padding-top: 2px;">
+                                <span class="fa fa-search"></span> 
+                            </button>
                         </div>
                     </div>
                 </form>
-            </div>
+            </div><br/>
+
+            <div class="comanies" *ngFor="let rentacarCompanie of rentacarCompanies">
+                <label style="font-size:24px; color: purple;">{{rentacarCompanie.name}}</label><br/>
+                <label style="font-size:20px;">{{rentacarCompanie.city}}, {{rentacarCompanie.state}}</label><br/>
+                <label style="font-size:20px;">{{rentacarCompanie.address}}</label><br/>
+                <label style="font-size:20px;">{{rentacarCompanie.promoDescription}}</label><br/>
+                <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompanie.name)">More</button><br/>
+            </div><br/>
         </mat-tab>
     </mat-tab-group>
 </div>

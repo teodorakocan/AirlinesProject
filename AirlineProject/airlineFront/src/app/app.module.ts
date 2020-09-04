@@ -13,9 +13,7 @@ import { SigninComponent } from './signin/signin.component';
 import { HomeComponent } from './home/home.component';
 import { UserService } from './service/user.service';
 import { AuthGuard } from './auth/auth.guard';
-import { AirlineComponent } from './home/profile/airline/airline.component';
 import { AirlineService } from './service/airline.service';
-import { RentACarComponent } from './home/profile/rent-a-car/rent-a-car.component';
 import { RentACarService } from './service/rent_a_car.service';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -24,12 +22,17 @@ import { TokenInterceptor } from './auth/TokenInterceptor';
 import { SettingsComponent } from './home/settings/settings.component';
 import { RegistrationComponent } from './signin/registration/registration.component';
 import { AdminConfirmationComponent } from './admin-confirmation/admin-confirmation.component';
-import { RentServiceComponent } from './rent-service/rent-service.component';
 import { UploadComponent } from './upload/upload.component';
 import { NewBranchComponent } from './branch/new-branch/new-branch.component';
 import { EditBranchComponent } from './branch/edit-branch/edit-branch.component';
 import { NewVehicleComponent } from './vehicle/new-vehicle/new-vehicle.component';
 import { EditVehicleComponent } from './vehicle/edit-vehicle/edit-vehicle.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RentacarComponent } from './profile/rentacar/rentacar.component';
+import { AirlineComponent } from './profile/airline/airline.component';
+import { SystemAdminService } from './service/systemadmin.service';
+import { SystemComponent } from './home/system/system.component';
+import { RentServiceComponent } from './home/rent-service/rent-service.component';
 
 @NgModule({
   declarations: [
@@ -37,18 +40,19 @@ import { EditVehicleComponent } from './vehicle/edit-vehicle/edit-vehicle.compon
     SigninComponent,
     HomeComponent,
     RegistrationComponent,
-    AirlineComponent,
-    RentACarComponent,
     ConfirmationComponent,
     SettingsComponent,
     RegistrationComponent,
     AdminConfirmationComponent,
-    RentServiceComponent,
     UploadComponent,
     NewBranchComponent,
     EditBranchComponent,
     NewVehicleComponent,
-    EditVehicleComponent
+    EditVehicleComponent,
+    RentacarComponent,
+    AirlineComponent,
+    SystemComponent,
+    RentServiceComponent
   ],
   imports: [
     BrowserModule,
@@ -61,10 +65,12 @@ import { EditVehicleComponent } from './vehicle/edit-vehicle/edit-vehicle.compon
       progressBar: true
     }),
     FormsModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    NgbModule
   ],
   providers: [
     CookieService,
+    SystemAdminService,
     UserService,
     {
       provide: HTTP_INTERCEPTORS,

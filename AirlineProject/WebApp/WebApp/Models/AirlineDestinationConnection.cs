@@ -15,11 +15,11 @@ namespace WebApp.Models
         public int ID { get; set; }
 
         [ForeignKey("Airline")]
-        public int Airline_ID { get; set; }
+        public int AirlineID { get; set; }
         public Airline Airline { get; set; }
 
         [ForeignKey("Destination")]
-        public int Destination_ID { get; set; }
+        public int DestinationID { get; set; }
         public Destination Destination { get; set; }
     }
 }

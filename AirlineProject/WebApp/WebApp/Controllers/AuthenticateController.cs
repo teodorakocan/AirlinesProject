@@ -105,7 +105,7 @@ namespace WebApp.Controllers
                 Email = model.Email,
                 City = model.City,
                 Password = model.Password, // TODO: enkriptovati kasnije 
-                Phone_Number = model.PhoneNumber,
+                PhoneNumber = model.PhoneNumber,
                 Points = 0
             };
 
@@ -113,9 +113,9 @@ namespace WebApp.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                User_ID = new_user.ID,
+                UserID = new_user.ID,
                 User = new_user,
-                Admin_ID = null,
+                AdminID = null,
                 UserName = model.Name,
                 EmailConfirmed = false
             };
@@ -183,7 +183,7 @@ namespace WebApp.Controllers
                         Email = model.Email,
                         Password = null,
                         City = null,
-                        Phone_Number = null,
+                        PhoneNumber = null,
                         Provider = model.Provider,
                         PictureURL = model.PictureUrl,
                         IdToken = model.IdToken,
@@ -194,9 +194,9 @@ namespace WebApp.Controllers
                     {
                         Email = model.Email,
                         SecurityStamp = Guid.NewGuid().ToString(),
-                        User_ID = user.ID,
+                        UserID = user.ID,
                         User = user,
-                        Admin_ID = null,
+                        AdminID = null,
                         UserName = model.Name
                     };
 
@@ -219,7 +219,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPut]
-        [Route("confirm-email/{email}")]
+        [Route("confim-email/{email}")]
         public async Task<IActionResult> Confirmation(string email)
         {
             if(email == "")
@@ -237,6 +237,54 @@ namespace WebApp.Controllers
             }
             
             _context.Entry(userExists).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("admin-confirmation/{email}")]
+        public async Task<IActionResult> AdminConfirmation(string email, PasswordModel newPassword)
+        {
+            if (email == "")
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Please create your account" });
+            }
+
+            var user = await userManager.FindByEmailAsync(email);
+            List<Admin> admins = new List<Admin>();
+            admins = _context.Admins.ToList();
+            List<MyUser> users = new List<MyUser>();
+            users = _context.MyUsers.ToList();
+
+            foreach (Admin admin in admins)
+            {
+                if (admin.Email.Equals(email))
+                {
+                    if(admin.Password.Equals(newPassword))
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "You have to change your default password!" });
+                    }
+                    admin.Password = newPassword.NewPassword;
+
+                    _context.Entry(admin).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+
+                    user.PasswordHash = userManager.PasswordHasher.HashPassword(user, newPassword.NewPassword);
+                    var result = await userManager.UpdateAsync(user);
+                }
+            }
+
+            if (user.EmailConfirmed)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "You already verified your email" });
+            }
+            else
+            {
+                user.EmailConfirmed = true;
+            }
+
+            _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();

@@ -13,12 +13,12 @@ namespace WebApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        [ForeignKey("Rent_Price_List")]
-        public int Rent_Price_List_ID { get; set; }
+        [ForeignKey("RentPriceList")]
+        public int RentPriceListID { get; set; }
         public RentPriceList RentPriceList { get; set; }
 
-        [ForeignKey("Rent_Service")]
-        public int Rent_Service_ID { get; set; }
+        [ForeignKey("RentService")]
+        public int RentServiceID { get; set; }
         public RentService RentService { get; set; }
     }
 }

@@ -16,11 +16,23 @@
             </div>
         </div>
         <div class="form-row">
+            <div class="form-group col-md-3">
+                <label class="formlabel">City</label>
+                <input type="text" class="form-control" #City="ngModel" name="City" [(ngModel)]="branch.city" [class.is-invalid]="City.invalid && City.touched" required>
+                <label class="text-danger" [class.d-none] = "City.valid || City.untouched">Required field!</label>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="formlabel">State</label>
+                <input type="text" class="form-control" #State="ngModel" name="State" [(ngModel)]="branch.state" [class.is-invalid]="State.invalid && State.touched" required>
+                <label class="text-danger" [class.d-none] = "State.valid || State.untouched">Required field!</label>
+            </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-4">
                 <label class="formlabel">Number of vehicle</label>
-                <input class="form-control" #Number_Of_Vehicle="ngModel" pattern="^[0-9]*$" name="Number_Of_Vehicle" [(ngModel)]="branch.number_Of_Vehicle" [class.is-invalid]="Number_Of_Vehicle.touched" required>
-                <label class="text-danger" [class.d-none] = "Number_Of_Vehicle.valid || Number_Of_Vehicle.untouched">Required field!</label>
-                <small class="text-danger" *ngIf="Number_Of_Vehicle.errors?.pattern">
+                <input type="number" class="form-control" #NumberOfVehicle="ngModel" pattern="^[0-9]*$" name="NumberOfVehicle" [(ngModel)]="branch.numberOfVehicle" [class.is-invalid]="NumberOfVehicle.touched" required>
+                <label class="text-danger" [class.d-none] = "NumberOfVehicle.valid || NumberOfVehicle.untouched">Required field!</label>
+                <small class="text-danger" *ngIf="NumberOfVehicle.errors?.pattern">
                     Phone number must contain only numbers! </small>
             </div>
         </div>

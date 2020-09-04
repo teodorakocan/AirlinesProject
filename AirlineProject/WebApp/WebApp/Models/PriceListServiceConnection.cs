@@ -13,12 +13,12 @@ namespace WebApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        [ForeignKey("Price_List")]
-        public int Price_List_ID { get; set; }
-        public PriceList Price_List { get; set; }
+        [ForeignKey("PriceList")]
+        public int PriceListID { get; set; }
+        public PriceList PriceList { get; set; }
 
         [ForeignKey("Service")]
-        public int Service_ID { get; set; }
+        public int ServiceID { get; set; }
         public Service Srvice { get; set; }
     }
 }

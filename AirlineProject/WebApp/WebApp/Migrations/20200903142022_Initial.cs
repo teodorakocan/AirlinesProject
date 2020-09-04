@@ -14,8 +14,10 @@ namespace WebApp.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    Address_ = table.Column<string>(nullable: true),
-                    Promo_Description = table.Column<string>(nullable: true)
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    PromoDescription = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,7 +57,7 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Pints = table.Column<int>(nullable: false),
+                    Points = table.Column<int>(nullable: false),
                     Discount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -74,7 +76,7 @@ namespace WebApp.Migrations
                     Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
-                    Phone_Number = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
                     Provider = table.Column<string>(nullable: true),
                     PictureURL = table.Column<string>(nullable: true),
                     IdToken = table.Column<string>(nullable: true),
@@ -93,7 +95,9 @@ namespace WebApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    Promo_Description = table.Column<string>(nullable: true)
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    PromoDescription = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -135,15 +139,15 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Airline_ID = table.Column<int>(nullable: false),
+                    AirlineID = table.Column<int>(nullable: false),
                     Price_List = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PriceLists", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_PriceLists_Airlines_Airline_ID",
-                        column: x => x.Airline_ID,
+                        name: "FK_PriceLists_Airlines_AirlineID",
+                        column: x => x.AirlineID,
                         principalTable: "Airlines",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -182,34 +186,34 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Airline_ID = table.Column<int>(nullable: false),
-                    Destination_ID = table.Column<int>(nullable: false),
-                    Airline_Destination_Connections = table.Column<int>(nullable: true)
+                    AirlineID = table.Column<int>(nullable: false),
+                    DestinationID = table.Column<int>(nullable: false),
+                    AirlineDestinationConnections = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AirlineDestinations", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_AirlineDestinations_Airlines_Airline_Destination_Connections",
-                        column: x => x.Airline_Destination_Connections,
+                        name: "FK_AirlineDestinations_Airlines_AirlineDestinationConnections",
+                        column: x => x.AirlineDestinationConnections,
                         principalTable: "Airlines",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AirlineDestinations_Destinations_Airline_Destination_Connections",
-                        column: x => x.Airline_Destination_Connections,
+                        name: "FK_AirlineDestinations_Destinations_AirlineDestinationConnections",
+                        column: x => x.AirlineDestinationConnections,
                         principalTable: "Destinations",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AirlineDestinations_Airlines_Airline_ID",
-                        column: x => x.Airline_ID,
+                        name: "FK_AirlineDestinations_Airlines_AirlineID",
+                        column: x => x.AirlineID,
                         principalTable: "Airlines",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AirlineDestinations_Destinations_Destination_ID",
-                        column: x => x.Destination_ID,
+                        name: "FK_AirlineDestinations_Destinations_DestinationID",
+                        column: x => x.DestinationID,
                         principalTable: "Destinations",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -221,23 +225,23 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Start_DateTime = table.Column<DateTime>(nullable: false),
-                    End_DateTime = table.Column<DateTime>(nullable: false),
+                    StartDateTime = table.Column<DateTime>(nullable: false),
+                    EndDateTime = table.Column<DateTime>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Price2 = table.Column<double>(nullable: false),
-                    Flight_Number = table.Column<string>(nullable: true),
-                    Number_Transfer = table.Column<int>(nullable: false),
-                    Destination_Transfer = table.Column<string>(nullable: true),
-                    Travel_Length = table.Column<TimeSpan>(nullable: false),
-                    Destination_ID = table.Column<int>(nullable: false),
+                    FlightNumber = table.Column<string>(nullable: true),
+                    NumberTransfer = table.Column<int>(nullable: false),
+                    DestinationTransfer = table.Column<string>(nullable: true),
+                    TravelLength = table.Column<TimeSpan>(nullable: false),
+                    DestinationID = table.Column<int>(nullable: false),
                     Flight = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Flights", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Flights_Destinations_Destination_ID",
-                        column: x => x.Destination_ID,
+                        name: "FK_Flights_Destinations_DestinationID",
+                        column: x => x.DestinationID,
                         principalTable: "Destinations",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -255,25 +259,25 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Row_Number = table.Column<int>(nullable: false),
-                    Column_Number = table.Column<int>(nullable: false),
+                    RowNumber = table.Column<int>(nullable: false),
+                    ColumnNumber = table.Column<int>(nullable: false),
                     Reserved = table.Column<bool>(nullable: false),
                     Number_Of_Seats = table.Column<int>(nullable: false),
-                    User_ID = table.Column<int>(nullable: false),
-                    Aircraft_Configuration = table.Column<int>(nullable: true)
+                    UserID = table.Column<int>(nullable: false),
+                    AircraftConfiguration = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AircraftConfigurations", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_AircraftConfigurations_MyUsers_Aircraft_Configuration",
-                        column: x => x.Aircraft_Configuration,
+                        name: "FK_AircraftConfigurations_MyUsers_AircraftConfiguration",
+                        column: x => x.AircraftConfiguration,
                         principalTable: "MyUsers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AircraftConfigurations_MyUsers_User_ID",
-                        column: x => x.User_ID,
+                        name: "FK_AircraftConfigurations_MyUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "MyUsers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -285,39 +289,39 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Start_Destination = table.Column<string>(nullable: true),
-                    Start_DateTime = table.Column<DateTime>(nullable: false),
+                    StartDestination = table.Column<string>(nullable: true),
+                    StartDateTime = table.Column<DateTime>(nullable: false),
                     Discount = table.Column<double>(nullable: false),
-                    Seat_Number = table.Column<int>(nullable: false),
+                    SeatNumber = table.Column<int>(nullable: false),
                     Destination = table.Column<string>(nullable: true),
-                    Airline_ID = table.Column<int>(nullable: false),
-                    User_ID = table.Column<int>(nullable: false),
-                    Fast_Reservation = table.Column<int>(nullable: true)
+                    AirlineID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: false),
+                    FastReservation = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FastReservations", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_FastReservations_Airlines_Airline_ID",
-                        column: x => x.Airline_ID,
+                        name: "FK_FastReservations_Airlines_AirlineID",
+                        column: x => x.AirlineID,
                         principalTable: "Airlines",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FastReservations_Airlines_Fast_Reservation",
-                        column: x => x.Fast_Reservation,
+                        name: "FK_FastReservations_Airlines_FastReservation",
+                        column: x => x.FastReservation,
                         principalTable: "Airlines",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FastReservations_MyUsers_Fast_Reservation",
-                        column: x => x.Fast_Reservation,
+                        name: "FK_FastReservations_MyUsers_FastReservation",
+                        column: x => x.FastReservation,
                         principalTable: "MyUsers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FastReservations_MyUsers_User_ID",
-                        column: x => x.User_ID,
+                        name: "FK_FastReservations_MyUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "MyUsers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -334,9 +338,9 @@ namespace WebApp.Migrations
                     Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
-                    Phone_Number = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
                     Airline_ID = table.Column<int>(nullable: true),
-                    Rent_a_Car_ID = table.Column<int>(nullable: true)
+                    RentACarID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -348,8 +352,8 @@ namespace WebApp.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Admins_RentACars_Rent_a_Car_ID",
-                        column: x => x.Rent_a_Car_ID,
+                        name: "FK_Admins_RentACars_RentACarID",
+                        column: x => x.RentACarID,
                         principalTable: "RentACars",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -361,9 +365,10 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    Number_Of_Vehicle = table.Column<int>(nullable: false),
-                    Rent_a_Car_ID = table.Column<int>(nullable: false),
+                    NumberOfVehicle = table.Column<int>(nullable: false),
+                    RentACarID = table.Column<int>(nullable: false),
                     Branch = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -376,8 +381,8 @@ namespace WebApp.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Branches_RentACars_Rent_a_Car_ID",
-                        column: x => x.Rent_a_Car_ID,
+                        name: "FK_Branches_RentACars_RentACarID",
+                        column: x => x.RentACarID,
                         principalTable: "RentACars",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -389,14 +394,14 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Rent_a_Car_ID = table.Column<int>(nullable: false)
+                    RentACarID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RentPriceLists", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_RentPriceLists_RentACars_Rent_a_Car_ID",
-                        column: x => x.Rent_a_Car_ID,
+                        name: "FK_RentPriceLists_RentACars_RentACarID",
+                        column: x => x.RentACarID,
                         principalTable: "RentACars",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -408,31 +413,31 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Price_List_ID = table.Column<int>(nullable: false),
-                    Service_ID = table.Column<int>(nullable: false),
-                    PriceList_Service_Connections = table.Column<int>(nullable: true)
+                    PriceListID = table.Column<int>(nullable: false),
+                    ServiceID = table.Column<int>(nullable: false),
+                    PriceListServiceConnections = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PriceListServices", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_PriceListServices_PriceLists_PriceList_Service_Connections",
-                        column: x => x.PriceList_Service_Connections,
-                        principalTable: "PriceLists",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PriceListServices_Services_PriceList_Service_Connections",
-                        column: x => x.PriceList_Service_Connections,
-                        principalTable: "Services",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PriceListServices_PriceLists_Price_List_ID",
-                        column: x => x.Price_List_ID,
+                        name: "FK_PriceListServices_PriceLists_PriceListID",
+                        column: x => x.PriceListID,
                         principalTable: "PriceLists",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PriceListServices_PriceLists_PriceListServiceConnections",
+                        column: x => x.PriceListServiceConnections,
+                        principalTable: "PriceLists",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PriceListServices_Services_PriceListServiceConnections",
+                        column: x => x.PriceListServiceConnections,
+                        principalTable: "Services",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -454,21 +459,21 @@ namespace WebApp.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    User_ID = table.Column<int>(nullable: true),
-                    Admin_ID = table.Column<int>(nullable: true)
+                    UserID = table.Column<int>(nullable: true),
+                    AdminID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Admins_Admin_ID",
-                        column: x => x.Admin_ID,
+                        name: "FK_AspNetUsers_Admins_AdminID",
+                        column: x => x.AdminID,
                         principalTable: "Admins",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_MyUsers_User_ID",
-                        column: x => x.User_ID,
+                        name: "FK_AspNetUsers_MyUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "MyUsers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -481,19 +486,20 @@ namespace WebApp.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Brand = table.Column<string>(nullable: true),
-                    Desription = table.Column<string>(nullable: true),
+                    NumberOfSeats = table.Column<int>(nullable: false),
+                    Class = table.Column<string>(nullable: true),
                     Reserved = table.Column<bool>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Image = table.Column<string>(nullable: true),
-                    Branch_ID = table.Column<int>(nullable: false),
+                    BranchID = table.Column<int>(nullable: false),
                     Vehicle = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicles", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Vehicles_Branches_Branch_ID",
-                        column: x => x.Branch_ID,
+                        name: "FK_Vehicles_Branches_BranchID",
+                        column: x => x.BranchID,
                         principalTable: "Branches",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -511,16 +517,29 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Rent_Price_List_ID = table.Column<int>(nullable: false),
-                    Renta_Price_List_Service_Connections = table.Column<int>(nullable: true),
-                    Rent_Service_ID = table.Column<int>(nullable: false)
+                    RentPriceListID = table.Column<int>(nullable: false),
+                    RentServiceID = table.Column<int>(nullable: false),
+                    RentaPriceListServiceConnections = table.Column<int>(nullable: true),
+                    Renta_Price_List_Service_Connections = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RentaPriceListServices", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_RentaPriceListServices_RentPriceLists_Renta_Price_List_Service_Connections",
-                        column: x => x.Renta_Price_List_Service_Connections,
+                        name: "FK_RentaPriceListServices_RentPriceLists_RentPriceListID",
+                        column: x => x.RentPriceListID,
+                        principalTable: "RentPriceLists",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RentaPriceListServices_RentServices_RentServiceID",
+                        column: x => x.RentServiceID,
+                        principalTable: "RentServices",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RentaPriceListServices_RentPriceLists_RentaPriceListServiceConnections",
+                        column: x => x.RentaPriceListServiceConnections,
                         principalTable: "RentPriceLists",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -623,35 +642,36 @@ namespace WebApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Reservation_Period = table.Column<string>(nullable: true),
-                    Vehicle_ID = table.Column<int>(nullable: false),
-                    User_ID = table.Column<int>(nullable: false),
-                    Car_Reservations = table.Column<int>(nullable: true)
+                    ReservationFrom = table.Column<DateTime>(nullable: false),
+                    ReservationTo = table.Column<DateTime>(nullable: false),
+                    VehicleID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: false),
+                    CarReservations = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CarReservations", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_CarReservations_MyUsers_Car_Reservations",
-                        column: x => x.Car_Reservations,
+                        name: "FK_CarReservations_MyUsers_CarReservations",
+                        column: x => x.CarReservations,
                         principalTable: "MyUsers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CarReservations_Vehicles_Car_Reservations",
-                        column: x => x.Car_Reservations,
+                        name: "FK_CarReservations_Vehicles_CarReservations",
+                        column: x => x.CarReservations,
                         principalTable: "Vehicles",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CarReservations_MyUsers_User_ID",
-                        column: x => x.User_ID,
+                        name: "FK_CarReservations_MyUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "MyUsers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CarReservations_Vehicles_Vehicle_ID",
-                        column: x => x.Vehicle_ID,
+                        name: "FK_CarReservations_Vehicles_VehicleID",
+                        column: x => x.VehicleID,
                         principalTable: "Vehicles",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -662,10 +682,10 @@ namespace WebApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5b51c132-73b8-4a39-8e33-957dce6b3a11", "7db56da8-f3f1-4e0d-b7c7-ea7b9cc90776", "Admin", "ADMIN" },
-                    { "aa387b78-8df9-4fd1-8404-3fa989611a6e", "3bd76808-5bb3-4569-9f41-5493706a693e", "Airline_Admin", "AIRLINE_ADMIN" },
-                    { "cd6aa222-e047-4978-ab8f-e9d1cf57c801", "6ec06093-efe0-4c07-ac80-f0629c792f34", "Service_Admin", "SERVICE_ADMIN" },
-                    { "63db630a-7b1b-4793-ac83-55c31ab727a0", "b49c6ae7-7b31-45bf-964d-749c7a05b768", "User", "USER" }
+                    { "0a87c35a-88e2-4c73-98e7-ce7f260d8cc1", "1f80cebe-f9d7-4bbc-afed-bf0212752794", "Admin", "ADMIN" },
+                    { "b0ead611-3222-42d2-a626-3d4f633670d9", "62532d75-267d-4163-a556-e444965678be", "Airline_Admin", "AIRLINE_ADMIN" },
+                    { "ca462160-cca0-4c40-9aeb-7082b4006ec2", "eecae168-166a-4422-807b-ee9fa242c676", "Service_Admin", "SERVICE_ADMIN" },
+                    { "cc69f2e0-be3d-4670-91d5-5a7f02110a27", "710f9f9e-7911-4959-9e62-daee2a9f5934", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -674,34 +694,34 @@ namespace WebApp.Migrations
                 column: "Airline_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Admins_Rent_a_Car_ID",
+                name: "IX_Admins_RentACarID",
                 table: "Admins",
-                column: "Rent_a_Car_ID");
+                column: "RentACarID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AircraftConfigurations_Aircraft_Configuration",
+                name: "IX_AircraftConfigurations_AircraftConfiguration",
                 table: "AircraftConfigurations",
-                column: "Aircraft_Configuration");
+                column: "AircraftConfiguration");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AircraftConfigurations_User_ID",
+                name: "IX_AircraftConfigurations_UserID",
                 table: "AircraftConfigurations",
-                column: "User_ID");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AirlineDestinations_Airline_Destination_Connections",
+                name: "IX_AirlineDestinations_AirlineDestinationConnections",
                 table: "AirlineDestinations",
-                column: "Airline_Destination_Connections");
+                column: "AirlineDestinationConnections");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AirlineDestinations_Airline_ID",
+                name: "IX_AirlineDestinations_AirlineID",
                 table: "AirlineDestinations",
-                column: "Airline_ID");
+                column: "AirlineID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AirlineDestinations_Destination_ID",
+                name: "IX_AirlineDestinations_DestinationID",
                 table: "AirlineDestinations",
-                column: "Destination_ID");
+                column: "DestinationID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -731,9 +751,9 @@ namespace WebApp.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_Admin_ID",
+                name: "IX_AspNetUsers_AdminID",
                 table: "AspNetUsers",
-                column: "Admin_ID");
+                column: "AdminID");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -748,9 +768,9 @@ namespace WebApp.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_User_ID",
+                name: "IX_AspNetUsers_UserID",
                 table: "AspNetUsers",
-                column: "User_ID");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Branches_Branch",
@@ -758,44 +778,44 @@ namespace WebApp.Migrations
                 column: "Branch");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Branches_Rent_a_Car_ID",
+                name: "IX_Branches_RentACarID",
                 table: "Branches",
-                column: "Rent_a_Car_ID");
+                column: "RentACarID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarReservations_Car_Reservations",
+                name: "IX_CarReservations_CarReservations",
                 table: "CarReservations",
-                column: "Car_Reservations");
+                column: "CarReservations");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarReservations_User_ID",
+                name: "IX_CarReservations_UserID",
                 table: "CarReservations",
-                column: "User_ID");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarReservations_Vehicle_ID",
+                name: "IX_CarReservations_VehicleID",
                 table: "CarReservations",
-                column: "Vehicle_ID");
+                column: "VehicleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FastReservations_Airline_ID",
+                name: "IX_FastReservations_AirlineID",
                 table: "FastReservations",
-                column: "Airline_ID");
+                column: "AirlineID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FastReservations_Fast_Reservation",
+                name: "IX_FastReservations_FastReservation",
                 table: "FastReservations",
-                column: "Fast_Reservation");
+                column: "FastReservation");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FastReservations_User_ID",
+                name: "IX_FastReservations_UserID",
                 table: "FastReservations",
-                column: "User_ID");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Flights_Destination_ID",
+                name: "IX_Flights_DestinationID",
                 table: "Flights",
-                column: "Destination_ID");
+                column: "DestinationID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Flights_Flight",
@@ -803,9 +823,9 @@ namespace WebApp.Migrations
                 column: "Flight");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PriceLists_Airline_ID",
+                name: "IX_PriceLists_AirlineID",
                 table: "PriceLists",
-                column: "Airline_ID");
+                column: "AirlineID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PriceLists_Price_List",
@@ -813,14 +833,29 @@ namespace WebApp.Migrations
                 column: "Price_List");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PriceListServices_PriceList_Service_Connections",
+                name: "IX_PriceListServices_PriceListID",
                 table: "PriceListServices",
-                column: "PriceList_Service_Connections");
+                column: "PriceListID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PriceListServices_Price_List_ID",
+                name: "IX_PriceListServices_PriceListServiceConnections",
                 table: "PriceListServices",
-                column: "Price_List_ID");
+                column: "PriceListServiceConnections");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentaPriceListServices_RentPriceListID",
+                table: "RentaPriceListServices",
+                column: "RentPriceListID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentaPriceListServices_RentServiceID",
+                table: "RentaPriceListServices",
+                column: "RentServiceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentaPriceListServices_RentaPriceListServiceConnections",
+                table: "RentaPriceListServices",
+                column: "RentaPriceListServiceConnections");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RentaPriceListServices_Renta_Price_List_Service_Connections",
@@ -828,14 +863,14 @@ namespace WebApp.Migrations
                 column: "Renta_Price_List_Service_Connections");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentPriceLists_Rent_a_Car_ID",
+                name: "IX_RentPriceLists_RentACarID",
                 table: "RentPriceLists",
-                column: "Rent_a_Car_ID");
+                column: "RentACarID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehicles_Branch_ID",
+                name: "IX_Vehicles_BranchID",
                 table: "Vehicles",
-                column: "Branch_ID");
+                column: "BranchID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_Vehicle",

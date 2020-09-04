@@ -1,10 +1,28 @@
-input[type=text], input[type=date] {
+input[type=text], input[type=date], select {
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
     background-color: white;
-    background-image: url('/assets/img/2982657.png');
     background-position: 10px 10px; 
     background-repeat: no-repeat;
   }
+  .Vehicles {
+    width: 900px;
+    border: 1px solid rgb(206, 195, 195);;
+    margin: 10px auto;
+    padding: 10px;
+    box-shadow: 1px 1px 1px gray;
+}
+
+.search{
+  box-shadow: 5px 10px #888888;
+  background-color: rgb(158, 62, 158);
+  width: 80%;
+  margin: auto;
+}
+
+.comanies{
+  border: 1px solid black;
+  padding: 10px;
+}

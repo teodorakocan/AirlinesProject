@@ -13,18 +13,18 @@ namespace WebApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public string Start_Destination { get; set; }
-        public DateTime Start_DateTime { get; set; } //datum i vreme polaska
+        public string StartDestination { get; set; }
+        public DateTime StartDateTime { get; set; } //datum i vreme polaska
         public double Discount { get; set; }
-        public int Seat_Number { get; set; }
+        public int SeatNumber { get; set; }
         public string Destination { get; set; } //odredistna destinacija
 
         [ForeignKey("Airline")]
-        public int Airline_ID { get; set; }
+        public int AirlineID { get; set; }
         public Airline Airline { get; set; }
 
         [ForeignKey("User")]
-        public int User_ID { get; set; }
+        public int UserID { get; set; }
         public MyUser User { get; set; }
         
     }

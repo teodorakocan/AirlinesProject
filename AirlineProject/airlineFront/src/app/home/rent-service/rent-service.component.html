@@ -5,7 +5,8 @@
             <div *ngIf="exist1">
                 <div *ngIf="myService"><br/><br/>
                     <label style="font-size: 36px; color: purple;">{{myService.name}}</label><br/>
-                    <label style="font-size: 24px;">Promo desription: <label style="font-size: 24px; color: purple;">{{myService.promo_Description}}</label></label><br/>
+                    <label style="font-size: 24px;">Promo desription: <label style="font-size: 24px; color: purple;">{{myService.promoDescription}}</label></label><br/>
+                    <label style="font-size: 24px;">Palce of company: <label style="font-size: 24px; color: purple;">{{myService.city}}, {{myService.state}}</label></label> <br/>
                     <label style="font-size: 24px;">Address: <label style="font-size: 24px; color: purple;">{{myService.address}}</label></label><br/>
                 </div>
                 <button type="button" class="btn btn-danger" style="width: 200px;" (click)="DeleteService()">Delete service</button>
@@ -25,8 +26,24 @@
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label class="formlabel">Promo description:</label>
-                                <input type="text" class="form-control" id="Promo_Description" placeholder="Promo description.." formControlName="Promo_Description">
-                                <label class="text-danger" *ngIf="service.formModel.get('Promo_Description').touched && service.formModel.get('Promo_Description').errors?.required">This
+                                <input type="text" class="form-control" id="PromoDescription" placeholder="Promo description.." formControlName="PromoDescription">
+                                <label class="text-danger" *ngIf="service.formModel.get('PromoDescription').touched && service.formModel.get('PromoDescription').errors?.required">This
+                                field is required.</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label class="formlabel">City:</label>
+                                <input type="text" class="form-control" id="City" placeholder="City.." formControlName="City">
+                                <label class="text-danger" *ngIf="service.formModel.get('City').touched && service.formModel.get('City').errors?.required">This
+                                field is required.</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label class="formlabel">State:</label>
+                                <input type="text" class="form-control" id="State" placeholder="State.." formControlName="State">
+                                <label class="text-danger" *ngIf="service.formModel.get('State').touched && service.formModel.get('State').errors?.required">This
                                 field is required.</label>
                             </div>
                         </div>
@@ -52,11 +69,13 @@
         <mat-tab *ngIf="exist1" label="All branche offices">
             <div *ngIf="exist2">
                 <section class="Vehicles">
-                    <table class="table table-striped">
+                    <table class="table table-dark" style="overflow-x: hidden;">
                       <thead>
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Address</th>
+                            <th scope="col">City</th>
+                            <th scope="col">State</th>
                             <th scope="col">Number of vehicles</th>
                         </tr>
                       </thead>
@@ -64,7 +83,9 @@
                         <tr *ngFor="let branch of branches">
                           <td>{{branch.name}}</td>
                           <td>{{branch.address}}</td>
-                          <td>{{branch.number_Of_Vehicle}}</td>
+                          <td>{{branch.city}}</td>
+                          <td>{{branch.state}}</td>
+                          <td>{{branch.numberOfVehicle}}</td>
                           <td><button type="button" class="btn btn-dark" (click)="EditBranch(branch.id)">Edit branch</button></td>
                         </tr>
                       </tbody>
@@ -122,8 +143,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label class="formlabel">Promo description</label>
-                            <input type="text" class="form-control" #Promo_Description="ngModel" name="Promo_Description" [(ngModel)]="myService.promo_Description" [class.is-invalid]="Promo_Description.invalid && Promo_Description.touched" required>
-                            <label class="text-danger" [class.d-none] = "Promo_Description.valid || Promo_Description.untouched">Required field!</label>
+                            <input type="text" class="form-control" #PromoDescription="ngModel" name="PromoDescription" [(ngModel)]="myService.promoDescription" [class.is-invalid]="PromoDescription.invalid && PromoDescription.touched" required>
+                            <label class="text-danger" [class.d-none] = "PromoDescription.valid || PromoDescription.untouched">Required field!</label>
                         </div>
                     </div>
                     <div class="form-row">
@@ -134,12 +155,24 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="formlabel">City</label>
+                            <input type="text" class="form-control" #City="ngModel" name="City" [(ngModel)]="myService.city" [class.is-invalid]="City.invalid && City.touched" required>
+                            <label class="text-danger" [class.d-none] = "City.valid || City.untouched">Required field!</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="formlabel">State</label>
+                            <input type="text" class="form-control" #State="ngModel" name="State" [(ngModel)]="myService.state" [class.is-invalid]="State.invalid && State.touched" required>
+                            <label class="text-danger" [class.d-none] = "State.valid || State.untouched">Required field!</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group col-md-8 offset-md-2">
                             <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="form.form.invalid">Edit</button>
                         </div>
                     </div>
                 </form>
-            </div>
+                </div>
         </mat-tab>
 
     </mat-tab-group>

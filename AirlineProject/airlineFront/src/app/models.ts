@@ -1,23 +1,17 @@
 export class Airline{
-    name: string;
-    address: string;
-    promo_Description: string;
-}
-
-export class Destination{
     Name: string;
-    ImageURL: string;
+    Address: string;
+    PromoDescription: string;
+    City: string;
+    Satet: string;
 }
 
-export class Flight{
-    Start_DateTime: Date;
-    End_DateTime: Date;
-    Price: number;
-    Price2: number;
-    Flight_Number: string;
-    Number_Transfer: string;
-    Destination_Transfer: string;
-    Travel_lenght: number;
+export class RentService{
+    Name: string;
+    Address: string;
+    PromoDescription: string;
+    City: string;
+    Satet: string;
 }
 
 export class User{
@@ -39,20 +33,16 @@ export class Admin{
 }
 
 export class Discounts{
-    Pints: number;
+    Points: number;
     Discount: number;
-}
-
-export class Service{
-    Name: string;
-    Address: string;
-    Promo_Description: string;
 }
 
 export class Branch{
     Name: string;
     Address: string;
-    Number_Of_Vehicle: number;
+    City: string;
+    State: string;
+    NumberOfVehicle: number;
 }
 
 export class Vehicle{

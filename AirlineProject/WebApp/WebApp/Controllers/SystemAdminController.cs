@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -15,13 +14,13 @@ namespace WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController : ControllerBase
+    public class SystemAdminController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IEmailSender _emailSender;
 
-        public AdminController(IEmailSender emailSender, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public SystemAdminController(IEmailSender emailSender, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             this.userManager = userManager;
@@ -45,28 +44,32 @@ namespace WebApp.Controllers
                 Email = model.Email,
                 City = model.City,
                 Password = model.Password, // TODO: enkriptovati kasnije 
-                Phone_Number = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber
             };
 
             ApplicationUser admin = new ApplicationUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                User_ID = null,
-                Admin_ID = service_admin.ID,
+                UserID = null,
+                AdminID = service_admin.ID,
                 Admin = service_admin,
                 UserName = model.Name,
-                EmailConfirmed = true
+                EmailConfirmed = false
             };
 
             var result2 = await userManager.CreateAsync(admin, model.Password);
-            if(role.Equals("airline"))
+            if (role.Equals("airline"))
             {
                 userManager.AddToRoleAsync(admin, "Airline_Admin").Wait();
             }
-            else
+            else if (role.Equals("rent-a-car"))
             {
                 userManager.AddToRoleAsync(admin, "Service_Admin").Wait();
+            }
+            else
+            {
+                userManager.AddToRoleAsync(admin, "Admin").Wait();
             }
 
             string link = "http://localhost:4200/adminConfirmation/" + model.Email;
@@ -83,84 +86,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("all-admins")]
-        public async Task<IEnumerable<Admin>> GetAllAdmins()
-        {
-            return await _context.Admins.ToListAsync();
-        }
-
-        [HttpGet]
-        [Route("find-admin/{id}")]
-        public async Task<IEnumerable<Admin>> FindAdmin(int id, string name, string surname)
-        {
-            List<Admin> admins = new List<Admin>();
-            List<Admin> listAdmins = new List<Admin>();
-            listAdmins = await _context.Admins.ToListAsync();
-            int adminId = 0;
-            string adminName = "";
-            string adminSurname = "";
-            if(id != 0)
-            {
-                adminId = id;
-            }
-            if(name != "")
-            {
-                adminName = name;
-            }
-
-            if(surname != "")
-            {
-                adminSurname = surname;
-            }
-
-            foreach(Admin admin in listAdmins)
-            {
-                if(admin.ID == adminId || admin.Name.Equals(adminName) || admin.Surname.Equals(adminSurname))
-                {
-                    admins.Add(admin);
-                }
-            }
-
-            return admins;
-        }
-
-        [HttpGet]
-        [Route("find-user/{id}")]
-        public async Task<IEnumerable<MyUser>> FindUser(int id, string name, string surname)
-        {
-            List<MyUser> users = new List<MyUser>();
-            List<MyUser> listUsers = new List<MyUser>();
-            listUsers = await _context.MyUsers.ToListAsync();
-            int userId = 0;
-            string userName = "";
-            string userSurname = "";
-            if (id != 0)
-            {
-                userId = id;
-            }
-            if (name != "")
-            {
-                userName = name;
-            }
-
-            if (surname != "")
-            {
-                userSurname = surname;
-            }
-
-            foreach (MyUser user in listUsers)
-            {
-                if (user.ID == userId || user.Name.Equals(userName) || user.Surname.Equals(userSurname))
-                {
-                    users.Add(user);
-                }
-            }
-
-            return users;
-        }
-
-        [HttpGet]
-        [Route("dicounts")]
+        [Route("discounts")]
         public async Task<IEnumerable<Discounts>> GetDiscounts()
         {
             return await _context.Discounts.ToListAsync();
@@ -172,7 +98,7 @@ namespace WebApp.Controllers
         {
             Discounts discount = new Discounts();
             discount = await _context.Discounts.FindAsync(id);
-            if(newDiscount.Discount == 0 || newDiscount.Pints == 0)
+            if (newDiscount.Discount == 0 || newDiscount.Points == 0)
             {
                 _context.Discounts.Remove(discount);
                 await _context.SaveChangesAsync();
@@ -181,7 +107,7 @@ namespace WebApp.Controllers
             }
 
             discount.Discount = newDiscount.Discount;
-            discount.Pints = newDiscount.Pints;
+            discount.Points = newDiscount.Points;
 
             _context.Entry(discount).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -197,6 +123,61 @@ namespace WebApp.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("all-users")]
+        public async Task<ActionResult<IEnumerable<Object>>> AllUsersAdmins()
+        {
+            List<Object> allUsers = new List<object>();
+            List<MyUser> users = new List<MyUser>();
+            users = await _context.MyUsers.ToListAsync();
+            List<Admin> admins = new List<Admin>();
+            admins = await _context.Admins.ToListAsync();
+
+            foreach(MyUser user in users)
+            {
+                allUsers.Add(user);
+            }    
+
+            foreach(Admin admin in admins)
+            {
+                allUsers.Add(admin);
+            }
+
+            if(allUsers == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Bad Requset", Message = "There are no registered users." });
+            }
+
+            return Ok(allUsers);
+        }
+
+        [HttpGet]
+        [Route("all-companies")]
+        public async Task<ActionResult<IEnumerable<Object>>> AllComanies()
+        {
+            List<Object> allComapnies = new List<Object>();
+            List<Airline> airlines = new List<Airline>();
+            List<RentACar> rentacars = new List<RentACar>();
+            airlines = await _context.Airlines.ToListAsync();
+            rentacars = await _context.RentACars.ToListAsync();
+
+            foreach(Airline airline in airlines)
+            {
+                allComapnies.Add(airline);
+            }    
+            foreach(RentACar rentacar in rentacars)
+            {
+                allComapnies.Add(rentacar);
+            }
+
+            if(allComapnies == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Bad Requset", Message = "There are no registered companies." });
+            }
+
+            return Ok(allComapnies);
         }
     }
 }

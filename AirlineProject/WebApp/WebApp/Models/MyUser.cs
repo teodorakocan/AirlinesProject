@@ -17,27 +17,27 @@ namespace WebApp.Models
         public string Email { get; set; } 
         public string Password { get; set; }
         public string City { get; set; }
-        public string Phone_Number { get; set; }
+        public string PhoneNumber { get; set; }
         public string Provider { get; set; }
         public string PictureURL { get; set; }
         public string IdToken { get; set; }
         public int Points { get; set; }
 
 
-        [ForeignKey("Aircraft_Configuration")]
-        public ICollection<AircraftConfiguration> Aircraft_Configurations { get; set; }
+        [ForeignKey("AircraftConfiguration")]
+        public ICollection<AircraftConfiguration> AircraftConfigurations { get; set; }
 
-        [ForeignKey("Fast_Reservation")]
-        public ICollection<FastReservation> Fast_Reservations { get; set; }
+        [ForeignKey("FastReservation")]
+        public ICollection<FastReservation> FastReservations { get; set; }
 
-        [ForeignKey("Car_Reservations")]
-        public ICollection<CarReservation> Car_Reservations { get; set; }
+        [ForeignKey("CarReservations")]
+        public ICollection<CarReservation> CarReservations { get; set; }
 
         public MyUser()
         {
-            this.Aircraft_Configurations = new HashSet<AircraftConfiguration>();
-            this.Fast_Reservations = new HashSet<FastReservation>();
-            this.Car_Reservations = new HashSet<CarReservation>();
+            this.AircraftConfigurations = new HashSet<AircraftConfiguration>();
+            this.FastReservations = new HashSet<FastReservation>();
+            this.CarReservations = new HashSet<CarReservation>();
         }
     }
 }

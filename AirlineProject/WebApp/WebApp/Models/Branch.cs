@@ -14,14 +14,16 @@ namespace WebApp.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public int Number_Of_Vehicle { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public int NumberOfVehicle { get; set; }
 
         [ForeignKey("Vehicle")]
         public ICollection<Vehicle> Vehicles { get; set; }
 
-        [ForeignKey("Rent_a_Car")]
-        public int Rent_a_Car_ID { get; set; }
-        public RentACar Rent_a_Car { get;set;}
+        [ForeignKey("RentACar")]
+        public int RentACarID { get; set; }
+        public RentACar RentACar { get;set;}
 
         public Branch()
         {

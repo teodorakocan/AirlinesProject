@@ -17,14 +17,14 @@ namespace WebApp.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string City { get; set; }
-        public string Phone_Number { get; set; }
+        public string PhoneNumber { get; set; }
 
         [ForeignKey("Airline")]
         public int? Airline_ID { get; set; }
         public Airline Airline { get; set; }
 
-        [ForeignKey("Rent_a_Car")]
-        public int? Rent_a_Car_ID { get; set; }
-        public RentACar Rent_a_Car { get; set; }
+        [ForeignKey("RentACar")]
+        public int? RentACarID { get; set; }
+        public RentACar RentACar { get; set; }
     }
 }

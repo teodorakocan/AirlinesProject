@@ -13,22 +13,24 @@ namespace WebApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Address_ { get; set; }
-        public string Promo_Description { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string PromoDescription { get; set; }
 
-        [ForeignKey("Fast_Reservation")]
-        public ICollection<FastReservation> Fast_Reservations { get; set; }
+        [ForeignKey("FastReservation")]
+        public ICollection<FastReservation> FastReservations { get; set; }
         
-        [ForeignKey("Airline_Destination_Connections")]
-        public ICollection<AirlineDestinationConnection> Airline_Destination_Connections { get; set; }
+        [ForeignKey("AirlineDestinationConnections")]
+        public ICollection<AirlineDestinationConnection> AirlineDestinationConnections { get; set; }
 
         [ForeignKey("Price_List")]
         public ICollection<PriceList> Prise_Lists { get; set; }
 
         public Airline()
         {
-            this.Fast_Reservations = new HashSet<FastReservation>();
-            this.Airline_Destination_Connections = new HashSet<AirlineDestinationConnection>();
+            this.FastReservations = new HashSet<FastReservation>();
+            this.AirlineDestinationConnections = new HashSet<AirlineDestinationConnection>();
             this.Prise_Lists = new HashSet<PriceList>();
         }
     }

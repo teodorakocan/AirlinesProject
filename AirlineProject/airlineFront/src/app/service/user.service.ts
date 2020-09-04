@@ -72,12 +72,6 @@ export class UserService{
       }, { validator: this.comparePasswords })
     });
 
-    formModel3 = this.fb.group({
-      Pints: ['',Validators.required],
-      Discount: ['',Validators.required]
-    });
-
-
     comparePasswords(fb: FormGroup) {
       let confirmPswrdCtrl = fb.get('ConfirmPassword');
       //passwordMismatch
@@ -110,21 +104,16 @@ export class UserService{
       return this._http.post(this._baseUrl + '/api/authenticate/register', user);
     }  
 
-    registerAdmin(){
-      var admin = {
-        Name: this.formModel1.value.Name,
-        Surname: this.formModel1.value.Surname,
-        Email: this.formModel1.value.Email,
-        Password: this.formModel1.value.Passwords.Password,
-        City: this.formModel1.value.City,
-        PhoneNumber: this.formModel1.value.PhoneNumber
-      };
-      var role = this.formModel1.value.Admin
-      return this._http.post(this._baseUrl + '/api/admin/register-admin/' + role, admin);
-    }
-
     confirmation(email: string){
       return this._http.put(this._baseUrl + '/api/authenticate/confirm-email/' + email, { });
+    }
+
+    adminConfirmation(email: string){
+      var newPassword = {
+        NewPassword: this.formModel2.value.Passwords.Password,
+        ConfirmedPassword: this.formModel2.value.Passwords.ConfirmPassword
+      };
+      return this._http.put(this._baseUrl + '/api/authenticate/admin-confirmation/' + email, newPassword);
     }
     
     getUserinfo(email){
@@ -134,20 +123,7 @@ export class UserService{
     deleteAccount(email){
       return this._http.delete(this._baseUrl + '/api/user/delete-account/'+ email);
     }
-
-    allAdmins(){
-      return this._http.get(this._baseUrl + '/api/admin/all-admins');
-    }
-
-    findAdmin(id,name: string, surname: string){
-      //debugger
-      return this._http.get(this._baseUrl + '/api/admin/find-admin/'+id, {params:{name:name, surname: surname}});
-    }
-
-    findUser(id,name: string, surname: string){
-      return this._http.get(this._baseUrl + '/api/admin/find-user/'+id, {params:{name:name, surname: surname}});
-    }
-
+    
     editProfil(email, edit){
       return this._http.put(this._baseUrl + '/api/user/edit-profile/' + email, edit);
     }
@@ -158,24 +134,5 @@ export class UserService{
         ConfirmedPassword: this.formModel2.value.Passwords.ConfirmPassword
       };
       return this._http.put(this._baseUrl + '/api/user/change-password/' + email, newPassword, {params:{token:localStorage.getItem('token')}});
-    }
-
-    allDiscounts()
-    {
-      return this._http.get(this._baseUrl + '/api/admin/dicounts');
-    }
-    
-    editDiscount(discount, id){
-      return this._http.put(this._baseUrl + '/api/admin/edit-discount/' + id, discount);
-    }
-
-    addDiscount()
-    {
-      debugger
-      var discount = {
-        Pints: this.formModel3.value.Pints,
-        Discount: this.formModel3.value.Discount
-      };
-      return this._http.post(this._baseUrl + '/api/admin/add-discount', discount);
     }
 }

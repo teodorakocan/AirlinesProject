@@ -6,189 +6,12 @@
                 <label style="font-size: 36px; color: purple;">{{user.name}} {{user.surname}}</label><br/>
                 <label style="font-size: 24px;">E-mial: <label style="font-size: 24px; color: purple;">{{user.email}}</label></label><br/>
                 <label style="font-size: 24px;">City: <label style="font-size: 24px; color: purple;">{{user.city}}</label></label><br/>
-                <label style="font-size: 24px;">Phone number: <label style="font-size: 24px; color: purple;">{{user.phone_Number}}</label></label><br/>
+                <label style="font-size: 24px;">Phone number: <label style="font-size: 24px; color: purple;">{{user.phoneNumber}}</label></label><br/>
             </div><br/>
 
             <button type="button" class="btn btn-danger" (click)="DeleteAccount()">Delete account</button>
         </mat-tab>
         
-        <mat-tab *ngIf="role=='Admin'" label="Add airline or rent-a-car admin" >
-            <div style="overflow: hidden;">
-                <form [formGroup]="service.formModel1" (submit)="onSubmit()">
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label class="formlabel">Name</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Name.." formControlName="Name">
-                            <label class="text-danger" *ngIf="service.formModel1.get('Name').touched && service.formModel1.get('Name').errors?.required">This
-                            field is required.</label>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label class="formlabel">Surname</label>
-                            <input type="text" class="form-control" id="Surname" placeholder="Surname.." formControlName="Surname">
-                            <label class="text-danger" *ngIf="service.formModel1.get('Surname').touched && service.formModel1.get('Surname').errors?.required">This
-                            field is required.</label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label class="formlabel">Email (Username)</label>
-                            <input type="email" class="form-control" id="Email" placeholder="Email.." formControlName="Email">
-                            <label class="text-danger" *ngIf="service.formModel1.get('Email').touched && service.formModel1.get('Email').errors?.email">Invalid
-                                email address.</label>
-                            <label class="text-danger" *ngIf="service.formModel1.get('Email').touched && service.formModel1.get('Email').errors?.required">This
-                                field is required.</label>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class="formlabel">Phone number</label>
-                            <input class="form-control" id="PhoneNumber" placeholder="Phone number.." formControlName="PhoneNumber">
-                            <label class="form-control-feedback" *ngIf="service.formModel1.get('PhoneNumber').errors && (service.formModel1.get('PhoneNumber').dirty || service.formModel1.get('PhoneNumber').touched)">
-                                <p *ngIf="service.formModel1.get('PhoneNumber').errors.pattern" class="text-danger">Number Only</p>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label class="formlabel">City</label>
-                            <input type="text" class="form-control" id="City" placeholder="City.." formControlName="City">
-                            <label class="text-danger" *ngIf="service.formModel1.get('City').touched && service.formModel1.get('City').errors?.required">This
-                                field is required.</label>
-                        </div>
-                    </div>
-                    <div formGroupName="Passwords">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label class="formlabel">Password</label>
-                                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="Password1" placeholder="Password.." formControlName="Password">
-                                <label class="text-danger" *ngIf="service.formModel1.get('Passwords.Password').touched && service.formModel1.get('Passwords.Password').errors?.required">This
-                                    field is required.</label>
-                                <label class="text-danger" *ngIf="service.formModel1.get('Passwords.Password').errors?.pattern">Has to have
-                                    8 characters with least 1 symbol, uppercase letter and number.</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="formlabel">Confirm password</label>
-                                <div class="input-group" >
-                                    <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="ConfirmPassword" placeholder="Confirm password.." formControlName="ConfirmPassword">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}" (click)="toggleFieldTextType()"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <label class="text-danger" *ngIf="service.formModel1.get('Passwords.ConfirmPassword').touched && service.formModel1.get('Passwords.ConfirmPassword').errors?.required">This
-                                    field is required.</label>
-                                <label class="text-danger" *ngIf="service.formModel1.get('Passwords.ConfirmPassword').touched && service.formModel1.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
-                                    Passwords does not match.</label>
-                            </div>
-                        </div>
-                    </div><br/>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label class="formlabel">Admin</label>
-                                <select formControlName="Admin" class="form-control">
-                                    <option value="airline">Airline admin</option>
-                                    <option value="rent-a-car">Rent-a-car admin</option>
-                                </select>
-                                <label class="text-danger" *ngIf="service.formModel1.get('Admin').touched && service.formModel1.get('Admin').errors?.required">
-                                    You must select the administrator role that you want to add.</label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-8 offset-md-2">
-                            <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!service.formModel1.valid">Register admin</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </mat-tab>
-
-        <mat-tab *ngIf="role=='Admin'" label="All admins"><br/>
-            <label class="formlabel">Serch user by:</label><br/>
-            <form #form='ngForm' (submit)="Search(form)">
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <input type="text" class="form-control" placeholder="Name.." #Name="ngModel" name="Name" [(ngModel)]="searchedUser.Name">
-                    </div>
-                    <div class="form-group col-md-3">
-                       <input type="text" class="form-control" id="Surname" placeholder="Surname.." #Surname="ngModel" name="Surname" [(ngModel)]="searchedUser.Surname">
-                    </div>
-                    <div class="form-group col-md-3">
-                       <input type="number" class="form-control" id="ID"  data-toggle="tooltip" data-placement="top" title="Admin ID" #ID="ngModel" name="ID" [(ngModel)]="searchedUser.ID">  
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-default">
-                            <span class="fa fa-search"></span> 
-                        </button>
-                    </div>
-                </div>
-            </form><br/><br/>
-            <table class="table table-dark" style="overflow-x: hidden;">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Surname</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Phone number</th>
-                </tr>
-                </thead>
-                <tbody *ngFor="let admin of admins">
-                <tr>
-                    <th scope="row">{{admin.id}}</th>
-                    <td>{{admin.name}}</td>
-                    <td>{{admin.surname}}</td>
-                    <td>{{admin.email}}</td>
-                    <td>{{admin.city}}</td>
-                    <td>{{admin.phone_Number}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </mat-tab>
-
-        <mat-tab *ngIf="role=='Admin'" label="All users"><br/>
-            <label class="formlabel">Serch user by:</label><br/>
-            <form #form='ngForm' (submit)="SearchUser(form)">
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <input type="text" class="form-control" placeholder="Name.." #Name="ngModel" name="Name" [(ngModel)]="searchedUser.Name">
-                    </div>
-                    <div class="form-group col-md-3">
-                       <input type="text" class="form-control" id="Surname" placeholder="Surname.." #Surname="ngModel" name="Surname" [(ngModel)]="searchedUser.Surname">
-                    </div>
-                    <div class="form-group col-md-3">
-                       <input type="number" class="form-control" id="ID"  data-toggle="tooltip" data-placement="top" title="User ID" #ID="ngModel" name="ID" [(ngModel)]="searchedUser.ID">  
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-default">
-                            <span class="fa fa-search"></span> 
-                        </button>
-                    </div>
-                </div>
-            </form><br/><br/>
-            <table class="table table-dark" style="overflow-x: hidden;">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Surname</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Phone number</th>
-                </tr>
-                </thead>
-                <tbody *ngFor="let user of users">
-                <tr>
-                    <th scope="row">{{user.id}}</th>
-                    <td>{{user.name}}</td>
-                    <td>{{user.surname}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.city}}</td>
-                    <td>{{user.phone_Number}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </mat-tab>
-
         <mat-tab label="Edit profile" ><br/><br/>
             <div style="overflow: hidden;">
                 <form #form1='ngForm' (submit)="Edit(form1)" *ngIf="user">
@@ -212,7 +35,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label class="formlabel">Phone number</label>
-                            <input class="form-control" #PhoneNumber="ngModel" pattern="^^[0-9]*$" minlength="9" name="PhoneNumber" [(ngModel)]="user.phone_Number" [class.is-invalid]="PhoneNumber.touched" required>
+                            <input class="form-control" #PhoneNumber="ngModel" pattern="^^[0-9]*$" minlength="9" name="PhoneNumber" [(ngModel)]="user.phoneNumber" [class.is-invalid]="PhoneNumber.touched" required>
                             <label class="text-danger" [class.d-none] = "PhoneNumber.valid || PhoneNumber.untouched">Required field!</label>
                              <small class="text-danger" *ngIf="PhoneNumber.errors?.pattern">
                                 Phone number must contain only numbers! </small>
@@ -268,6 +91,96 @@
                 </form>
             </div>
         </mat-tab>
+        
+        <mat-tab *ngIf="role=='Admin'" label="Add admin" >
+            <div style="overflow: hidden;">
+                <form [formGroup]="systemservice.formModel1" (submit)="onSubmit()">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="formlabel">Name</label>
+                            <input type="text" class="form-control" id="Name" placeholder="Name.." formControlName="Name">
+                            <label class="text-danger" *ngIf="systemservice.formModel1.get('Name').touched && systemservice.formModel1.get('Name').errors?.required">This
+                            field is required.</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="formlabel">Surname</label>
+                            <input type="text" class="form-control" id="Surname" placeholder="Surname.." formControlName="Surname">
+                            <label class="text-danger" *ngIf="systemservice.formModel1.get('Surname').touched && systemservice.formModel1.get('Surname').errors?.required">This
+                            field is required.</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="formlabel">Email (Username)</label>
+                            <input type="email" class="form-control" id="Email" placeholder="Email.." formControlName="Email">
+                            <label class="text-danger" *ngIf="systemservice.formModel1.get('Email').touched && systemservice.formModel1.get('Email').errors?.email">Invalid
+                                email address.</label>
+                            <label class="text-danger" *ngIf="systemservice.formModel1.get('Email').touched && systemservice.formModel1.get('Email').errors?.required">This
+                                field is required.</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="formlabel">Phone number</label>
+                            <input class="form-control" id="PhoneNumber" placeholder="Phone number.." formControlName="PhoneNumber">
+                            <label class="form-control-feedback" *ngIf="systemservice.formModel1.get('PhoneNumber').errors && (systemservice.formModel1.get('PhoneNumber').dirty || systemservice.formModel1.get('PhoneNumber').touched)">
+                                <p *ngIf="systemservice.formModel1.get('PhoneNumber').errors.pattern" class="text-danger">Number Only</p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="formlabel">City</label>
+                            <input type="text" class="form-control" id="City" placeholder="City.." formControlName="City">
+                            <label class="text-danger" *ngIf="systemservice.formModel1.get('City').touched && systemservice.formModel1.get('City').errors?.required">This
+                                field is required.</label>
+                        </div>
+                    </div>
+                    <div formGroupName="Passwords">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label class="formlabel">Password</label>
+                                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="Password1" placeholder="Password.." formControlName="Password">
+                                <label class="text-danger" *ngIf="systemservice.formModel1.get('Passwords.Password').touched && systemservice.formModel1.get('Passwords.Password').errors?.required">This
+                                    field is required.</label>
+                                <label class="text-danger" *ngIf="systemservice.formModel1.get('Passwords.Password').errors?.pattern">Has to have
+                                    8 characters with least 1 symbol, uppercase letter and number.</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="formlabel">Confirm password</label>
+                                <div class="input-group" >
+                                    <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="ConfirmPassword" placeholder="Confirm password.." formControlName="ConfirmPassword">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}" (click)="toggleFieldTextType()"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label class="text-danger" *ngIf="systemservice.formModel1.get('Passwords.ConfirmPassword').touched && systemservice.formModel1.get('Passwords.ConfirmPassword').errors?.required">This
+                                    field is required.</label>
+                                <label class="text-danger" *ngIf="systemservice.formModel1.get('Passwords.ConfirmPassword').touched && systemservice.formModel1.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
+                                    Passwords does not match.</label>
+                            </div>
+                        </div>
+                    </div><br/>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="formlabel">Admin</label>
+                                <select formControlName="Admin" class="form-control">
+                                    <option value="airline">Airline admin</option>
+                                    <option value="rent-a-car">Rent-a-car admin</option>
+                                    <option value="system">System admin</option>
+                                </select>
+                                <label class="text-danger" *ngIf="systemservice.formModel1.get('Admin').touched && systemservice.formModel1.get('Admin').errors?.required">
+                                    You must select the administrator role that you want to add.</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-8 offset-md-2">
+                            <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!systemservice.formModel1.valid">Register admin</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-tab>
 
         <mat-tab *ngIf="role=='Admin'" label="Discounts"> <br/>
             <small style="color: red;">If you put 0 in the points field or in the discount field, you will delete the discount.</small>
@@ -285,7 +198,7 @@
                     <tbody>
                         <tr>
                             <th scope="row" style="width: 200px;">{{discount.id}}</th>
-                            <td><input type="number" #Pints="ngModel" name="Pints" [(ngModel)]="discount.pints"></td>
+                            <td><input type="number" #Points="ngModel" name="Points" [(ngModel)]="discount.points"></td>
                             <td><input type="number" #Discount="ngModel" style="width: 50px;" name="Discount" [(ngModel)]="discount.discount">%</td>
                             <td><button type="number" type="submit" style="float: right; width: 100px;" class="btn btn-dark">Edit/Delete</button></td>
                         </tr>
@@ -294,12 +207,12 @@
                 </form>
 
                 <p style="color: purple; font-size:24px"> Add new discount</p>
-                <form [formGroup]="service.formModel3" (submit)="addDiscount()">
+                <form [formGroup]="systemservice.formModel3" (submit)="addDiscount()">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label class="formlabel">Points</label>
-                            <input type="number" class="form-control" id="Pints" placeholder="Points.." formControlName="Pints">
-                            <label class="form-control-feedback" *ngIf="service.formModel3.get('Pints').errors && (service.formModel3.get('Pints').dirty || service.formModel3.get('Pints').touched)">
+                            <input type="number" class="form-control" id="Points" placeholder="Points.." formControlName="Points">
+                            <label class="form-control-feedback" *ngIf="systemservice.formModel3.get('Points').errors && (systemservice.formModel3.get('Points').dirty || systemservice.formModel3.get('Points').touched)">
                                 Field is required.</label>
                         </div>
                     </div>
@@ -307,13 +220,13 @@
                         <div class="form-group col-md-4">
                             <label class="formlabel">Discount</label>
                             <input type="number" class="form-control" id="Discount" placeholder="Discount.." formControlName="Discount">
-                            <label class="form-control-feedback" *ngIf="service.formModel3.get('Discount').errors && (service.formModel3.get('Discount').dirty || service.formModel3.get('Discount').touched)">
+                            <label class="form-control-feedback" *ngIf="systemservice.formModel3.get('Discount').errors && (systemservice.formModel3.get('Discount').dirty || systemservice.formModel3.get('Discount').touched)">
                                 Field is required.</label>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-8 offset-md-2">
-                            <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!service.formModel3.valid">Add discount</button>
+                            <button type="submit" class="btn btn-lg btn-block loginbtn" [disabled]="!systemservice.formModel3.valid">Add discount</button>
                         </div>
                     </div>
                 </form>

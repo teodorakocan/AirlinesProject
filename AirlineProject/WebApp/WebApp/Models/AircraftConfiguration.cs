@@ -13,8 +13,8 @@ namespace WebApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public int Row_Number { get; set; }
-        public int Column_Number { get; set; }
+        public int RowNumber { get; set; }
+        public int ColumnNumber { get; set; }
         public bool Reserved { get; set; }
         public int Number_Of_Seats { get; set; }
 
@@ -22,7 +22,7 @@ namespace WebApp.Models
         public ICollection<Flight> Flights { get; set; }*/
 
         [ForeignKey("User")]
-        public int User_ID { get; set; }
+        public int UserID { get; set; }
         public MyUser User { get; set; }
 
         public AircraftConfiguration()

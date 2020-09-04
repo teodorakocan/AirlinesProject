@@ -14,15 +14,15 @@ namespace WebApp.Models
         public int ID { get; set; }
         
         [ForeignKey("Airline")]
-        public int Airline_ID { get; set; }
+        public int AirlineID { get; set; }
         public Airline Airline { get; set; }
 
-        [ForeignKey("PriceList_Service_Connections")]
-        public ICollection<PriceListServiceConnection> PriceList_Service_Connections { get; set; }
+        [ForeignKey("PriceListServiceConnections")]
+        public ICollection<PriceListServiceConnection> PriceListServiceConnections { get; set; }
 
         public PriceList()
         {
-            this.PriceList_Service_Connections = new HashSet<PriceListServiceConnection>();
+            this.PriceListServiceConnections = new HashSet<PriceListServiceConnection>();
         }
     }
 }

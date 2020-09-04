@@ -19,9 +19,23 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
+                <label class="formlabel">City:</label>
+                <input type="text" class="form-control" id="City" placeholder="City.." formControlName="City" required>
+                <label class="text-danger" *ngIf="service.formModel1.get('City').touched && service.formModel1.get('City').errors?.required">This
+                field is required.</label>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="formlabel">State:</label>
+                <input type="text" class="form-control" id="State" placeholder="State.." formControlName="State" required>
+                <label class="text-danger" *ngIf="service.formModel1.get('State').touched && service.formModel1.get('State').errors?.required">This
+                field is required.</label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
                 <label class="formlabel">Number of vehicle:</label>
-                <input type="number" class="form-control" id="Number_Of_Vehicle" placeholder="Number of vehicle.." formControlName="Number_Of_Vehicle" required>
-                <label class="text-danger" *ngIf="service.formModel1.get('Number_Of_Vehicle').touched && service.formModel1.get('Number_Of_Vehicle').errors?.required">This
+                <input type="number" class="form-control" id="NumberOfVehicle" placeholder="Number of vehicle.." formControlName="NumberOfVehicle" required>
+                <label class="text-danger" *ngIf="service.formModel1.get('NumberOfVehicle').touched && service.formModel1.get('NumberOfVehicle').errors?.required">This
                 field is required.</label>
             </div>
         </div>

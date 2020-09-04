@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RentACarComponent } from 'src/app/home/profile/rent-a-car/rent-a-car.component';
 import { RentACarService } from 'src/app/service/rent_a_car.service';
 import {ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';

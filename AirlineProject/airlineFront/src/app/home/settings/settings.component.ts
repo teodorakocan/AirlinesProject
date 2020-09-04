@@ -5,6 +5,7 @@ import { Admin, User, Discounts } from 'src/app/models';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { from } from 'rxjs';
+import { SystemAdminService } from 'src/app/service/systemadmin.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +14,7 @@ import { from } from 'rxjs';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(public service: UserService, private toastr: ToastrService, private router: Router) { }
+  constructor(public service: UserService, public systemservice: SystemAdminService, private toastr: ToastrService, private router: Router) { }
   public user;
   public email;
   public role;
@@ -21,10 +22,9 @@ export class SettingsComponent implements OnInit {
   public admins: Admin[];
   public users: User[];
   public discounts: Discounts[];
-  searchedUser = {
-    Name: '',
-    Surname: '',
-    ID: 0
+  discount={
+    Points: 0,
+    Discounts: 0
   }
 
   ngOnInit() {
@@ -42,16 +42,7 @@ export class SettingsComponent implements OnInit {
 
     if(this.role == 'Admin')
     {
-      this.service.allAdmins().subscribe(
-        (res: Admin[])=>{
-            this.admins = res;
-        },
-        err=>{
-            this.toastr.error('There is no registered admins.', 'Not found.')
-        }
-      )
-
-      this.service.allDiscounts().subscribe(
+      this.systemservice.allDiscounts().subscribe(
         (res: Discounts[])=>{
             this.discounts = res;
         },
@@ -63,10 +54,10 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(){
-    //debugger
-    this.service.registerAdmin().subscribe(
+    this.systemservice.registerAdmin().subscribe(
       (res: any) => {
         this.service.formModel1.reset();
+        debugger
         this.toastr.success('Admin is successfully made', 'Registration successful.');
       },
       err=>{
@@ -84,37 +75,12 @@ export class SettingsComponent implements OnInit {
   DeleteAccount(){
     this.service.deleteAccount(localStorage.getItem('email')).subscribe(
       (res)=>{
+        localStorage.removeItem('role');
+        localStorage.removeItem('email');
+        localStorage.removeItem('token');
         this.toastr.success('Account deleted. Bye.', 'Successfuly deleted.')
       }
     )
-  }
-
-  Search(form: NgForm){
-    var id = form.value.ID;
-    var name = form.value.Name;
-    var surname = form.value.Surname;
-    this.service.findAdmin(id, name, surname).subscribe(
-      (res: Admin[])=>{
-        this.admins = res;
-      },
-      err=>{
-          this.toastr.error('Admin is not existing.', 'Not found.')
-      }
-    );
-  }
-
-  SearchUser(form: NgForm){
-    var id = form.value.ID;
-    var name = form.value.Name;
-    var surname = form.value.Surname;
-    this.service.findUser(id, name, surname).subscribe(
-      (res: User[])=>{
-        this.users = res;
-      },
-      err=>{
-          this.toastr.error('User is not existing.', 'Not found.')
-      }
-    );
   }
 
   Edit(form: NgForm){
@@ -152,13 +118,13 @@ export class SettingsComponent implements OnInit {
 
   EditDiscount(form: NgForm, id){
     var disount={
-      Pints: form.value.Pints,
+      Points: form.value.Points,
       Discount: form.value.Discount
     }
-    this.service.editDiscount(disount, id).subscribe(
+    this.systemservice.editDiscount(disount, id).subscribe(
       (res)=>{
         this.toastr.success('You have successfully changed discount.', 'Discount changed.')
-        this.service.allDiscounts().subscribe(
+        this.systemservice.allDiscounts().subscribe(
           (res: Discounts[])=>{
               this.discounts = res;
           },
@@ -175,11 +141,11 @@ export class SettingsComponent implements OnInit {
   }
 
   addDiscount(){
-    this.service.addDiscount().subscribe(
+    this.systemservice.addDiscount().subscribe(
       (res: any) => {
-        this.service.formModel3.reset();
+        this.systemservice.formModel3.reset();
         this.toastr.success('Discount is successfully added', 'Adding successful.');
-        this.service.allDiscounts().subscribe(
+        this.systemservice.allDiscounts().subscribe(
           (res: Discounts[])=>{
               this.discounts = res;
           },

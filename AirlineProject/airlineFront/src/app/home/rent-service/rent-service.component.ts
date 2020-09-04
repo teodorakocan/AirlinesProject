@@ -3,7 +3,7 @@ import { RentACarService } from 'src/app/service/rent_a_car.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { Service, Branch, Vehicle } from 'src/app/models';
+import { Branch, Vehicle } from 'src/app/models';
 
 @Component({
   selector: 'app-rent-service',
@@ -35,7 +35,6 @@ export class RentServiceComponent implements OnInit {
           this.serviceId = this.myService.id;
           this.service.allBranches(this.serviceId).subscribe(
             (res: Branch[])=>{
-              debugger
                 if(res.length == 0)
                 {
                     this.exist2 == false;
@@ -43,9 +42,8 @@ export class RentServiceComponent implements OnInit {
                 else{
                   this.branches = res;
                   this.exist2 = true;
-                  this.service.branchVehicle(this.serviceId).subscribe(
+                  this.service.serviceVehicle(this.serviceId).subscribe(
                     (res: Vehicle[])=>{
-                      debugger
                         if(res.length == 0)
                         {
                           this.exist3 == false;
@@ -118,7 +116,7 @@ export class RentServiceComponent implements OnInit {
     this.service.deleteVehicle(vehicleId).subscribe(
       (res)=>{
         this.toastr.success('Vehicle is successfully deleted', 'Deleted.');
-        this.service.branchVehicle(this.serviceId).subscribe(
+        this.service.serviceVehicle(this.serviceId).subscribe(
           (res: Vehicle[])=>{
             this.vehicles = res;
             this.ngOnInit();
@@ -126,7 +124,14 @@ export class RentServiceComponent implements OnInit {
         );
       },
       err=>{
-        this.toastr.error('Error 500','Server failed.');
+        if(err.status == 400)
+        {
+          this.toastr.error('This vehicle is reserved.','Delete failed.');
+        }
+        else
+        {
+          this.toastr.error('Error 500','Server failed.');
+        }
       }
     )
   }

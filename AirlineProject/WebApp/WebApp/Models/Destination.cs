@@ -15,15 +15,15 @@ namespace WebApp.Models
         public string Name { get; set; }
         //public string ImageURL { get; set; }
 
-        [ForeignKey("Airline_Destination_Connections")]
-        public ICollection<AirlineDestinationConnection> Airline_Destination_Connections { get; set; }
+        [ForeignKey("AirlineDestinationConnections")]
+        public ICollection<AirlineDestinationConnection> AirlineDestinationConnections { get; set; }
 
         [ForeignKey("Flight")]
         public ICollection<Flight> Flights { get; set; }
 
         public Destination()
         {
-            this.Airline_Destination_Connections = new HashSet<AirlineDestinationConnection>();
+            this.AirlineDestinationConnections = new HashSet<AirlineDestinationConnection>();
             this.Flights = new HashSet<Flight>();
         }
     }

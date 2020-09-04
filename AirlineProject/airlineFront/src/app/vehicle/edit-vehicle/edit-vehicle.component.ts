@@ -38,7 +38,6 @@ export class EditVehicleComponent implements OnInit {
   onCreate(){
     if(!this.uploded)
     {
-      debugger
       this.vehicle = {
         Brand: this.vehicle.brand,
         NumberOfSeats: this.vehicle.numberOfSeats,
@@ -46,11 +45,10 @@ export class EditVehicleComponent implements OnInit {
         Price:this.vehicle.price,
         Image: this.vehicle.image
       }
-      debugger
     }
     else{
       this.vehicle = {
-        Brand: this.vehicle.Brand,
+        Brand: this.vehicle.brand,
         NumberOfSeats: this.vehicle.numberOfSeats,
         Class: this.vehicle.class,
         Price:this.vehicle.price,
@@ -61,6 +59,7 @@ export class EditVehicleComponent implements OnInit {
     this.service.editVehicle(this.vehicleId, this.vehicle).subscribe(
         (res)=>{
           this.toastr.success('Vehicle is successfully changed', 'Changed.');
+          this.router.navigateByUrl('rentService');
         },
         err=>{
           this.toastr.error('Error 500','Server failed.');

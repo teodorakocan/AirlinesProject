@@ -21,15 +21,15 @@ namespace WebApp
                     Email = "teodorakocan@gmail.com",
                     City = "Ruma",
                     Password = "Teodora_1995",
-                    Phone_Number = "069/5334123"
+                    PhoneNumber = "0695334123"
                 };
 
                 ApplicationUser admin = new ApplicationUser()
                 {
                     Email = "teodorakocan@gmail.com",
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    User_ID = null,
-                    Admin_ID = admin_system.ID,
+                    UserID = null,
+                    AdminID = admin_system.ID,
                     Admin = admin_system,
                     UserName = "Teodora",
                     EmailConfirmed = true

@@ -16,20 +16,10 @@ export class AirlineService{
     private _baseUrl = environment.baseUrl;
     
     airlineNames(): Observable<any>{
-        return this._http.get(this._baseUrl + '/api/airline/airlines-name');
-      }
-
-    airlineInfo(name: string): Observable<any>{
-      return this._http.get(this._baseUrl + '/api/airline/airiline_info/'+ name);
+      return this._http.get(this._baseUrl + '/api/airline/airlines-name');
     }
 
-    getAirlineDestinations(name: string): Observable<any>
-    {
-      return this._http.get(this._baseUrl + '/api/airline/airiline_destinations/'+ name);
-    }
-
-    getAllFlights(): Observable<any>
-    {
-      return this._http.get(this._baseUrl + '/api/airline/all-flights');
+    allAirlines(){
+      return this._http.get(this._baseUrl + '/api/airline/all-airlines');
     }
 }

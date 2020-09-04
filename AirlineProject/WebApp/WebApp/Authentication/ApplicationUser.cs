@@ -11,11 +11,11 @@ namespace WebApp.Authentication
     public class ApplicationUser: IdentityUser
     {
         [ForeignKey("User")]
-        public int? User_ID { get; set; }
+        public int? UserID { get; set; }
         public virtual MyUser User { get; set; }
 
         [ForeignKey("Admin")]
-        public int? Admin_ID { get; set; }
+        public int? AdminID { get; set; }
         public virtual Admin Admin { get; set; }
     }
 }

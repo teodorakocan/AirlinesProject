@@ -48,29 +48,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c496d108-6396-4083-8665-507172c82458",
-                            ConcurrencyStamp = "b07a737f-bbbe-4c07-8b11-21193f3ff431",
+                            Id = "bcada7b0-7090-4d68-8a5c-32062cba3a77",
+                            ConcurrencyStamp = "18bf7d4f-ff89-49d7-b46f-858f381ba368",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "037387a6-3fe4-426a-bf8a-a53b1478ef1a",
-                            ConcurrencyStamp = "e72e9662-28e7-49f2-88d6-3418d19b84d9",
+                            Id = "75bae19f-a013-488a-b00d-70cc4a150733",
+                            ConcurrencyStamp = "5b972b0e-9f96-40a8-b4ce-1e34fbe2b60e",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "7e8df844-2822-4644-8d12-6c64d834758e",
-                            ConcurrencyStamp = "8f5eb12d-cf0c-438c-8c95-e504d6f37b14",
+                            Id = "df90fe2d-2571-4d87-8785-505528326b9b",
+                            ConcurrencyStamp = "d3e5d625-df89-4e4c-90f7-c2e4e1d7e2e4",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "9badddd1-cf17-4854-a7e8-4cce710cd777",
-                            ConcurrencyStamp = "52b5bc84-d6e2-4836-a05f-b79b618a92a9",
+                            Id = "cd390278-f3b1-4aeb-8dd1-7c8ed5b0f4bb",
+                            ConcurrencyStamp = "b53bc2bf-70ec-4cc2-95b1-b9957c006d6c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -188,7 +188,7 @@ namespace WebApp.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Admin_ID")
+                    b.Property<int?>("AdminID")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -231,16 +231,16 @@ namespace WebApp.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<int?>("User_ID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Admin_ID");
+                    b.HasIndex("AdminID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -250,7 +250,7 @@ namespace WebApp.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("User_ID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -277,10 +277,10 @@ namespace WebApp.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone_Number")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Rent_a_Car_ID")
+                    b.Property<int?>("RentACarID")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
@@ -290,7 +290,7 @@ namespace WebApp.Migrations
 
                     b.HasIndex("Airline_ID");
 
-                    b.HasIndex("Rent_a_Car_ID");
+                    b.HasIndex("RentACarID");
 
                     b.ToTable("Admins");
                 });
@@ -302,10 +302,10 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Aircraft_Configuration")
+                    b.Property<int?>("AircraftConfiguration")
                         .HasColumnType("int");
 
-                    b.Property<int>("Column_Number")
+                    b.Property<int>("ColumnNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("Number_Of_Seats")
@@ -314,17 +314,17 @@ namespace WebApp.Migrations
                     b.Property<bool>("Reserved")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Row_Number")
+                    b.Property<int>("RowNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("User_ID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Aircraft_Configuration");
+                    b.HasIndex("AircraftConfiguration");
 
-                    b.HasIndex("User_ID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("AircraftConfigurations");
                 });
@@ -336,13 +336,19 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address_")
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Promo_Description")
+                    b.Property<string>("PromoDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -357,22 +363,22 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Airline_Destination_Connections")
+                    b.Property<int?>("AirlineDestinationConnections")
                         .HasColumnType("int");
 
-                    b.Property<int>("Airline_ID")
+                    b.Property<int>("AirlineID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Destination_ID")
+                    b.Property<int>("DestinationID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Airline_Destination_Connections");
+                    b.HasIndex("AirlineDestinationConnections");
 
-                    b.HasIndex("Airline_ID");
+                    b.HasIndex("AirlineID");
 
-                    b.HasIndex("Destination_ID");
+                    b.HasIndex("DestinationID");
 
                     b.ToTable("AirlineDestinations");
                 });
@@ -390,20 +396,26 @@ namespace WebApp.Migrations
                     b.Property<int?>("Branch")
                         .HasColumnType("int");
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Number_Of_Vehicle")
+                    b.Property<int>("NumberOfVehicle")
                         .HasColumnType("int");
 
-                    b.Property<int>("Rent_a_Car_ID")
+                    b.Property<int>("RentACarID")
                         .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("Branch");
 
-                    b.HasIndex("Rent_a_Car_ID");
+                    b.HasIndex("RentACarID");
 
                     b.ToTable("Branches");
                 });
@@ -415,25 +427,28 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Car_Reservations")
+                    b.Property<int?>("CarReservations")
                         .HasColumnType("int");
 
-                    b.Property<string>("Reservation_Period")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("ReservationFrom")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("User_ID")
+                    b.Property<DateTime>("ReservationTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Vehicle_ID")
+                    b.Property<int>("VehicleID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Car_Reservations");
+                    b.HasIndex("CarReservations");
 
-                    b.HasIndex("User_ID");
+                    b.HasIndex("UserID");
 
-                    b.HasIndex("Vehicle_ID");
+                    b.HasIndex("VehicleID");
 
                     b.ToTable("CarReservations");
                 });
@@ -463,7 +478,7 @@ namespace WebApp.Migrations
                     b.Property<int>("Discount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Pints")
+                    b.Property<int>("Points")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -478,7 +493,7 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Airline_ID")
+                    b.Property<int>("AirlineID")
                         .HasColumnType("int");
 
                     b.Property<string>("Destination")
@@ -487,28 +502,28 @@ namespace WebApp.Migrations
                     b.Property<double>("Discount")
                         .HasColumnType("float");
 
-                    b.Property<int?>("Fast_Reservation")
+                    b.Property<int?>("FastReservation")
                         .HasColumnType("int");
 
-                    b.Property<int>("Seat_Number")
+                    b.Property<int>("SeatNumber")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Start_DateTime")
+                    b.Property<DateTime>("StartDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Start_Destination")
+                    b.Property<string>("StartDestination")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("User_ID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Airline_ID");
+                    b.HasIndex("AirlineID");
 
-                    b.HasIndex("Fast_Reservation");
+                    b.HasIndex("FastReservation");
 
-                    b.HasIndex("User_ID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("FastReservations");
                 });
@@ -520,22 +535,22 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Destination_ID")
+                    b.Property<int>("DestinationID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Destination_Transfer")
+                    b.Property<string>("DestinationTransfer")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("End_DateTime")
+                    b.Property<DateTime>("EndDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("Flight")
                         .HasColumnType("int");
 
-                    b.Property<string>("Flight_Number")
+                    b.Property<string>("FlightNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Number_Transfer")
+                    b.Property<int>("NumberTransfer")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
@@ -544,15 +559,15 @@ namespace WebApp.Migrations
                     b.Property<double>("Price2")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("Start_DateTime")
+                    b.Property<DateTime>("StartDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("Travel_Length")
+                    b.Property<TimeSpan>("TravelLength")
                         .HasColumnType("time");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Destination_ID");
+                    b.HasIndex("DestinationID");
 
                     b.HasIndex("Flight");
 
@@ -581,7 +596,7 @@ namespace WebApp.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone_Number")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureURL")
@@ -608,7 +623,7 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Airline_ID")
+                    b.Property<int>("AirlineID")
                         .HasColumnType("int");
 
                     b.Property<int?>("Price_List")
@@ -616,7 +631,7 @@ namespace WebApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Airline_ID");
+                    b.HasIndex("AirlineID");
 
                     b.HasIndex("Price_List");
 
@@ -630,20 +645,20 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PriceList_Service_Connections")
+                    b.Property<int>("PriceListID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price_List_ID")
+                    b.Property<int?>("PriceListServiceConnections")
                         .HasColumnType("int");
 
-                    b.Property<int>("Service_ID")
+                    b.Property<int>("ServiceID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("PriceList_Service_Connections");
+                    b.HasIndex("PriceListID");
 
-                    b.HasIndex("Price_List_ID");
+                    b.HasIndex("PriceListServiceConnections");
 
                     b.ToTable("PriceListServices");
                 });
@@ -658,10 +673,16 @@ namespace WebApp.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Promo_Description")
+                    b.Property<string>("PromoDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -676,12 +697,12 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Rent_a_Car_ID")
+                    b.Property<int>("RentACarID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Rent_a_Car_ID");
+                    b.HasIndex("RentACarID");
 
                     b.ToTable("RentPriceLists");
                 });
@@ -711,16 +732,25 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Rent_Price_List_ID")
+                    b.Property<int>("RentPriceListID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Rent_Service_ID")
+                    b.Property<int>("RentServiceID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RentaPriceListServiceConnections")
                         .HasColumnType("int");
 
                     b.Property<int?>("Renta_Price_List_Service_Connections")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("RentPriceListID");
+
+                    b.HasIndex("RentServiceID");
+
+                    b.HasIndex("RentaPriceListServiceConnections");
 
                     b.HasIndex("Renta_Price_List_Service_Connections");
 
@@ -755,7 +785,7 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Branch_ID")
+                    b.Property<int>("BranchID")
                         .HasColumnType("int");
 
                     b.Property<string>("Brand")
@@ -781,7 +811,7 @@ namespace WebApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Branch_ID");
+                    b.HasIndex("BranchID");
 
                     b.HasIndex("Vehicle");
 
@@ -843,11 +873,11 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("WebApp.Models.Admin", "Admin")
                         .WithMany()
-                        .HasForeignKey("Admin_ID");
+                        .HasForeignKey("AdminID");
 
                     b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
-                        .HasForeignKey("User_ID");
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("WebApp.Models.Admin", b =>
@@ -856,20 +886,20 @@ namespace WebApp.Migrations
                         .WithMany()
                         .HasForeignKey("Airline_ID");
 
-                    b.HasOne("WebApp.Models.RentACar", "Rent_a_Car")
+                    b.HasOne("WebApp.Models.RentACar", "RentACar")
                         .WithMany()
-                        .HasForeignKey("Rent_a_Car_ID");
+                        .HasForeignKey("RentACarID");
                 });
 
             modelBuilder.Entity("WebApp.Models.AircraftConfiguration", b =>
                 {
                     b.HasOne("WebApp.Models.MyUser", null)
-                        .WithMany("Aircraft_Configurations")
-                        .HasForeignKey("Aircraft_Configuration");
+                        .WithMany("AircraftConfigurations")
+                        .HasForeignKey("AircraftConfiguration");
 
                     b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
-                        .HasForeignKey("User_ID")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -877,22 +907,22 @@ namespace WebApp.Migrations
             modelBuilder.Entity("WebApp.Models.AirlineDestinationConnection", b =>
                 {
                     b.HasOne("WebApp.Models.Airline", null)
-                        .WithMany("Airline_Destination_Connections")
-                        .HasForeignKey("Airline_Destination_Connections");
+                        .WithMany("AirlineDestinationConnections")
+                        .HasForeignKey("AirlineDestinationConnections");
 
                     b.HasOne("WebApp.Models.Destination", null)
-                        .WithMany("Airline_Destination_Connections")
-                        .HasForeignKey("Airline_Destination_Connections");
+                        .WithMany("AirlineDestinationConnections")
+                        .HasForeignKey("AirlineDestinationConnections");
 
                     b.HasOne("WebApp.Models.Airline", "Airline")
                         .WithMany()
-                        .HasForeignKey("Airline_ID")
+                        .HasForeignKey("AirlineID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApp.Models.Destination", "Destination")
                         .WithMany()
-                        .HasForeignKey("Destination_ID")
+                        .HasForeignKey("DestinationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -903,9 +933,9 @@ namespace WebApp.Migrations
                         .WithMany("Branches")
                         .HasForeignKey("Branch");
 
-                    b.HasOne("WebApp.Models.RentACar", "Rent_a_Car")
+                    b.HasOne("WebApp.Models.RentACar", "RentACar")
                         .WithMany()
-                        .HasForeignKey("Rent_a_Car_ID")
+                        .HasForeignKey("RentACarID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -913,22 +943,22 @@ namespace WebApp.Migrations
             modelBuilder.Entity("WebApp.Models.CarReservation", b =>
                 {
                     b.HasOne("WebApp.Models.MyUser", null)
-                        .WithMany("Car_Reservations")
-                        .HasForeignKey("Car_Reservations");
+                        .WithMany("CarReservations")
+                        .HasForeignKey("CarReservations");
 
                     b.HasOne("WebApp.Models.Vehicle", null)
-                        .WithMany("Car_Reservations")
-                        .HasForeignKey("Car_Reservations");
+                        .WithMany("CarReservations")
+                        .HasForeignKey("CarReservations");
 
                     b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
-                        .HasForeignKey("User_ID")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApp.Models.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("Vehicle_ID")
+                        .HasForeignKey("VehicleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -937,21 +967,21 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("WebApp.Models.Airline", "Airline")
                         .WithMany()
-                        .HasForeignKey("Airline_ID")
+                        .HasForeignKey("AirlineID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApp.Models.Airline", null)
-                        .WithMany("Fast_Reservations")
-                        .HasForeignKey("Fast_Reservation");
+                        .WithMany("FastReservations")
+                        .HasForeignKey("FastReservation");
 
                     b.HasOne("WebApp.Models.MyUser", null)
-                        .WithMany("Fast_Reservations")
-                        .HasForeignKey("Fast_Reservation");
+                        .WithMany("FastReservations")
+                        .HasForeignKey("FastReservation");
 
                     b.HasOne("WebApp.Models.MyUser", "User")
                         .WithMany()
-                        .HasForeignKey("User_ID")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -960,7 +990,7 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("WebApp.Models.Destination", "Destination")
                         .WithMany()
-                        .HasForeignKey("Destination_ID")
+                        .HasForeignKey("DestinationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -973,7 +1003,7 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("WebApp.Models.Airline", "Airline")
                         .WithMany()
-                        .HasForeignKey("Airline_ID")
+                        .HasForeignKey("AirlineID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -984,26 +1014,26 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.PriceListServiceConnection", b =>
                 {
-                    b.HasOne("WebApp.Models.PriceList", null)
-                        .WithMany("PriceList_Service_Connections")
-                        .HasForeignKey("PriceList_Service_Connections");
-
-                    b.HasOne("WebApp.Models.Service", "Srvice")
-                        .WithMany("PriceList_Service_Connections")
-                        .HasForeignKey("PriceList_Service_Connections");
-
-                    b.HasOne("WebApp.Models.PriceList", "Price_List")
+                    b.HasOne("WebApp.Models.PriceList", "PriceList")
                         .WithMany()
-                        .HasForeignKey("Price_List_ID")
+                        .HasForeignKey("PriceListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WebApp.Models.PriceList", null)
+                        .WithMany("PriceListServiceConnections")
+                        .HasForeignKey("PriceListServiceConnections");
+
+                    b.HasOne("WebApp.Models.Service", "Srvice")
+                        .WithMany("PriceListServiceConnections")
+                        .HasForeignKey("PriceListServiceConnections");
                 });
 
             modelBuilder.Entity("WebApp.Models.RentPriceList", b =>
                 {
-                    b.HasOne("WebApp.Models.RentACar", "Rent_a_Car")
+                    b.HasOne("WebApp.Models.RentACar", "RentACar")
                         .WithMany()
-                        .HasForeignKey("Rent_a_Car_ID")
+                        .HasForeignKey("RentACarID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1011,10 +1041,22 @@ namespace WebApp.Migrations
             modelBuilder.Entity("WebApp.Models.RentaPriceListServiceConnection", b =>
                 {
                     b.HasOne("WebApp.Models.RentPriceList", "RentPriceList")
-                        .WithMany("Renta_Price_List_Service_Connections")
-                        .HasForeignKey("Renta_Price_List_Service_Connections");
+                        .WithMany()
+                        .HasForeignKey("RentPriceListID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApp.Models.RentService", "RentService")
+                        .WithMany()
+                        .HasForeignKey("RentServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.RentPriceList", null)
+                        .WithMany("RentaPriceListServiceConnections")
+                        .HasForeignKey("RentaPriceListServiceConnections");
+
+                    b.HasOne("WebApp.Models.RentService", null)
                         .WithMany("Renta_Price_List_Service_Connections")
                         .HasForeignKey("Renta_Price_List_Service_Connections");
                 });
@@ -1023,7 +1065,7 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("WebApp.Models.Branch", "Branch")
                         .WithMany()
-                        .HasForeignKey("Branch_ID")
+                        .HasForeignKey("BranchID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

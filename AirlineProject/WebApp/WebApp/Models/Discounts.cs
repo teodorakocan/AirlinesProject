@@ -12,7 +12,7 @@ namespace WebApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public int Pints { get; set; }
+        public int Points { get; set; }
         public int Discount { get; set; }
     }
 }

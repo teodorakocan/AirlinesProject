@@ -16,12 +16,12 @@ namespace WebApp.Models
         public double Price { get; set; }
         public string Information { get; set; }
 
-        [ForeignKey("PriceList_Service_Connections")]
-        public ICollection<PriceListServiceConnection> PriceList_Service_Connections { get; set; }
+        [ForeignKey("PriceListServiceConnections")]
+        public ICollection<PriceListServiceConnection> PriceListServiceConnections { get; set; }
 
         public Service()
         {
-            this.PriceList_Service_Connections = new HashSet<PriceListServiceConnection>();
+            this.PriceListServiceConnections = new HashSet<PriceListServiceConnection>();
         }
     }
 }

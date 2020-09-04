@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,13 +34,13 @@ namespace WebApp.Controllers
         public async Task<ActionResult<Object>> GetUserInfo(string email)
         {
             var user = await userManager.FindByEmailAsync(email);
-            if(user != null)
+            if (user != null)
             {
                 List<MyUser> users = new List<MyUser>();
                 users = _context.MyUsers.ToList();
-                foreach(MyUser u in users)
+                foreach (MyUser u in users)
                 {
-                    if(u.Email.Equals(email))
+                    if (u.Email.Equals(email))
                     {
                         return u;
                     }
@@ -47,9 +48,9 @@ namespace WebApp.Controllers
 
                 List<Admin> admins = new List<Admin>();
                 admins = _context.Admins.ToList();
-                foreach(Admin admin in admins)
+                foreach (Admin admin in admins)
                 {
-                    if(admin.Email.Equals(email))
+                    if (admin.Email.Equals(email))
                     {
                         return admin;
                     }
@@ -102,14 +103,14 @@ namespace WebApp.Controllers
             List<MyUser> users = new List<MyUser>();
             users = _context.MyUsers.ToList();
 
-            foreach(Admin admin in admins)
+            foreach (Admin admin in admins)
             {
-                if(admin.Email.Equals(email))
+                if (admin.Email.Equals(email))
                 {
                     admin.Name = edit.Name;
                     admin.Surname = edit.Surname;
                     admin.City = edit.City;
-                    admin.Phone_Number = edit.PhoneNumber;
+                    admin.PhoneNumber = edit.PhoneNumber;
 
                     _context.Entry(admin).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
                     u.Name = edit.Name;
                     u.Surname = edit.Surname;
                     u.City = edit.City;
-                    u.Phone_Number = edit.PhoneNumber;
+                    u.PhoneNumber = edit.PhoneNumber;
 
                     _context.Entry(u).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
@@ -147,9 +148,9 @@ namespace WebApp.Controllers
             List<MyUser> users = new List<MyUser>();
             users = _context.MyUsers.ToList();
 
-            foreach(Admin admin in admins)
+            foreach (Admin admin in admins)
             {
-                if(admin.Email.Equals(email))
+                if (admin.Email.Equals(email))
                 {
                     admin.Password = newPassword.NewPassword;
 
@@ -162,9 +163,9 @@ namespace WebApp.Controllers
                 }
             }
 
-            foreach(MyUser u in users)
+            foreach (MyUser u in users)
             {
-                if(u.Email.Equals(email))
+                if (u.Email.Equals(email))
                 {
                     u.Password = newPassword.NewPassword;
 

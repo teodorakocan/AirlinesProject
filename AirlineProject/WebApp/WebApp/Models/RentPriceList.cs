@@ -13,16 +13,16 @@ namespace WebApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        [ForeignKey("Rent_a_Car")]
-        public int Rent_a_Car_ID { get; set; }
-        public RentACar Rent_a_Car { get; set; }
+        [ForeignKey("RentACar")]
+        public int RentACarID { get; set; }
+        public RentACar RentACar { get; set; }
 
-        [ForeignKey("Renta_Price_List_Service_Connections")]
-        public ICollection<RentaPriceListServiceConnection> Renta_Price_List_Service_Connections { get; set; }
+        [ForeignKey("RentaPriceListServiceConnections")]
+        public ICollection<RentaPriceListServiceConnection> RentaPriceListServiceConnections { get; set; }
 
         public RentPriceList()
         {
-            this.Renta_Price_List_Service_Connections = new HashSet<RentaPriceListServiceConnection>();
+            this.RentaPriceListServiceConnections = new HashSet<RentaPriceListServiceConnection>();
         }
     }
 }

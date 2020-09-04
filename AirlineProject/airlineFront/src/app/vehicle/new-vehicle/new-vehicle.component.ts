@@ -48,7 +48,7 @@ export class NewVehicleComponent implements OnInit {
         err=>{
           if(err.status == 400)
           {
-            this.toastr.error('You can not add new vehicle. Change number of vehicle in branch office.','Adding failed.');
+            this.toastr.error('You cannot add new vehicle. Change number of vehicle in branch office.','Adding failed.');
           }
           else{
             this.toastr.error('Error 500','Server failed.');

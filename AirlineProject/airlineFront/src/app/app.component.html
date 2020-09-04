@@ -13,25 +13,6 @@
       <li class="nav-item active">
       <a class="nav-link waves-light" mdbWavesEffect href="/home">Home<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item dropdown" dropdown>
-          <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-              Airlines comapny<span class="caret"></span></a>
-          <div class="dropdown-menu dropdown dropdown-primary" role="menu">
-              <a class="dropdown-item waves-light" mdbWavesEffect *ngFor="let airline of airlines" (click)="onChange(airline)">{{airline}}</a>
-          </div>
-      </li>
-      <li class="nav-item dropdown" dropdown>
-          <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-              Rent-a-car services<span class="caret"></span></a>
-          <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-              <a class="dropdown-item waves-light" mdbWavesEffect href="/home/flight">Action</a>
-              <a class="dropdown-item waves-light" mdbWavesEffect href="#">Another action</a>
-              <a class="dropdown-item waves-light" mdbWavesEffect href="#">Something else here</a>
-              <div class="divider dropdown-divider"></div>
-              <a class="dropdown-item waves-light" mdbWavesEffect href="#">Separated link</a>
-          </div>
-      </li>
-
   </ul>
   <!-- Links -->
 
@@ -40,7 +21,10 @@
         <a class="nav-link" *ngIf="role=='Service_Admin'" routerLink="/rentService">Rent-a-car service<i class="fas fa-car"></i></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" *ngIf="logged" routerLink="/settings">Settings<i class="fas fa-cogs"></i></a>
+        <a class="nav-link" *ngIf="logged" routerLink="/settings">Settings<i class="fas fa-wrench"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" *ngIf="role=='Admin'" routerLink="/system">System<i class="fas fa-cogs"></i></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" (click)="SignOut()" *ngIf="logged">Sing out<i class="fas fa-sign-out-alt"></i></a>

@@ -12,14 +12,15 @@ namespace WebApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public string Reservation_Period { get; set; }
+        public DateTime ReservationFrom { get; set; }
+        public DateTime ReservationTo { get; set; }
 
         [ForeignKey("Vehicle")]
-        public int Vehicle_ID { get; set; }
+        public int VehicleID { get; set; }
         public Vehicle Vehicle { get; set; }
 
         [ForeignKey("User")]
-        public int User_ID { get; set; }
+        public int UserID { get; set; }
         public MyUser User { get; set; }
     }
 }

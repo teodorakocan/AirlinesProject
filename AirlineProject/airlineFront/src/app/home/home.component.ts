@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AirlineService } from '../service/airline.service';
+import { RentACarService } from '../service/rent_a_car.service'
 import { Router } from '@angular/router';
-import { Flight } from '../models';
-import { RentACarService } from '../service/rent_a_car.service';
+import { RentService, Vehicle, Airline } from '../models';
+import { ToastrService } from 'ngx-toastr';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -11,13 +13,22 @@ import { RentACarService } from '../service/rent_a_car.service';
 })
 
 export class HomeComponent implements OnInit {
-  constructor(public service: AirlineService, private router: Router, public rentaService: RentACarService) { }
-  public flights: Flight[];
+
+  constructor(public airlineService: AirlineService, private toastr: ToastrService, private router: Router, public rentaService: RentACarService) {
+   }
+  
+  public airlinesCompanies: Airline[];
+  public rentacarCompanies: RentService[];
   public airlines: string[];
   public logged:boolean;
-
+  public rentservices: string[];
+  search = {
+    Name: '',
+    City: '',
+    State: ''
+  }
+  
   ngOnInit(){
-    //debugger
     if(localStorage.getItem("token") != null)
     { 
       this.logged = true;
@@ -27,23 +38,57 @@ export class HomeComponent implements OnInit {
       this.logged = false;
     }
 
-    this.service.getAllFlights().subscribe(
-      (allFlights:Flight[])=>{
-        //debugger
-          this.flights = allFlights;
-      }
-    );
-
-    this.service.airlineNames().subscribe(
+    this.airlineService.airlineNames().subscribe(
       (names: string[]) => {
-          //debugger
-        this.airlines = names;
+          this.airlines = names;
       });
-    /*this.rentaService.getCities().subscribe(
+    
+    this.airlineService.allAirlines().subscribe(
+      (companies: Airline[]) => {
+          this.airlinesCompanies = companies;
+      });
+
+    this.rentaService.allServices().subscribe(
+      (companies: RentService[]) => {
+          this.rentacarCompanies = companies;
+      });
+
+    this.rentaService.serviceNames().subscribe(
       (names: string[]) => {
-        //debugger
-        this.airlines = names;
-        }
-    );*/
+        this.rentservices = names;
+      });
+  }
+
+  createImgPath(serverPath: string){
+    return `http://localhost:50081/${serverPath}`;
+  }
+
+  Reserve(vehicle: Vehicle)
+  {
+    if(localStorage.getItem('token') == null)
+    {
+      this.toastr.error('You have to be register to reserve vehicle','Reservation denied.');
+    }
+    else{
+      if(localStorage.getItem('role') != "User")
+      {
+        this.toastr.error('With admin role you cannot make reservatio.','Reservation denied.');
+      }
+      //rezervisi vozilo
+    }
+  }
+
+  SearchAirlines(form: NgForm){
+  }
+
+  SearchServices(form: NgForm){
+  }
+
+  ProfileService(rentservice: string){
+    this.router.navigateByUrl('rentacar/' + rentservice);
+  }
+  
+  ProfileAirline(airline: string){
+    this.router.navigateByUrl('airline/' + airline);
   }
 }

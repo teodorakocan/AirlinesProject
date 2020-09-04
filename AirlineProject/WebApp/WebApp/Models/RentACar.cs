@@ -14,7 +14,9 @@ namespace WebApp.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public string Promo_Description { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string PromoDescription { get; set; }
 
         [ForeignKey("Branch")]
         public ICollection<Branch> Branches { get; set; }

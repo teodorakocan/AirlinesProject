@@ -37,12 +37,13 @@ export class EditBranchComponent implements OnInit {
     var edit={
       Name: form.value.Name,
       Address: form.value.Address,
-      Number_Of_Vehicle: form.value.Number_Of_Vehicle
+      City: form.value.City,
+      State: form.value.State,
+      NumberOfVehicle: form.value.NumberOfVehicle
     }
     this.service.editBranch(this.branch.id, edit).subscribe(
       (res)=>{
         this.toastr.success('You have successfully edit branch office.', 'Branch changed.')
-        this.router.navigateByUrl('rentService');
       },
       err=>
       {

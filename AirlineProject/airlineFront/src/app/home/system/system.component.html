@@ -1,0 +1,124 @@
+<div class="container"><br/><br/>
+    <mat-tab-group>
+    
+        <mat-tab label="All users"> <br/><br/>
+            <div style="overflow: hidden;" class="search">
+                <form #form='ngForm' (submit)="SearchUser(form)" style="padding: 50px; padding-bottom: 5%;">
+                    <div class="form-row">
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">User role:</label><br/>
+                            <select style="width: 200px; height: 30px;" id="Role" name="Role" #Role="ngModel" [(ngModel)]="searchUser.Role">
+                                <option selected>User role</option>
+                                <option valu="admin">System admin</option>
+                                <option valu="serviceAdmin">Service admin</option>
+                                <option valu="airlineAdmin">Airline admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">User name:</label><br/>
+                             <input style="width: 150px;" type="text" placeholder="Name.." name="Name" #Name="ngModel" [(ngModel)]="searchUser.Name">
+                        </div> 
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">User surname:</label><br/>
+                             <input style="width: 150px;" type="text" placeholder="Surname.." name="Surname" #Surname="ngModel" [(ngModel)]="searchUser.Surname">
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">User email:</label><br/>
+                            <input style="width: 150px;" type="email" placeholder="Email.." name="Email" #Email="ngModel" [(ngModel)]="searchUser.Email">
+                       </div>
+                        <div class="form-group col-md-auto" style="padding-top: 30px;">
+                            <button data-toggle="tooltip" title="Search" type="submit" class="btn btn-default" style="padding-top: 2px;">
+                                <span class="fa fa-search"></span> 
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div><br/><br/>
+
+            <table class="table table-dark" style="overflow-x: hidden;">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Phone number</th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let user of users">
+                <tr>
+                    <th scope="row">{{user.id}}</th>
+                    <td>{{user.name}}</td>
+                    <td>{{user.surname}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.city}}</td>
+                    <td>{{user.phoneNumber}}</td>
+                    <td><button type="button" class="btn btn-danger" style="width: auto;">Delete user</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        
+        <mat-tab label="All companies" ><br/><br/>
+            <div style="overflow: hidden;" class="search">
+                <form #form='ngForm' (submit)="SearchCompany(form)" style="padding: 50px; padding-bottom: 5%;">
+                    <div class="form-row">
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">Type of company:</label><br/>
+                            <select style="width: 200px; height: 30px;" id="Type" name="Type" #Type="ngModel" [(ngModel)]="searchCompany.Type">
+                                <option valu="airline">Airline</option>
+                                <option valu="rentacar">Rent-a-car service</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">Name of company:</label><br/>
+                             <input style="width: 150px;" type="text" placeholder="Name.." name="Name" #Name="ngModel" [(ngModel)]="searchCompany.Name">
+                        </div> 
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">City of company:</label><br/>
+                             <input style="width: 150px;" type="text" placeholder="City.." name="City" #City="ngModel" [(ngModel)]="searchCompany.City">
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <label style="color:white">State of company:</label><br/>
+                            <input style="width: 150px;" type="text" placeholder="State.." name="State" #State="ngModel" [(ngModel)]="searchCompany.State">
+                       </div>
+                        <div class="form-group col-md-auto" style="padding-top: 30px;">
+                            <button data-toggle="tooltip" title="Search" type="submit" class="btn btn-default" style="padding-top: 2px;">
+                                <span class="fa fa-search"></span> 
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div><br/><br/>
+
+            <table class="table table-dark" style="overflow-x: hidden;">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Promo description</th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let company of companies">
+                <tr>
+                    <th scope="row">{{company.id}}</th>
+                    <td>{{company.name}}</td>
+                    <td>{{company.city}}</td>
+                    <td>{{company.state}}</td>
+                    <td>{{company.address}}</td>
+                    <td>{{company.promoDescription}}</td>
+                    <td><button type="button" class="btn btn-danger" style="width: auto;">Delete company</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+
+        <mat-tab label="All reservations">
+           
+        </mat-tab>
+    </mat-tab-group>
+</div>

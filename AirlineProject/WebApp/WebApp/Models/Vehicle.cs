@@ -21,15 +21,15 @@ namespace WebApp.Models
         public string Image { get; set; }
 
         [ForeignKey("Branch")]
-        public int Branch_ID { get; set; }
+        public int BranchID { get; set; }
         public Branch Branch { get; set; }
 
-        [ForeignKey("Car_Reservations")]
-        public ICollection<CarReservation> Car_Reservations { get; set; }
+        [ForeignKey("CarReservations")]
+        public ICollection<CarReservation> CarReservations { get; set; }
 
         public Vehicle()
         {
-            this.Car_Reservations = new HashSet<CarReservation>();
+            this.CarReservations = new HashSet<CarReservation>();
         }
 
     }
