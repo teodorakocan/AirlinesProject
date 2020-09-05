@@ -93,4 +93,9 @@ export class SystemAdminService{
     allCompanies(){
       return this._http.get(this._baseUrl + '/api/systemadmin/all-companies');
     }
+
+    findUser(searched)
+    {
+      return this._http.get(this._baseUrl + '/api/systemadmin/search-user?role='+searched.Role+'&email='+searched.Email+'&name='+searched.Name+'&surname='+searched.Surname);
+    }
 }

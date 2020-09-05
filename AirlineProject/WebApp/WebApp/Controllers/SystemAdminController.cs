@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -179,5 +180,13 @@ namespace WebApp.Controllers
 
             return Ok(allComapnies);
         }
+
+        /*[HttpGet]
+        [Route("search-user")]
+        public async Task<ActionResult<IEnumerable<Object>>> FindUser(string role, string email, string name, string surname)
+        {
+            List<MyUser> users = new List<MyUser>();
+            
+        }*/
     }
 }

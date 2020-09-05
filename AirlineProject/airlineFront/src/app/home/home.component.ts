@@ -91,10 +91,22 @@ export class HomeComponent implements OnInit {
     }
     this.rentaService.findService(searched).subscribe(
       (companies: RentService[]) => {
+        debugger
+        if(companies.length > 1)
+        {
+          this.toastr.error('Rent-a-car service that you search is not existing.','Searching failed.');
+        }
         this.rentacarCompanies = companies;
       }, 
       err=>{
-        this.toastr.error('Error 500.','Server failed.');
+        if(err.status == 404)
+        {
+          this.toastr.error('Rent-a-car service that you search is not existing.','Searching failed.');
+        }
+        else
+        {
+          this.toastr.error('Error 500.','Server failed.');
+        }
       }
     );
   }

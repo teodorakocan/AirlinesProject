@@ -120,7 +120,6 @@ export class RentACarService{
     }
 
     findService(searched): Observable<any>{
-      //debugger
       return this._http.get(this._baseUrl + '/api/service/search-service?name='+searched.Name+'&city='+searched.City+'&state='+searched.State); 
     }
 }

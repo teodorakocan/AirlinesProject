@@ -3,29 +3,30 @@
     
         <mat-tab label="All users"> <br/><br/>
             <div style="overflow: hidden;" class="search">
-                <form #form='ngForm' (submit)="SearchUser(form)" style="padding: 50px; padding-bottom: 5%;">
+                <form (submit)="SearchUsers()"  style="padding: 50px; padding-bottom: 5%;">
                     <div class="form-row">
                         <div class="form-group col-md-auto">
-                            <label style="color:white">User role:</label><br/>
-                            <select style="width: 200px; height: 30px;" id="Role" name="Role" #Role="ngModel" [(ngModel)]="searchUser.Role">
-                                <option selected>User role</option>
-                                <option valu="admin">System admin</option>
-                                <option valu="serviceAdmin">Service admin</option>
-                                <option valu="airlineAdmin">Airline admin</option>
+                            <label style="color: white;">Role of user:</label><br/>
+                            <select style="width: 200px; height: 30px;" id="Role" #Role="ngModel" name="Role" [(ngModel)]="searchUser.Role">
+                                <option value="" selected>Roles</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Service_Admin">Service admin</option>
+                                <option value="Airline_Admin">Airline admin</option>
+                                <option value="User">Registered user</option>
                             </select>
                         </div>
                         <div class="form-group col-md-auto">
-                            <label style="color:white">User name:</label><br/>
-                             <input style="width: 150px;" type="text" placeholder="Name.." name="Name" #Name="ngModel" [(ngModel)]="searchUser.Name">
+                            <label style="color: white;">User email:</label><br/>
+                             <input style="width: 200px;" type="text" placeholder="Email.." name="Email" #Email="ngModel" [(ngModel)]="searchUser.Email">
                         </div> 
                         <div class="form-group col-md-auto">
-                            <label style="color:white">User surname:</label><br/>
-                             <input style="width: 150px;" type="text" placeholder="Surname.." name="Surname" #Surname="ngModel" [(ngModel)]="searchUser.Surname">
+                            <label style="color: white;">User name:</label><br/>
+                             <input style="width: 200px;" type="text" placeholder="Name.." name="Name" #Name="ngModel" [(ngModel)]="searchUser.Name">
                         </div>
                         <div class="form-group col-md-auto">
-                            <label style="color:white">User email:</label><br/>
-                            <input style="width: 150px;" type="email" placeholder="Email.." name="Email" #Email="ngModel" [(ngModel)]="searchUser.Email">
-                       </div>
+                            <label style="color: white;">User surnema:</label><br/>
+                             <input style="width: 200px;" type="text" placeholder="Surname.." name="Surname" #Surname="ngModel" [(ngModel)]="searchUser.Surname">
+                        </div>
                         <div class="form-group col-md-auto" style="padding-top: 30px;">
                             <button data-toggle="tooltip" title="Search" type="submit" class="btn btn-default" style="padding-top: 2px;">
                                 <span class="fa fa-search"></span> 

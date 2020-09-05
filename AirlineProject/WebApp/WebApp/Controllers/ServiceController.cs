@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -446,42 +447,94 @@ namespace WebApp.Controllers
         public async Task<ActionResult<IEnumerable<RentACar>>> SearchService(string name, string city, string state)
         {
             List<RentACar> services = new List<RentACar>();
-            List<RentACar> rentacasrlist = new List<RentACar>();
+            List<RentACar> rentacarlist = new List<RentACar>();
+            RentACar rentacar = new RentACar();
+            rentacar = null;
             services = await _context.RentACars.ToListAsync();
-            if (name != null)
+
+            if(name == null && city == null && state == null)
             {
-                foreach (RentACar service in services)
+                return Ok(services);
+            }
+
+            if(name != null)
+            {
+                foreach(RentACar service in services)
                 {
-                    if (service.Name.Equals(name))
+                    if (service.Name.Equals(name) || service.Name.ToLower() == name.ToLower())
                     {
-                        rentacasrlist.Add(service);
+                        rentacar = service;
+                        rentacarlist.Add(rentacar);
+                        break;
                     }
                 }
             }
 
-            if (city != null)
+            if(city != null)
             {
-                foreach (RentACar service in services)
+                if(rentacar != null)
                 {
-                    if (service.City.Equals(city))
+                    if(rentacar.City.Equals(city) || rentacar.City.ToLower() == city.ToLower())
                     {
-                        rentacasrlist.Add(service);
+                        if(state != null)
+                        {
+                            if(rentacar.State.Equals(state) || rentacar.State.ToLower() == state.ToLower())
+                            {
+                                return Ok(rentacarlist);
+                            }
+                            return NotFound();
+                        }
+                        return Ok(rentacarlist);
                     }
+                    return NotFound();
+                }
+                else
+                {
+                    foreach (RentACar service in services)
+                    {
+                        if (service.City.Equals(city) || service.City.ToLower() == city.ToLower())
+                        {
+                            if(state != null)
+                            {
+                                if(service.State.Equals(state) || service.State.ToLower() == state.ToLower())
+                                {
+                                    rentacarlist.Add(service);
+                                    return Ok(rentacarlist);
+                                }
+                            }
+                            rentacarlist.Add(service);
+                            return Ok(rentacarlist);
+                        }
+                    }
+                    return NotFound();
                 }
             }
 
-            if (state != null)
+            if(state != null)
             {
-                foreach (RentACar service in services)
+                if(rentacar != null)
                 {
-                    if (service.State.Equals(state))
+                    if(rentacar.State.Equals(state) || rentacar.State.ToLower() == state.ToLower())
                     {
-                        rentacasrlist.Add(service);
+                        return Ok(rentacarlist);
                     }
+                    return NotFound();
+                }
+                else
+                {
+                    foreach(RentACar service in services)
+                    {
+                        if (service.State.Equals(state) || service.State.ToLower() == state.ToLower())
+                        {
+                            rentacarlist.Add(service);
+                            return Ok(rentacarlist);
+                        }
+                    }
+                    return NotFound();
                 }
             }
 
-            return Ok(rentacasrlist);
+            return Ok(rentacarlist);
         }
     }
 }
