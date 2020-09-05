@@ -48,29 +48,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bcada7b0-7090-4d68-8a5c-32062cba3a77",
-                            ConcurrencyStamp = "18bf7d4f-ff89-49d7-b46f-858f381ba368",
+                            Id = "7d3ecb17-48cf-454c-831f-364dee6f9f3e",
+                            ConcurrencyStamp = "c80690df-0b39-4224-b149-f4601074f10b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "75bae19f-a013-488a-b00d-70cc4a150733",
-                            ConcurrencyStamp = "5b972b0e-9f96-40a8-b4ce-1e34fbe2b60e",
+                            Id = "4bfe15a4-4d07-485e-bd83-568f9c3f7672",
+                            ConcurrencyStamp = "e5476e76-9f68-42d0-9e2c-b66edc26c405",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "df90fe2d-2571-4d87-8785-505528326b9b",
-                            ConcurrencyStamp = "d3e5d625-df89-4e4c-90f7-c2e4e1d7e2e4",
+                            Id = "cde24b80-f6ea-46e1-8d4e-c921daa565d0",
+                            ConcurrencyStamp = "80a2eded-0e5a-4bb3-8912-3a1836e7fdbd",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "cd390278-f3b1-4aeb-8dd1-7c8ed5b0f4bb",
-                            ConcurrencyStamp = "b53bc2bf-70ec-4cc2-95b1-b9957c006d6c",
+                            Id = "7ab76be1-c56c-4b5c-85b6-af8cc602ea05",
+                            ConcurrencyStamp = "86e90bb4-f3b3-4801-ba26-8282fbc1e7bf",
                             Name = "User",
                             NormalizedName = "USER"
                         });

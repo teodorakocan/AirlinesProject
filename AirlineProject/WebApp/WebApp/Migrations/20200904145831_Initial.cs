@@ -367,6 +367,8 @@ namespace WebApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
                     NumberOfVehicle = table.Column<int>(nullable: false),
                     RentACarID = table.Column<int>(nullable: false),
                     Branch = table.Column<int>(nullable: true)
@@ -682,10 +684,10 @@ namespace WebApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0a87c35a-88e2-4c73-98e7-ce7f260d8cc1", "1f80cebe-f9d7-4bbc-afed-bf0212752794", "Admin", "ADMIN" },
-                    { "b0ead611-3222-42d2-a626-3d4f633670d9", "62532d75-267d-4163-a556-e444965678be", "Airline_Admin", "AIRLINE_ADMIN" },
-                    { "ca462160-cca0-4c40-9aeb-7082b4006ec2", "eecae168-166a-4422-807b-ee9fa242c676", "Service_Admin", "SERVICE_ADMIN" },
-                    { "cc69f2e0-be3d-4670-91d5-5a7f02110a27", "710f9f9e-7911-4959-9e62-daee2a9f5934", "User", "USER" }
+                    { "7d3ecb17-48cf-454c-831f-364dee6f9f3e", "c80690df-0b39-4224-b149-f4601074f10b", "Admin", "ADMIN" },
+                    { "4bfe15a4-4d07-485e-bd83-568f9c3f7672", "e5476e76-9f68-42d0-9e2c-b66edc26c405", "Airline_Admin", "AIRLINE_ADMIN" },
+                    { "cde24b80-f6ea-46e1-8d4e-c921daa565d0", "80a2eded-0e5a-4bb3-8912-3a1836e7fdbd", "Service_Admin", "SERVICE_ADMIN" },
+                    { "7ab76be1-c56c-4b5c-85b6-af8cc602ea05", "86e90bb4-f3b3-4801-ba26-8282fbc1e7bf", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

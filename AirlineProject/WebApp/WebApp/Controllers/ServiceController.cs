@@ -440,5 +440,48 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("search-service")]
+        public async Task<ActionResult<IEnumerable<RentACar>>> SearchService(string name, string city, string state)
+        {
+            List<RentACar> services = new List<RentACar>();
+            List<RentACar> rentacasrlist = new List<RentACar>();
+            services = await _context.RentACars.ToListAsync();
+            if (name != null)
+            {
+                foreach (RentACar service in services)
+                {
+                    if (service.Name.Equals(name))
+                    {
+                        rentacasrlist.Add(service);
+                    }
+                }
+            }
+
+            if (city != null)
+            {
+                foreach (RentACar service in services)
+                {
+                    if (service.City.Equals(city))
+                    {
+                        rentacasrlist.Add(service);
+                    }
+                }
+            }
+
+            if (state != null)
+            {
+                foreach (RentACar service in services)
+                {
+                    if (service.State.Equals(state))
+                    {
+                        rentacasrlist.Add(service);
+                    }
+                }
+            }
+
+            return Ok(rentacasrlist);
+        }
     }
 }

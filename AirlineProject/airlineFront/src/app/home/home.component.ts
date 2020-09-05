@@ -79,9 +79,24 @@ export class HomeComponent implements OnInit {
   }
 
   SearchAirlines(form: NgForm){
+
+    
   }
 
-  SearchServices(form: NgForm){
+  SearchServices(){
+    var searched={
+      Name: this.search.Name,
+      City: this.search.City,
+      State: this.search.State
+    }
+    this.rentaService.findService(searched).subscribe(
+      (companies: RentService[]) => {
+        this.rentacarCompanies = companies;
+      }, 
+      err=>{
+        this.toastr.error('Error 500.','Server failed.');
+      }
+    );
   }
 
   ProfileService(rentservice: string){

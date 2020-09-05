@@ -118,4 +118,9 @@ export class RentACarService{
     deleteVehicle(vehicleId){
       return this._http.delete(this._baseUrl + '/api/service/delete-vehicle/' + vehicleId);
     }
+
+    findService(searched): Observable<any>{
+      //debugger
+      return this._http.get(this._baseUrl + '/api/service/search-service?name='+searched.Name+'&city='+searched.City+'&state='+searched.State); 
+    }
 }

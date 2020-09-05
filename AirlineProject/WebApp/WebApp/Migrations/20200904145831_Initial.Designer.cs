@@ -10,7 +10,7 @@ using WebApp.Authentication;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200903142022_Initial")]
+    [Migration("20200904145831_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,29 +50,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0a87c35a-88e2-4c73-98e7-ce7f260d8cc1",
-                            ConcurrencyStamp = "1f80cebe-f9d7-4bbc-afed-bf0212752794",
+                            Id = "7d3ecb17-48cf-454c-831f-364dee6f9f3e",
+                            ConcurrencyStamp = "c80690df-0b39-4224-b149-f4601074f10b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b0ead611-3222-42d2-a626-3d4f633670d9",
-                            ConcurrencyStamp = "62532d75-267d-4163-a556-e444965678be",
+                            Id = "4bfe15a4-4d07-485e-bd83-568f9c3f7672",
+                            ConcurrencyStamp = "e5476e76-9f68-42d0-9e2c-b66edc26c405",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "ca462160-cca0-4c40-9aeb-7082b4006ec2",
-                            ConcurrencyStamp = "eecae168-166a-4422-807b-ee9fa242c676",
+                            Id = "cde24b80-f6ea-46e1-8d4e-c921daa565d0",
+                            ConcurrencyStamp = "80a2eded-0e5a-4bb3-8912-3a1836e7fdbd",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "cc69f2e0-be3d-4670-91d5-5a7f02110a27",
-                            ConcurrencyStamp = "710f9f9e-7911-4959-9e62-daee2a9f5934",
+                            Id = "7ab76be1-c56c-4b5c-85b6-af8cc602ea05",
+                            ConcurrencyStamp = "86e90bb4-f3b3-4801-ba26-8282fbc1e7bf",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -398,6 +398,9 @@ namespace WebApp.Migrations
                     b.Property<int?>("Branch")
                         .HasColumnType("int");
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -406,6 +409,9 @@ namespace WebApp.Migrations
 
                     b.Property<int>("RentACarID")
                         .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 

@@ -8,8 +8,8 @@
                         <div class="form-group col-md-auto">
                             <label style="color: white;">Name of airline company</label><br/>
                             <select style="width: 200px; height: 30px;" id="Name">
-                                <option selected disabled>Airlines</option>
-                                <option *ngFor="let airline of airlines" value="airline" #Name="ngModel" [(ngModel)]="search.Name">{{airline}}</option>
+                                <option selected value="">Airlines</option>
+                                <option *ngFor="let airline of airlines" value="{{airline}}" #Name="ngModel" [(ngModel)]="search.Name">{{airline}}</option>
                             </select>
                         </div>
                         <div class="form-group col-md-auto">
@@ -27,26 +27,26 @@
                         </div>
                     </div>
                 </form>
-            </div><br/>
+            </div><br/><br/>
 
-            <div class="comanies" *ngFor="let airlinesCompanie of airlinesCompanies">
-                <label style="font-size:24px; color: purple;">{{airlinesCompanie.name}}</label><br/>
-                <label style="font-size:20px;">{{airlinesCompanie.city}}, {{airlinesCompanie.state}}</label><br/>
-                <label style="font-size:20px;">{{airlinesCompanie.address}}</label><br/>
-                <label style="font-size:20px;">{{airlinesCompanie.promoDescription}}</label><br/>
-                <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileAirline(airlinesCompanie.name)">More</button><br/>
+            <div class="comanies" *ngFor="let airlinesCompany of airlinesCompanies">
+                <label style="font-size:24px; color: purple;">{{airlinesCompany.name}}</label>
+                <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileAirline(airlinesCompany.name)">More</button><br/>
+                <label style="font-size:20px;">{{airlinesCompany.city}}, {{airlinesCompany.state}}</label><br/>
+                <label style="font-size:20px;">{{airlinesCompany.address}}</label><br/>
+                <label style="font-size:20px;">{{airlinesCompany.promoDescription}}</label><br/>
             </div><br/>
         </mat-tab>
         
         <mat-tab label="Car rent"><br/>
             <div style="overflow: hidden;" class="search">
-                <form #form='ngForm' (submit)="SearchServices(form)"  style="padding: 50px; padding-bottom: 5%;">
+                <form (submit)="SearchServices()"  style="padding: 50px; padding-bottom: 5%;">
                     <div class="form-row">
                         <div class="form-group col-md-auto">
                             <label style="color: white;">Name of rent-a-car service:</label><br/>
                             <select style="width: 200px; height: 30px;" id="Name" #Name="ngModel" name="Name" [(ngModel)]="search.Name">
-                                <option selected disabled>Names</option>
-                                <option *ngFor="let rentservice of rentservices" value="rentservice">{{rentservice}}</option>
+                                <option value="" selected>Names</option>
+                                <option *ngFor="let rentservice of rentservices" value="{{rentservice}}">{{rentservice}}</option>
                             </select>
                         </div>
                         <div class="form-group col-md-auto">
@@ -64,15 +64,15 @@
                         </div>
                     </div>
                 </form>
-            </div><br/>
+            </div><br/><br/>
 
-            <div class="comanies" *ngFor="let rentacarCompanie of rentacarCompanies">
-                <label style="font-size:24px; color: purple;">{{rentacarCompanie.name}}</label><br/>
-                <label style="font-size:20px;">{{rentacarCompanie.city}}, {{rentacarCompanie.state}}</label><br/>
-                <label style="font-size:20px;">{{rentacarCompanie.address}}</label><br/>
-                <label style="font-size:20px;">{{rentacarCompanie.promoDescription}}</label><br/>
-                <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompanie.name)">More</button><br/>
-            </div><br/>
+            <div class="comanies" *ngFor="let rentacarCompany of rentacarCompanies">
+                <label style="font-size:24px; color: purple;">{{rentacarCompany.name}}</label>
+                <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompany.name)">More</button><br/>
+                <label style="font-size:14px;">{{rentacarCompany.city}}, {{rentacarCompany.state}}</label><br/>
+                <label style="font-size:14px;">{{rentacarCompany.address}}</label><br/>
+                <label style="font-size:20px;">{{rentacarCompany.promoDescription}}</label><br/>
+            </div><br/><br/><br/>
         </mat-tab>
     </mat-tab-group>
 </div>
