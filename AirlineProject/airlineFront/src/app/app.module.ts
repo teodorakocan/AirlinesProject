@@ -52,7 +52,7 @@ import { RentServiceComponent } from './home/rent-service/rent-service.component
     RentacarComponent,
     AirlineComponent,
     SystemComponent,
-    RentServiceComponent
+    RentServiceComponent,
   ],
   imports: [
     BrowserModule,

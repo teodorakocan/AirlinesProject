@@ -1,0 +1,29 @@
+.search{
+    box-shadow: 5px 10px #888888;
+    background-color: rgb(158, 62, 158);
+    width: 100%;
+    margin: auto;
+}
+
+input[type=text], input[type=date] {
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+}
+
+.airlines{
+    border: none;
+    padding: 10px;
+    width: 70%;
+    background-color: white;
+}
+
+.infoTitle{
+    font-size: 24px; 
+    color: purple; 
+    margin: auto;
+}

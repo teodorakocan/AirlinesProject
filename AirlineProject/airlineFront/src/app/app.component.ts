@@ -17,7 +17,7 @@ export class AppComponent {
   public logged:boolean;
   public role: string;
 
-  constructor(public service: AirlineService, public rentacarservice: RentACarService, private router: Router) { }
+  constructor(public airlineService: AirlineService, public rentacarservice: RentACarService, private router: Router) { }
   
   ngOnInit(){
     if(localStorage.getItem("token") != null)
@@ -29,15 +29,27 @@ export class AppComponent {
     {
       this.logged = false;
     }
+
+    this.airlineService.airlineNames().subscribe(
+      (names: string[]) => {
+          this.airlines = names;
+    });
+
+    this.rentacarservice.serviceNames().subscribe(
+      (names: string[]) => {
+        this.rentservices = names;
+    });
   }
 
-  /*onChangeAirline(airline: string){
-    this.router.navigateByUrl('airline/' + airline);
+  onChangeAirline(airline: string){
+    this.router.navigateByUrl('/', {skipLocationChange: true})
+    .then(()=>this.router.navigate(['airline', airline]));
   }
 
   onChangeRent(rentservice: string){
-    this.router.navigateByUrl('services/' + rentservice);
-  }*/
+    this.router.navigateByUrl('/', {skipLocationChange: true})
+    .then(()=>this.router.navigate(['rentacar', rentservice]));
+  }
   
   SignOut(){
       localStorage.removeItem('token');

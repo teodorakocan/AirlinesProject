@@ -66,7 +66,7 @@
                 </form>
             </div><br/><br/>
 
-            <div class="comanies" *ngFor="let rentacarCompany of rentacarCompanies">
+            <div class="companies" *ngFor="let rentacarCompany of rentacarCompanies">
                 <label style="font-size:24px; color: purple;">{{rentacarCompany.name}}</label>
                 <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompany.name)">More</button><br/>
                 <label style="font-size:14px;">{{rentacarCompany.city}}, {{rentacarCompany.state}}</label><br/>

@@ -43,5 +43,24 @@ namespace WebApp.Controllers
         {
             return await _context.Airlines.ToListAsync();
         }
+
+        [HttpGet]
+        [Route("airline-info/{name}")]
+        public async Task<ActionResult<Airline>> GetAirlineInfo(string name)
+        {
+            List<Airline> airlines = new List<Airline>();
+            airlines = await _context.Airlines.ToListAsync();
+            List<string> names = new List<string>();
+
+            foreach(Airline airline in airlines)
+            {
+                if (airline.Name.Equals(name))
+                {
+                    return airline;
+                }
+            }
+
+            return NotFound();
+        }
     }
 }

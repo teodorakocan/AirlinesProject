@@ -7,14 +7,7 @@ input[type=text], input[type=date], select {
     background-position: 10px 10px; 
     background-repeat: no-repeat;
   }
-  .Vehicles {
-    width: 900px;
-    border: 1px solid rgb(206, 195, 195);;
-    margin: 10px auto;
-    padding: 10px;
-    box-shadow: 1px 1px 1px gray;
-}
-
+  
 .search{
   box-shadow: 5px 10px #888888;
   background-color: rgb(158, 62, 158);
@@ -22,7 +15,7 @@ input[type=text], input[type=date], select {
   margin: auto;
 }
 
-.comanies{
+.companies{
   border: 1px solid black;
   padding: 10px;
   width: 50%;
@@ -31,6 +24,6 @@ input[type=text], input[type=date], select {
   transition: transform .2s;
   background-color: white;
 }
-.comanies:hover {
+.companies:hover {
   transform: scale(1.2); 
 }

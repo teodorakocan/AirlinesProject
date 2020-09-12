@@ -28,7 +28,6 @@ export class RentACarService{
       State: ['', Validators.required],
       NumberOfVehicle: ['', Validators.required]
     });
-
     serviceNames(): Observable<any>{
       return this._http.get(this._baseUrl + '/api/service/service-names');
     }
@@ -121,5 +120,10 @@ export class RentACarService{
 
     findService(searched): Observable<any>{
       return this._http.get(this._baseUrl + '/api/service/search-service?name='+searched.Name+'&city='+searched.City+'&state='+searched.State); 
+    }
+
+    searchVehicle(searched):Observable<any>{
+      debugger
+      return this._http.get(this._baseUrl + '/api/service/search-vehicle?brand='+searched.Brand+'&vehicleClass='+searched.Class+'&numberOfSeats='+searched.NumberOfSeats+'&price='+searched.Price); 
     }
 }

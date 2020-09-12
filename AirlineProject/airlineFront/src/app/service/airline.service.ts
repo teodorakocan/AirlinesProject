@@ -22,4 +22,8 @@ export class AirlineService{
     allAirlines(){
       return this._http.get(this._baseUrl + '/api/airline/all-airlines');
     }
+
+    getAirlineInfo(name){
+      return this._http.get(this._baseUrl + '/api/airline/airline-info/'+name); 
+    }
 }

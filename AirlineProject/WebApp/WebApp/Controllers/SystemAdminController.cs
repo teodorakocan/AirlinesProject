@@ -181,12 +181,100 @@ namespace WebApp.Controllers
             return Ok(allComapnies);
         }
 
-        /*[HttpGet]
+        [HttpGet]
         [Route("search-user")]
         public async Task<ActionResult<IEnumerable<Object>>> FindUser(string role, string email, string name, string surname)
         {
             List<MyUser> users = new List<MyUser>();
+            List<Admin> admins = new List<Admin>();
+            List<Object> searchedUser = new List<Object>();
+            MyUser myUser = new MyUser();
+            myUser = null;
             
-        }*/
+
+            if (email != null)
+            {
+                if (users == null)
+                {
+                    users = await _context.MyUsers.ToListAsync();
+                }
+
+                foreach (MyUser user in users)
+                {
+                    if (user.Email.Equals(email) || user.Email.ToLower() == email.ToLower())
+                    {
+                        if (name != null)
+                        {
+                            if (user.Name.Equals(name) || user.Name.ToLower() == name.ToLower())
+                            {
+                                if (surname != null)
+                                {
+                                    if (user.Surname.Equals(surname) || user.Surname.ToLower() == surname.ToLower())
+                                    {
+                                        searchedUser.Add(user);
+                                        return Ok(searchedUser);
+                                    }
+                                }
+                                searchedUser.Add(user);
+                                return Ok(searchedUser);
+                            }
+                        }
+                        searchedUser.Add(user);
+                        return Ok(searchedUser);
+                    }
+                }
+                return NotFound();
+            }
+
+            if(name != null)
+            {
+                if(users == null)
+                {
+                    users = await _context.MyUsers.ToListAsync();
+                }
+                foreach(MyUser user in users)
+                {
+                    if(user.Name.Equals(name) || user.Name.ToLower() == name.ToLower())
+                    {
+                        if(surname != null)
+                        {
+                            if(user.Surname.Equals(surname) || user.Surname.ToLower() == surname.ToLower())
+                            {
+                                searchedUser.Add(user);
+                            }
+                        }
+                        searchedUser.Add(user);
+                    }
+                }
+
+                if(searchedUser == null)
+                {
+                    return NotFound();
+                }
+                return Ok(searchedUser);
+            }
+
+            if(surname != null)
+            {
+                if(users == null)
+                {
+                    users = await _context.MyUsers.ToListAsync();
+                }
+                foreach(MyUser user in users)
+                {
+                    if(user.Surname.Equals(surname) || user.Surname.ToLower() == surname.ToLower())
+                    {
+                        searchedUser.Add(user);
+                    }
+                }
+
+                if(searchedUser == null)
+                {
+                    return NotFound();
+                }
+            }
+
+            return Ok(searchedUser);
+        }
     }
 }

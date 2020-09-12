@@ -13,6 +13,20 @@
       <li class="nav-item active">
       <a class="nav-link waves-light" mdbWavesEffect href="/home">Home<span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item dropdown" dropdown>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+            Airline comapnies<span class="caret"></span></a>
+        <div class="dropdown-menu dropdown dropdown-primary" role="menu">
+            <a class="dropdown-item waves-light" mdbWavesEffect *ngFor="let airline of airlines" (change)="onChangeAirline(airline)">{{airline}}</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown" dropdown>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+            Rent-a-car services<span class="caret"></span></a>
+        <div class="dropdown-menu dropdown dropdown-primary" role="menu">
+            <a class="dropdown-item waves-light" mdbWavesEffect *ngFor="let rentservice of rentservices" (click)="onChangeRent(rentservice)">{{rentservice}}</a>
+        </div>
+      </li>
   </ul>
   <!-- Links -->
 

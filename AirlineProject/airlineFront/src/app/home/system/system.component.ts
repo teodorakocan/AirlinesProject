@@ -63,25 +63,4 @@ export class SystemComponent implements OnInit {
     );
   }
 
-  SearchUsers(){
-    var searched={
-      Role: this.searchUser.Role,
-      Email: this.searchUser.Email,
-      Name: this.searchUser.Name,
-      Surname: this.searchUser.Surname
-    }
-    this.systemservice.findUser(searched).subscribe(
-      (res: Object[]) => {
-        this.users = res;
-      }, 
-      err=>{
-        this.toastr.error('Error 500.','Server failed.');
-      }
-    );
-  }
-
-  SearchCompany(form: NgForm)
-  {
-    
-  }
 }

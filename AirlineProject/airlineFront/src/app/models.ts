@@ -1,3 +1,5 @@
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
+
 export class Airline{
     Name: string;
     Address: string;
@@ -51,4 +53,18 @@ export class Vehicle{
     Class: string;
     Price: number;
     Image: string;
+}
+
+export class Destination{
+    Name: string;
+}
+
+export class Flight{
+    StartDateTime: string;
+    EndDateTime: string;
+    Price: number;
+    FlightNumber:string;
+    NumberTransfer: number;
+    DestinationTransfer: string;
+    TravelLenght:string;
 }

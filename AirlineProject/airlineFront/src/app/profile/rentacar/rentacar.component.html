@@ -1,1 +1,51 @@
-<p>rentacar works!</p>
+<div class="container"><br/>
+    <div *ngIf="rentservice">
+        <h1 style="color: purple; font-size: 36px;">{{rentservice.name}}</h1>
+        <h6 style="align-content: center;"> {{rentservice.promoDescription}}</h6>
+        <small><u>Company headquarters:</u>  {{rentservice.address}}, {{rentservice.city}}, {{rentservice.state}}</small>
+    </div><br/><br/>
+    <label class="infoTitle"><b>All other information about service:</b></label><br/>
+    
+    <h4 style="color: purple;"><u>Rent-a-car branch offices</u></h4>
+    <div *ngFor="let branch of branches" class="branches">
+        <label style="font-size: 18px;">{{branch.name}}</label><br/>
+        <small><u>Address: </u>{{branch.address}}, {{branch.city}}, {{branch.state}}</small><br/>
+        <small>The branch owns <b>{{branch.numberOfVehicle}} vehicles</b></small>
+    </div><br/><br/>
+
+    <h4 style="color: purple;"><u>Vehicles</u></h4><br/>
+    <div style="overflow: hidden;" class="search">
+        <form (submit)="SearchVehicle()"  style="padding: 50px; padding-bottom: 5%;">
+            <div class="form-row">
+                <div class="form-group col-md-auto">
+                    <label style="color: white;">Brand:</label><br/>
+                     <input style="width: 200px;" type="text" placeholder="Brand.." name="Brand" #Brand="ngModel" [(ngModel)]="search.Brand">
+                </div> 
+                <div class="form-group col-md-auto">
+                    <label style="color: white;">Class:</label><br/>
+                     <input style="width: 200px;" type="number" placeholder="Class.." name="Class" #Class="ngModel" [(ngModel)]="search.Class">
+                </div>
+                <div class="form-group col-md-auto">
+                    <label style="color: white;">Number of seats:</label><br/>
+                     <input style="width: 200px;" type="number" placeholder="Number of seats.." name="NumberOfSeats" #NumberOfSeats="ngModel" [(ngModel)]="search.NumberOfSeats">
+                </div>
+                <div class="form-group col-md-auto">
+                    <label style="color: white;">Price:</label><br/>
+                     <input style="width: 200px;" type="number" placeholder="Price.." name="Price" #Price="ngModel" [(ngModel)]="search.Price">
+                </div>
+                <div class="form-group col-md-auto" style="padding-top: 30px;">
+                    <button data-toggle="tooltip" title="Search" type="submit" class="btn btn-default" style="padding-top: 2px;">
+                        <span class="fa fa-search"></span> 
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div><br/><br/>
+    <div *ngFor="let vehicle of vehicles" class="branches">
+        <img [src]="createImgPath(vehicle.image)" alt="vehicle picture" style="width:80px; height:80px;">
+        <label style="font-size: 18px;">{{vehicle.brand}}</label><br/>
+        <label><b>Price per day: {{vehicle.price}}$</b></label><br/>
+        <b>Informations: </b>
+        <small>Number of seats: {{vehicle.numberOfSeats}}, Class: {{vehicle.class}}</small>
+    </div><br/><br/>
+</div>>

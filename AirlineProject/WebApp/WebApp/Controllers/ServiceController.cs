@@ -536,5 +536,98 @@ namespace WebApp.Controllers
 
             return Ok(rentacarlist);
         }
+
+        [HttpGet]
+        [Route("search-vehicle")]
+        public async Task<ActionResult<IEnumerable<Vehicle>>> SearchVehicles(string brand, string vehicleClass, string numberOfSeats, string vehiclePrice)
+        {
+            double price = 0;
+            int nos = 0;
+            if (numberOfSeats != null)
+            {
+                nos = Int32.Parse(numberOfSeats);
+            }
+
+            if(vehiclePrice != null)
+            {
+                price = double.Parse(vehiclePrice);
+            }
+
+            var vehicles = from vehicle in _context.Vehicles
+                         select vehicle;
+
+            if (brand == null && vehicleClass == null && numberOfSeats == null && vehiclePrice == null)
+            {
+                return Ok(vehicles);
+            }
+
+            if(brand != null && vehicleClass != null && numberOfSeats != null && vehiclePrice != null)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand) && v.Class.Equals(vehicleClass) &&
+                                               v.NumberOfSeats == nos && v.Price == price);
+            }
+            else if (brand != null && vehicleClass != null && nos != 0)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand) && v.Class.Equals(vehicleClass) &&
+                                               v.NumberOfSeats == nos);
+            }
+            else if (brand != null && vehicleClass != null && price != 0)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand) && v.Class.Equals(vehicleClass) && v.Price == price);
+            }
+            else if (brand != null && nos != 0 && price != 0)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand) &&
+                                               v.NumberOfSeats == nos && v.Price == price);
+            }
+            else if (vehicleClass != null && nos != 0 && price != 0)
+            {
+                vehicles = vehicles.Where(v => v.Class.Equals(vehicleClass) &&
+                                               v.NumberOfSeats == nos && v.Price == price);
+            }
+            else if (brand != null && vehicleClass != null)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand) && v.Class.Equals(vehicleClass));
+            }
+            else if (brand != null && nos != 0)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand) && v.NumberOfSeats == nos);
+            }
+            else if (brand != null && price != 0)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand) && v.Price == price);
+            }
+            else if (vehicleClass != null && nos != 0)
+            {
+                vehicles = vehicles.Where(v => v.Class.Equals(vehicleClass) &&
+                                               v.NumberOfSeats == nos);
+            }
+            else if (vehicleClass != null && price != 0)
+            {
+                vehicles = vehicles.Where(v => v.Class.Equals(vehicleClass) && v.Price == price);
+            }
+            else if (nos != 0 && price != 0)
+            {
+                vehicles = vehicles.Where(v => v.NumberOfSeats == nos && v.Price == price);
+            }
+            else if (brand != null)
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(brand));
+            }
+            else if (vehicleClass != null)
+            {
+                vehicles = vehicles.Where(v => v.Class.Equals(vehicleClass));
+            }
+            else if (nos != 0)
+            {
+                vehicles = vehicles.Where(v => v.NumberOfSeats == nos);
+            }
+            else if(price != 0)
+            {
+                vehicles = vehicles.Where(v => v.Price == price);
+            }
+
+            return Ok(vehicles);
+        }
     }
 }

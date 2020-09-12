@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   { path: 'home',component: HomeComponent },
   { path: 'airline/:name', component: AirlineComponent},
-  { path: ' rentacar/:name', component: RentacarComponent},
+  { path: 'rentacar/:name', component: RentacarComponent},
   { path: 'signin', component: SigninComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'confirmation/:email', component: ConfirmationComponent },
