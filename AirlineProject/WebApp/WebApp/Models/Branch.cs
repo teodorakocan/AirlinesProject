@@ -19,10 +19,10 @@ namespace WebApp.Models
         public int NumberOfVehicle { get; set; }
 
         [ForeignKey("Vehicle")]
-        public ICollection<Vehicle> Vehicles { get; set; }
+        public virtual ICollection<Vehicle> Vehicles { get; set; }
 
         [ForeignKey("Resrvations")]
-        public ICollection<CarReservation> Resrvations { get; set; }
+        public virtual ICollection<CarReservation> Resrvations { get; set; }
 
         [ForeignKey("RentACar")]
         public int RentACarID { get; set; }

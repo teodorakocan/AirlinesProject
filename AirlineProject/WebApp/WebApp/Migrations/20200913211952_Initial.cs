@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApp.Migrations
 {
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -688,10 +688,10 @@ namespace WebApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "f0a89bb6-a06a-4b19-8212-c0d0407e879c", "c5c3c803-2ec6-45ef-ae58-dda3c0f308f5", "Admin", "ADMIN" },
-                    { "752ccd48-3c65-4c49-99cd-ad698911ea25", "9b150d7f-ac3f-4564-948c-9f0c4a4f9416", "Airline_Admin", "AIRLINE_ADMIN" },
-                    { "d7061d0a-b0b4-425e-8155-07b34e5b873e", "4b738349-ca01-4532-98ee-7c98ab8f3730", "Service_Admin", "SERVICE_ADMIN" },
-                    { "cff30d25-3349-49ac-8f5a-9252484b7ba5", "e7361c51-eaf0-4d31-9b30-662c0f241a94", "User", "USER" }
+                    { "98e0a27b-226e-4678-9f4d-06e3f537b8e3", "6481646a-4c4b-43a1-bc33-42e06246a4a6", "Admin", "ADMIN" },
+                    { "27d7d38e-bfee-412c-bd94-f0d9d43127f5", "fb84d095-4258-4b5e-9ac3-b2c9f105c44b", "Airline_Admin", "AIRLINE_ADMIN" },
+                    { "5460f399-cc78-452f-81e4-94b1b862a955", "eec4d94d-21f5-4a95-9269-b60685f920ed", "Service_Admin", "SERVICE_ADMIN" },
+                    { "432f5915-9b8c-4ea4-8622-5941bf09753d", "08430c65-3e5b-493c-b71c-46bb37190897", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

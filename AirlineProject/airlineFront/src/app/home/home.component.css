@@ -18,7 +18,7 @@ input[type=text], input[type=date], select {
 .companies{
   border: 1px solid black;
   padding: 10px;
-  width: 50%;
+  width: 60%;
   margin: auto;
   border-radius: 25px;
   transition: transform .2s;

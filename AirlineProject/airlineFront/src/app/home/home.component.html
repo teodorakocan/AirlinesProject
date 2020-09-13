@@ -68,16 +68,14 @@
             </div><br/><br/>
 
             <div class="companies" *ngFor="let rentacarCompany of rentacarCompanies">
-                <div class="companies" *ngFor="let branch of rentacarCompanies.branches">
-                    <label style="font-size:24px; color: purple;">{{rentacarCompany.name}}</label>
+                    <label style="font-size:24px; color: purple;"><b>{{rentacarCompany.serviceName}}</b></label>
                     <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompany.name)">More</button><br/>
-                    <label style="font-size:14px;">{{rentacarCompany.city}}, {{rentacarCompany.state}}</label><br/>
-                    <label style="font-size:14px;">Address: {{rentacarCompany.address}}</label><br/>
-                    <label style="font-size:20px;">{{rentacarCompany.promoDescription}}</label><br/>
-                    <label style="font-size:20px;">Branch office name: {{branch.name}}</label><br/>
-                    <label style="font-size:14px;">{{branch.city}}, {{branch.state}}</label><br/>
-                    <label style="font-size:14px;">Address: {{branch.address}}</label><br/>
-                </div>
+                    <label style="font-size:14px;">{{rentacarCompany.serviceCity}}, {{rentacarCompany.serviceState}}</label><br/>
+                    <label style="font-size:14px;">Address: {{rentacarCompany.serviceAddress}}</label><br/>
+                    <label style="font-size:20px;">{{rentacarCompany.servicePromoDescription}}</label><br/>
+                    <label style="font-size:24px; color: purple;"><u>{{rentacarCompany.branchName}}</u></label><br/>
+                    <label style="font-size:14px;">{{rentacarCompany.branchCity}}, {{rentacarCompany.branchState}}</label><br/>
+                    <label style="font-size:14px;">Address: {{rentacarCompany.branchAddress}}</label><br/>
             </div><br/><br/><br/>
         </mat-tab>
     </mat-tab-group>

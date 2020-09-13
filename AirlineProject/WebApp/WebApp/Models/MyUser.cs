@@ -25,13 +25,13 @@ namespace WebApp.Models
 
 
         [ForeignKey("AircraftConfiguration")]
-        public ICollection<AircraftConfiguration> AircraftConfigurations { get; set; }
+        public virtual ICollection<AircraftConfiguration> AircraftConfigurations { get; set; }
 
         [ForeignKey("FastReservation")]
-        public ICollection<FastReservation> FastReservations { get; set; }
+        public virtual ICollection<FastReservation> FastReservations { get; set; }
 
         [ForeignKey("CarReservations")]
-        public ICollection<CarReservation> CarReservations { get; set; }
+        public virtual ICollection<CarReservation> CarReservations { get; set; }
 
         public MyUser()
         {

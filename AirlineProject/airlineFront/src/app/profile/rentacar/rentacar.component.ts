@@ -72,10 +72,9 @@ export class RentacarComponent implements OnInit {
       Class: this.search.Class,
       Price: this.search.Price
     }
-    debugger
+
     this.service.searchVehicle(this.serviceId,searched).subscribe(
       (res: Vehicle[])=>{
-        debugger
         this.vehicles = res;
       },
       err=>{

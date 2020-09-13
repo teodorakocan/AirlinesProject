@@ -19,10 +19,10 @@ namespace WebApp.Models
         public string PromoDescription { get; set; }
 
         [ForeignKey("Branch")]
-        public ICollection<Branch> Branches { get; set; }
+        public virtual ICollection<Branch> Branches { get; set; }
 
         [ForeignKey("Reservations")]
-        public ICollection<CarReservation> Reservations { get; set; } 
+        public virtual ICollection<CarReservation> Reservations { get; set; } 
         /*[ForeignKey("Rent_Price_List")]
         public ICollection<RentPriceList> RentPriceLists { get; set; }*/
 

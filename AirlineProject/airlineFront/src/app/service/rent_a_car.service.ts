@@ -118,7 +118,7 @@ export class RentACarService{
       return this._http.delete(this._baseUrl + '/api/service/delete-vehicle/' + vehicleId);
     }
     
-    searchService(searched):Observable<any>{
+    findService(searched):Observable<any>{
       return this._http.get(this._baseUrl + '/api/service/search-service?name='+searched.Name+'&city='+searched.City+'&StartDate='+searched.StartDate+'&EndDate='+searched.EndDate); 
     }
 

@@ -16,7 +16,7 @@ namespace WebApp.Models
         public double Price { get; set; }
 
         [ForeignKey("Renta_Price_List_Service_Connections")]
-        public ICollection<RentaPriceListServiceConnection> Renta_Price_List_Service_Connections { get; set; }
+        public virtual ICollection<RentaPriceListServiceConnection> Renta_Price_List_Service_Connections { get; set; }
 
         public RentService()
         {

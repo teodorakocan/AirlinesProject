@@ -19,13 +19,13 @@ namespace WebApp.Models
         public string PromoDescription { get; set; }
 
         [ForeignKey("FastReservation")]
-        public ICollection<FastReservation> FastReservations { get; set; }
+        public virtual ICollection<FastReservation> FastReservations { get; set; }
         
         [ForeignKey("AirlineDestinationConnections")]
-        public ICollection<AirlineDestinationConnection> AirlineDestinationConnections { get; set; }
+        public virtual ICollection<AirlineDestinationConnection> AirlineDestinationConnections { get; set; }
 
         [ForeignKey("Price_List")]
-        public ICollection<PriceList> Prise_Lists { get; set; }
+        public virtual ICollection<PriceList> Prise_Lists { get; set; }
 
         public Airline()
         {

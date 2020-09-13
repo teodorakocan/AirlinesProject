@@ -16,10 +16,10 @@ namespace WebApp.Models
         //public string ImageURL { get; set; }
 
         [ForeignKey("AirlineDestinationConnections")]
-        public ICollection<AirlineDestinationConnection> AirlineDestinationConnections { get; set; }
+        public virtual ICollection<AirlineDestinationConnection> AirlineDestinationConnections { get; set; }
 
         [ForeignKey("Flight")]
-        public ICollection<Flight> Flights { get; set; }
+        public virtual ICollection<Flight> Flights { get; set; }
 
         public Destination()
         {

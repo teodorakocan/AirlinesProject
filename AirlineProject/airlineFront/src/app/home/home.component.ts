@@ -97,7 +97,6 @@ export class HomeComponent implements OnInit {
     if(this.search.DateRange != "")
     {
       startDate = JSON.stringify(this.search.DateRange[0])
-      debugger
       startDate = startDate.slice(1,11)
       endDate = JSON.stringify(this.search.DateRange[1])
       endDate = endDate.slice(1,11)
@@ -112,14 +111,9 @@ export class HomeComponent implements OnInit {
       StartDate: startDate,
       EndDate: endDate
     }
-    debugger
-
-    this.rentaService.searchService(searched).subscribe(
-      (companies)=>{
-        this.rentaService = companies;
-      },
-      err=>{
-        this.toastr.error('Error 500.','Server failed.');
+    this.rentaService.findService(searched).subscribe(
+      (res)=>{
+        this.rentacarCompanies = res;
       }
     );
   }

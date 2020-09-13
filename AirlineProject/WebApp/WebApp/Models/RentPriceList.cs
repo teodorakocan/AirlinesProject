@@ -18,7 +18,7 @@ namespace WebApp.Models
         public RentACar RentACar { get; set; }
 
         [ForeignKey("RentaPriceListServiceConnections")]
-        public ICollection<RentaPriceListServiceConnection> RentaPriceListServiceConnections { get; set; }
+        public virtual ICollection<RentaPriceListServiceConnection> RentaPriceListServiceConnections { get; set; }
 
         public RentPriceList()
         {

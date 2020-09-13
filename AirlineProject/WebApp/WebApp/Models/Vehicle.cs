@@ -25,7 +25,7 @@ namespace WebApp.Models
         public Branch Branch { get; set; }
 
         [ForeignKey("CarReservations")]
-        public ICollection<CarReservation> CarReservations { get; set; }
+        public virtual ICollection<CarReservation> CarReservations { get; set; }
 
         public Vehicle()
         {

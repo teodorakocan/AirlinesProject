@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Authentication;
 using WebApp.Models;
+using WebApp.Models.ViewModel;
 
 namespace WebApp.Controllers
 {
@@ -43,9 +44,48 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Route("all-services")]
-        public async Task<ActionResult<IEnumerable<RentACar>>> AllRentACarServices()
+        public async Task<ActionResult<IEnumerable<ServiceViewModel>>> AllRentACarServices()
         {
-            return await _context.RentACars.ToListAsync();
+            List<ServiceViewModel> services = new List<ServiceViewModel>();
+            services = GetServiceViewModel();
+            return services;
+        }
+
+        private List<ServiceViewModel> GetServiceViewModel()
+        {
+            List<ServiceViewModel> services = new List<ServiceViewModel>();
+            List<RentACar> rentACars = new List<RentACar>();
+            rentACars =  _context.RentACars.ToList();
+            List<Branch> branches = new List<Branch>();
+            branches =  _context.Branches.ToList();
+
+            foreach (RentACar rentACar in rentACars)
+            {
+                foreach (Branch branch in branches)
+                {
+                    if (branch.RentACarID == rentACar.ID)
+                    {
+                        ServiceViewModel service = new ServiceViewModel()
+                        {
+                            ServiceID = rentACar.ID,
+                            ServiceName = rentACar.Name,
+                            ServiceAddress = rentACar.Address,
+                            ServiceCity = rentACar.City,
+                            ServiceState = rentACar.State,
+                            ServicePromoDescription = rentACar.PromoDescription,
+                            BranchId = branch.ID,
+                            BranchName = branch.Name,
+                            BranchAddress = branch.Address,
+                            BranchCity = branch.City,
+                            BranchState = branch.State,
+                            NumberOfVehicle = branch.NumberOfVehicle
+                        };
+                        services.Add(service);
+                    }
+                }
+            }
+
+            return services;
         }
 
         [HttpPut]
@@ -228,11 +268,11 @@ namespace WebApp.Controllers
             }
 
             RentACar service = await _context.RentACars.FindAsync(serviceId);
-            service.Branches.Add(branch);
-            _context.Entry(service).State = EntityState.Modified;
             branch.RentACar = service;
             branch.RentACarID = serviceId;
             _context.Branches.Add(branch);
+            service.Branches.Add(branch);
+            _context.Entry(service).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -574,12 +614,13 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Route("search-service")]
-        public async Task<ActionResult<IEnumerable<Object>>> SearchService(string name, string city, DateTime StartDate, DateTime EndDate)
+        public async Task<ActionResult<IEnumerable<ServiceViewModel>>> SearchService(string name, string city, DateTime StartDate, DateTime EndDate)
         {
-            var services = from rentacar in _context.RentACars
-                           select rentacar;
-            var reservations = from reservation in _context.CarReservations
-                           select reservation;
+            List<ServiceViewModel> allServices = new List<ServiceViewModel>();
+            List<RentACar> services = new List<RentACar>();
+            List<CarReservation> reservations = new List<CarReservation>();
+            services = await _context.RentACars.ToListAsync();
+            reservations = await _context.CarReservations.ToListAsync();
 
             CarReservation carReservationDate = new CarReservation()
             {
@@ -589,17 +630,19 @@ namespace WebApp.Controllers
             
             if (name == null && city == null && StartDate.Date.Year == 1 && EndDate.Date.Year == 1)
             {
-                return Ok(services);
+                allServices = GetServiceViewModel();
+                return Ok(allServices);
             }
 
             if(name != null && city != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
             {
-                services = services.Where(s => s.Name.Contains(name) && s.City.Contains(city));
+                
+                services = services.FindAll(s => s.Name.Contains(name) && s.City.Contains(city));
                 foreach(var service in services)
                 {
                     if(service.Reservations.Contains(carReservationDate))
                     {
-                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
                         foreach(var reservation in reservations)
                         {
                             service.Branches.Remove(reservation.Branch);
@@ -610,16 +653,16 @@ namespace WebApp.Controllers
             }
             else if( name != null && city != null)
             {
-                services = services.Where(s => s.Name.Contains(name) && s.City.Contains(city));
+                services = services.FindAll(s => s.Name.Contains(name) && s.City.Contains(city));
             }
             else if (name != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
             {
-                services = services.Where(s => s.Name.Contains(name));
+                services = services.FindAll(s => s.Name.Contains(name));
                 foreach (var service in services)
                 {
                     if (service.Reservations.Contains(carReservationDate))
                     {
-                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
                         foreach (var reservation in reservations)
                         {
                             service.Branches.Remove(reservation.Branch);
@@ -629,12 +672,12 @@ namespace WebApp.Controllers
             }
             else if (city != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
             {
-                services = services.Where(s => s.City.Contains(city));
+                services = services.FindAll(s => s.City.Contains(city));
                 foreach (var service in services)
                 {
                     if (service.Reservations.Contains(carReservationDate))
                     {
-                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
                         foreach (var reservation in reservations)
                         {
                             service.Branches.Remove(reservation.Branch);
@@ -644,11 +687,11 @@ namespace WebApp.Controllers
             }
             else if (name != null)
             {
-                services = services.Where(s => s.Name.Contains(name));
+                services = services.FindAll(s => s.Name.Contains(name));
             }
             else if (city != null)
             {
-                services = services.Where(s => s.City.Contains(city));
+                services = services.FindAll(s => s.City.Contains(city));
             }
             else if (StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
             {
@@ -656,7 +699,7 @@ namespace WebApp.Controllers
                 {
                     if (service.Reservations.Contains(carReservationDate))
                     {
-                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
                         foreach (var reservation in reservations)
                         {
                             service.Branches.Remove(reservation.Branch);
@@ -665,7 +708,34 @@ namespace WebApp.Controllers
                 }
             }
 
-            return Ok(services);
+            foreach(var service in services)
+            {
+                List<Branch> branches = new List<Branch>();
+                branches = await _context.Branches.ToListAsync();
+                foreach(Branch branch in branches)
+                {
+                    if(branch.RentACarID == service.ID)
+                    {
+                        ServiceViewModel svm = new ServiceViewModel()
+                        {
+                            ServiceID = service.ID,
+                            ServiceName = service.Name,
+                            ServiceAddress = service.Address,
+                            ServiceCity = service.City,
+                            ServiceState = service.State,
+                            ServicePromoDescription = service.PromoDescription,
+                            BranchId = branch.ID,
+                            BranchName = branch.Name,
+                            BranchAddress = branch.Address,
+                            BranchCity = branch.City,
+                            BranchState = branch.State,
+                            NumberOfVehicle = branch.NumberOfVehicle
+                        };
+                        allServices.Add(svm);
+                    }
+                }
+            }
+            return Ok(allServices);
         }
     }
 }
