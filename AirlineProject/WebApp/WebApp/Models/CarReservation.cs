@@ -15,12 +15,20 @@ namespace WebApp.Models
         public DateTime ReservationFrom { get; set; }
         public DateTime ReservationTo { get; set; }
 
-        [ForeignKey("Vehicle")]
+        [ForeignKey("VehicleID")]
         public int VehicleID { get; set; }
         public Vehicle Vehicle { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey("UserID")]
         public int UserID { get; set; }
         public MyUser User { get; set; }
+
+        [ForeignKey("RentACarID")]
+        public int RentACarID { get; set; }
+        public RentACar RentACar { get; set; }
+
+        [ForeignKey("BranchID")]
+        public int BranchID { get; set; }
+        public Branch Branch { get; set; }
     }
 }

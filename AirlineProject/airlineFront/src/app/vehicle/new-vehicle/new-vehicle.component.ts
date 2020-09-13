@@ -39,7 +39,7 @@ export class NewVehicleComponent implements OnInit {
       Price:this.Price,
       Image: this.response.dbPath
     }
-
+    
     this.service.addVehicle(this.branchId, this.vehicle).subscribe(res => {
       this.service.branchVehicle(this.branchId).subscribe(
         (res: Vehicle[])=>{

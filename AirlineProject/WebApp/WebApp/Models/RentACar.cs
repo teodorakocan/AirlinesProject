@@ -21,6 +21,8 @@ namespace WebApp.Models
         [ForeignKey("Branch")]
         public ICollection<Branch> Branches { get; set; }
 
+        [ForeignKey("Reservations")]
+        public ICollection<CarReservation> Reservations { get; set; } 
         /*[ForeignKey("Rent_Price_List")]
         public ICollection<RentPriceList> RentPriceLists { get; set; }*/
 
@@ -28,6 +30,7 @@ namespace WebApp.Models
         {
             //this.RentPriceLists = new HashSet<RentPriceList>();
             this.Branches = new HashSet<Branch>();
+            this.Reservations = new HashSet<CarReservation>();
         }
     }
 }

@@ -57,7 +57,6 @@ export class SettingsComponent implements OnInit {
     this.systemservice.registerAdmin().subscribe(
       (res: any) => {
         this.service.formModel1.reset();
-        debugger
         this.toastr.success('Admin is successfully made', 'Registration successful.');
       },
       err=>{

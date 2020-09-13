@@ -64,7 +64,6 @@ export class SystemAdminService{
           PhoneNumber: this.formModel1.value.PhoneNumber
         };
         var role = this.formModel1.value.Admin
-        debugger
         return this._http.post(this._baseUrl + '/api/systemadmin/register-admin/' + role, admin);
     }
 

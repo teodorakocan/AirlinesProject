@@ -48,7 +48,7 @@
                     <td>{{company.state}}</td>
                     <td>{{company.address}}</td>
                     <td>{{company.promoDescription}}</td>
-                    <td><button type="button" class="btn btn-danger" style="width: auto;">Delete company</button></td>
+                    <td><button type="button" class="btn btn-danger" style="width: auto;" (click)="DeleteCompany(company.id)">Delete company</button></td>
                 </tr>
                 </tbody>
             </table>

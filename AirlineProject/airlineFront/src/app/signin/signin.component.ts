@@ -35,7 +35,6 @@ export class SigninComponent implements OnInit {
         window.location.replace('/home');
       },
       err=>{
-        debugger
         if(err.status == 400)
         {
             this.toastr.error('Confirm your email.', 'Authentication failed.')

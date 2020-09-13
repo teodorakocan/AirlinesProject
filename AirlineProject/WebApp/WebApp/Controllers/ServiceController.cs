@@ -117,7 +117,7 @@ namespace WebApp.Controllers
 
             foreach (RentACar service in services)
             {
-                if (service.Name.Equals(name))
+                if (service.Name.Trim().Equals(name.Trim()))
                 {
                     return service;
                 }
@@ -228,6 +228,8 @@ namespace WebApp.Controllers
             }
 
             RentACar service = await _context.RentACars.FindAsync(serviceId);
+            service.Branches.Add(branch);
+            _context.Entry(service).State = EntityState.Modified;
             branch.RentACar = service;
             branch.RentACarID = serviceId;
             _context.Branches.Add(branch);
@@ -256,7 +258,7 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Route("service-vehicle/{serviceId}")]
-        public async Task<IEnumerable<Vehicle>> ServiceVehicle(int serviceId)
+        public async Task<ActionResult<IEnumerable<Vehicle>>> ServiceVehicle(int serviceId)
         {
             List<Branch> branches = new List<Branch>();
             List<Branch> serviceBranches = new List<Branch>();
@@ -283,7 +285,7 @@ namespace WebApp.Controllers
                 }
             }
 
-            return vehicleList;
+            return Ok(vehicleList);
         }
 
 
@@ -383,15 +385,19 @@ namespace WebApp.Controllers
                 }
             }
 
-            if (count > branch.NumberOfVehicle)
+            if (branch.NumberOfVehicle <= count)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "You can not add more vehicle!" });
             }
 
             vehicle.Branch = branch;
             vehicle.BranchID = branchId;
             _context.Vehicles.Add(vehicle);
+            
+            branch.Vehicles.Add(vehicle);
+            _context.Entry(branch).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+            var branches = await _context.Branches.ToListAsync();
 
             return Ok();
         }
@@ -443,103 +449,8 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("search-service")]
-        public async Task<ActionResult<IEnumerable<RentACar>>> SearchService(string name, string city, string state)
-        {
-            List<RentACar> services = new List<RentACar>();
-            List<RentACar> rentacarlist = new List<RentACar>();
-            RentACar rentacar = new RentACar();
-            rentacar = null;
-            services = await _context.RentACars.ToListAsync();
-
-            if(name == null && city == null && state == null)
-            {
-                return Ok(services);
-            }
-
-            if(name != null)
-            {
-                foreach(RentACar service in services)
-                {
-                    if (service.Name.Equals(name) || service.Name.ToLower() == name.ToLower())
-                    {
-                        rentacar = service;
-                        rentacarlist.Add(rentacar);
-                        break;
-                    }
-                }
-            }
-
-            if(city != null)
-            {
-                if(rentacar != null)
-                {
-                    if(rentacar.City.Equals(city) || rentacar.City.ToLower() == city.ToLower())
-                    {
-                        if(state != null)
-                        {
-                            if(rentacar.State.Equals(state) || rentacar.State.ToLower() == state.ToLower())
-                            {
-                                return Ok(rentacarlist);
-                            }
-                            return NotFound();
-                        }
-                        return Ok(rentacarlist);
-                    }
-                    return NotFound();
-                }
-                else
-                {
-                    foreach (RentACar service in services)
-                    {
-                        if (service.City.Equals(city) || service.City.ToLower() == city.ToLower())
-                        {
-                            if(state != null)
-                            {
-                                if(service.State.Equals(state) || service.State.ToLower() == state.ToLower())
-                                {
-                                    rentacarlist.Add(service);
-                                    return Ok(rentacarlist);
-                                }
-                            }
-                            rentacarlist.Add(service);
-                            return Ok(rentacarlist);
-                        }
-                    }
-                    return NotFound();
-                }
-            }
-
-            if(state != null)
-            {
-                if(rentacar != null)
-                {
-                    if(rentacar.State.Equals(state) || rentacar.State.ToLower() == state.ToLower())
-                    {
-                        return Ok(rentacarlist);
-                    }
-                    return NotFound();
-                }
-                else
-                {
-                    foreach(RentACar service in services)
-                    {
-                        if (service.State.Equals(state) || service.State.ToLower() == state.ToLower())
-                        {
-                            rentacarlist.Add(service);
-                            return Ok(rentacarlist);
-                        }
-                    }
-                    return NotFound();
-                }
-            }
-
-            return Ok(rentacarlist);
-        }
-
-        [HttpGet]
         [Route("search-vehicle")]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> SearchVehicles(string brand, string vehicleClass, string numberOfSeats, string vehiclePrice)
+        public async Task<ActionResult<IEnumerable<Vehicle>>> SearchVehicles(string brand, string vehicleClass, string numberOfSeats, string vehiclePrice, int id)
         {
             double price = 0;
             int nos = 0;
@@ -553,7 +464,9 @@ namespace WebApp.Controllers
                 price = double.Parse(vehiclePrice);
             }
 
-            var vehicles = from vehicle in _context.Vehicles
+            var serviceVehicle = new List<Vehicle>();
+            serviceVehicle = ServiceVehicles(id);
+            var vehicles = from vehicle in serviceVehicle
                          select vehicle;
 
             if (brand == null && vehicleClass == null && numberOfSeats == null && vehiclePrice == null)
@@ -628,6 +541,131 @@ namespace WebApp.Controllers
             }
 
             return Ok(vehicles);
+        }
+
+        private List<Vehicle> ServiceVehicles(int serviceId)
+        {
+            List<Branch> branches = new List<Branch>();
+            List<Branch> serviceBranches = new List<Branch>();
+            branches = _context.Branches.ToList();
+            foreach (Branch branch in branches)
+            {
+                if (branch.RentACarID == serviceId)
+                {
+                    serviceBranches.Add(branch);
+                }
+            }
+
+            List<Vehicle> vehicles = new List<Vehicle>();
+            vehicles = _context.Vehicles.ToList();
+            List<Vehicle> vehicleList = new List<Vehicle>();
+            foreach (Vehicle vehicle in vehicles)
+            {
+                foreach (Branch serviceBranch in serviceBranches)
+                {
+                    if (vehicle.BranchID == serviceBranch.ID)
+                    {
+                        vehicleList.Add(vehicle);
+                    }
+                }
+            }
+            return vehicleList;
+        }
+
+        [HttpGet]
+        [Route("search-service")]
+        public async Task<ActionResult<IEnumerable<Object>>> SearchService(string name, string city, DateTime StartDate, DateTime EndDate)
+        {
+            var services = from rentacar in _context.RentACars
+                           select rentacar;
+            var reservations = from reservation in _context.CarReservations
+                           select reservation;
+
+            CarReservation carReservationDate = new CarReservation()
+            {
+                ReservationFrom = StartDate,
+                ReservationTo = EndDate
+            };
+            
+            if (name == null && city == null && StartDate.Date.Year == 1 && EndDate.Date.Year == 1)
+            {
+                return Ok(services);
+            }
+
+            if(name != null && city != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
+            {
+                services = services.Where(s => s.Name.Contains(name) && s.City.Contains(city));
+                foreach(var service in services)
+                {
+                    if(service.Reservations.Contains(carReservationDate))
+                    {
+                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        foreach(var reservation in reservations)
+                        {
+                            service.Branches.Remove(reservation.Branch);
+                        }
+                    }
+                }
+                
+            }
+            else if( name != null && city != null)
+            {
+                services = services.Where(s => s.Name.Contains(name) && s.City.Contains(city));
+            }
+            else if (name != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
+            {
+                services = services.Where(s => s.Name.Contains(name));
+                foreach (var service in services)
+                {
+                    if (service.Reservations.Contains(carReservationDate))
+                    {
+                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        foreach (var reservation in reservations)
+                        {
+                            service.Branches.Remove(reservation.Branch);
+                        }
+                    }
+                }
+            }
+            else if (city != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
+            {
+                services = services.Where(s => s.City.Contains(city));
+                foreach (var service in services)
+                {
+                    if (service.Reservations.Contains(carReservationDate))
+                    {
+                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        foreach (var reservation in reservations)
+                        {
+                            service.Branches.Remove(reservation.Branch);
+                        }
+                    }
+                }
+            }
+            else if (name != null)
+            {
+                services = services.Where(s => s.Name.Contains(name));
+            }
+            else if (city != null)
+            {
+                services = services.Where(s => s.City.Contains(city));
+            }
+            else if (StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
+            {
+                foreach (var service in services)
+                {
+                    if (service.Reservations.Contains(carReservationDate))
+                    {
+                        reservations = reservations.Where(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
+                        foreach (var reservation in reservations)
+                        {
+                            service.Branches.Remove(reservation.Branch);
+                        }
+                    }
+                }
+            }
+
+            return Ok(services);
         }
     }
 }

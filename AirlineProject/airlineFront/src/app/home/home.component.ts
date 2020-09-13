@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { RentService, Vehicle, Airline } from '../models';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { datepickerAnimation } from 'ngx-bootstrap/datepicker/datepicker-animations';
 
 @Component({
   selector: 'app-home',
@@ -14,21 +16,27 @@ import { NgForm } from '@angular/forms';
 
 export class HomeComponent implements OnInit {
 
-  constructor(public airlineService: AirlineService, private toastr: ToastrService, private router: Router, public rentaService: RentACarService) {
-   }
+  constructor(public airlineService: AirlineService, private toastr: ToastrService, private router: Router, public rentaService: RentACarService) {}
   
   public airlinesCompanies: Airline[];
-  public rentacarCompanies: RentService[];
+  minDate: Date;
+  maxDate: Date;
+  public rentacarCompanies;
   public airlines: string[];
   public logged:boolean;
   public rentservices: string[];
   search = {
     Name: '',
     City: '',
-    State: ''
+    State: '',
+    DateRange: ''
   }
   
   ngOnInit(){
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.minDate.setDate(this.minDate.getDate());
+    this.maxDate.setDate(this.minDate.getDate() + 366);
     if(localStorage.getItem("token") != null)
     { 
       this.logged = true;
@@ -49,7 +57,7 @@ export class HomeComponent implements OnInit {
       });
 
     this.rentaService.allServices().subscribe(
-      (companies: RentService[]) => {
+      (companies) => {
           this.rentacarCompanies = companies;
       });
 
@@ -84,29 +92,34 @@ export class HomeComponent implements OnInit {
   }
 
   SearchServices(){
+    let startDate;
+    let endDate;
+    if(this.search.DateRange != "")
+    {
+      startDate = JSON.stringify(this.search.DateRange[0])
+      debugger
+      startDate = startDate.slice(1,11)
+      endDate = JSON.stringify(this.search.DateRange[1])
+      endDate = endDate.slice(1,11)
+    }
+    else{
+      endDate = "0001-01-01";
+      startDate = "0001-01-01";
+    }
     var searched={
       Name: this.search.Name,
       City: this.search.City,
-      State: this.search.State
+      StartDate: startDate,
+      EndDate: endDate
     }
-    this.rentaService.findService(searched).subscribe(
-      (companies: RentService[]) => {
-        debugger
-        if(companies.length > 1)
-        {
-          this.toastr.error('Rent-a-car service that you search is not existing.','Searching failed.');
-        }
-        this.rentacarCompanies = companies;
-      }, 
+    debugger
+
+    this.rentaService.searchService(searched).subscribe(
+      (companies)=>{
+        this.rentaService = companies;
+      },
       err=>{
-        if(err.status == 404)
-        {
-          this.toastr.error('Rent-a-car service that you search is not existing.','Searching failed.');
-        }
-        else
-        {
-          this.toastr.error('Error 500.','Server failed.');
-        }
+        this.toastr.error('Error 500.','Server failed.');
       }
     );
   }

@@ -10,8 +10,8 @@ using WebApp.Authentication;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200904145831_Initial")]
-    partial class Initial
+    [Migration("20200913161118_Inital")]
+    partial class Inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,29 +50,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7d3ecb17-48cf-454c-831f-364dee6f9f3e",
-                            ConcurrencyStamp = "c80690df-0b39-4224-b149-f4601074f10b",
+                            Id = "f0a89bb6-a06a-4b19-8212-c0d0407e879c",
+                            ConcurrencyStamp = "c5c3c803-2ec6-45ef-ae58-dda3c0f308f5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4bfe15a4-4d07-485e-bd83-568f9c3f7672",
-                            ConcurrencyStamp = "e5476e76-9f68-42d0-9e2c-b66edc26c405",
+                            Id = "752ccd48-3c65-4c49-99cd-ad698911ea25",
+                            ConcurrencyStamp = "9b150d7f-ac3f-4564-948c-9f0c4a4f9416",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "cde24b80-f6ea-46e1-8d4e-c921daa565d0",
-                            ConcurrencyStamp = "80a2eded-0e5a-4bb3-8912-3a1836e7fdbd",
+                            Id = "d7061d0a-b0b4-425e-8155-07b34e5b873e",
+                            ConcurrencyStamp = "4b738349-ca01-4532-98ee-7c98ab8f3730",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "7ab76be1-c56c-4b5c-85b6-af8cc602ea05",
-                            ConcurrencyStamp = "86e90bb4-f3b3-4801-ba26-8282fbc1e7bf",
+                            Id = "cff30d25-3349-49ac-8f5a-9252484b7ba5",
+                            ConcurrencyStamp = "e7361c51-eaf0-4d31-9b30-662c0f241a94",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -429,7 +429,13 @@ namespace WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BranchID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CarReservations")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentACarID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReservationFrom")
@@ -437,6 +443,12 @@ namespace WebApp.Migrations
 
                     b.Property<DateTime>("ReservationTo")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("Reservations")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Resrvations")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
@@ -448,9 +460,9 @@ namespace WebApp.Migrations
 
                     b.HasIndex("CarReservations");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("Reservations");
 
-                    b.HasIndex("VehicleID");
+                    b.HasIndex("Resrvations");
 
                     b.ToTable("CarReservations");
                 });
@@ -944,25 +956,21 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.CarReservation", b =>
                 {
-                    b.HasOne("WebApp.Models.MyUser", null)
-                        .WithMany("CarReservations")
-                        .HasForeignKey("CarReservations");
-
-                    b.HasOne("WebApp.Models.Vehicle", null)
-                        .WithMany("CarReservations")
-                        .HasForeignKey("CarReservations");
-
                     b.HasOne("WebApp.Models.MyUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("CarReservations")
+                        .HasForeignKey("CarReservations");
 
                     b.HasOne("WebApp.Models.Vehicle", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("CarReservations")
+                        .HasForeignKey("CarReservations");
+
+                    b.HasOne("WebApp.Models.RentACar", "RentACar")
+                        .WithMany("Reservations")
+                        .HasForeignKey("Reservations");
+
+                    b.HasOne("WebApp.Models.Branch", "Branch")
+                        .WithMany("Resrvations")
+                        .HasForeignKey("Resrvations");
                 });
 
             modelBuilder.Entity("WebApp.Models.FastReservation", b =>

@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatTabsModule } from '@angular/material/tabs';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -66,6 +67,7 @@ import { RentServiceComponent } from './home/rent-service/rent-service.component
     }),
     FormsModule,
     MDBBootstrapModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     NgbModule
   ],
   providers: [

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { from } from 'rxjs';
 import { SystemAdminService } from 'src/app/service/systemadmin.service';
+import { RentACarService } from 'src/app/service/rent_a_car.service';
 
 @Component({
   selector: 'app-system',
@@ -13,7 +14,8 @@ import { SystemAdminService } from 'src/app/service/systemadmin.service';
 })
 export class SystemComponent implements OnInit {
 
-  constructor(public systemservice: SystemAdminService, private toastr: ToastrService, private router: Router) { }
+  constructor(public systemservice: SystemAdminService, private toastr: ToastrService, private router: Router, 
+    public rentacarservice: RentACarService) { }
 
   public users: Object[];
   public companies: Object[];
@@ -63,4 +65,28 @@ export class SystemComponent implements OnInit {
     );
   }
 
+  DeleteCompany(id){
+    this.rentacarservice.deleteService(id).subscribe(
+      (res)=>
+      {
+        this.toastr.success('Company is deleted','Successful deleted.');
+        this.systemservice.allCompanies().subscribe(
+          (res:Object[])=>{
+            this.companies = res;
+          },
+          err=>{
+            if(err.status == 400)
+            {
+              this.toastr.error('There are no registered companies','Failed to load companies.');
+            }
+            else{
+              this.toastr.error('Error 500','Server failed.');
+            }
+          }
+        );
+      }
+    );
+
+    
+  }
 }

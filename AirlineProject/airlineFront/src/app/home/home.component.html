@@ -52,10 +52,11 @@
                         <div class="form-group col-md-auto">
                             <label style="color: white;">City of rent-a-car service:</label><br/>
                              <input style="width: 200px;" type="text" placeholder="City.." name="City" #City="ngModel" [(ngModel)]="search.City">
-                        </div> 
-                        <div class="form-group col-md-auto">
-                            <label style="color: white;">State of rent-a-car service:</label><br/>
-                             <input style="width: 200px;" type="text" placeholder="State.." name="State" #Satet="ngModel" [(ngModel)]="search.State">
+                        </div>
+                        <div class="form-group col-md-auto" style="padding-top: 32px;">
+                            <input type="text"
+                                placeholder="Pick date" [minDate]="minDate" [maxDate]="maxDate"
+                                bsDaterangepicker form="mm/dd/yyyy" name="DateRange" #DateRange="ngModel" [(ngModel)]="search.DateRange">
                         </div>
                         <div class="form-group col-md-auto" style="padding-top: 30px;">
                             <button data-toggle="tooltip" title="Search" type="submit" class="btn btn-default" style="padding-top: 2px;">
@@ -67,11 +68,16 @@
             </div><br/><br/>
 
             <div class="companies" *ngFor="let rentacarCompany of rentacarCompanies">
-                <label style="font-size:24px; color: purple;">{{rentacarCompany.name}}</label>
-                <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompany.name)">More</button><br/>
-                <label style="font-size:14px;">{{rentacarCompany.city}}, {{rentacarCompany.state}}</label><br/>
-                <label style="font-size:14px;">{{rentacarCompany.address}}</label><br/>
-                <label style="font-size:20px;">{{rentacarCompany.promoDescription}}</label><br/>
+                <div class="companies" *ngFor="let branch of rentacarCompanies.branches">
+                    <label style="font-size:24px; color: purple;">{{rentacarCompany.name}}</label>
+                    <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompany.name)">More</button><br/>
+                    <label style="font-size:14px;">{{rentacarCompany.city}}, {{rentacarCompany.state}}</label><br/>
+                    <label style="font-size:14px;">Address: {{rentacarCompany.address}}</label><br/>
+                    <label style="font-size:20px;">{{rentacarCompany.promoDescription}}</label><br/>
+                    <label style="font-size:20px;">Branch office name: {{branch.name}}</label><br/>
+                    <label style="font-size:14px;">{{branch.city}}, {{branch.state}}</label><br/>
+                    <label style="font-size:14px;">Address: {{branch.address}}</label><br/>
+                </div>
             </div><br/><br/><br/>
         </mat-tab>
     </mat-tab-group>

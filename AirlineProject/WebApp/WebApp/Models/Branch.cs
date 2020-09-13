@@ -21,6 +21,9 @@ namespace WebApp.Models
         [ForeignKey("Vehicle")]
         public ICollection<Vehicle> Vehicles { get; set; }
 
+        [ForeignKey("Resrvations")]
+        public ICollection<CarReservation> Resrvations { get; set; }
+
         [ForeignKey("RentACar")]
         public int RentACarID { get; set; }
         public RentACar RentACar { get;set;}
@@ -28,6 +31,7 @@ namespace WebApp.Models
         public Branch()
         {
             this.Vehicles = new HashSet<Vehicle>();
+            this.Resrvations = new HashSet<CarReservation>();
         }
     }
 }

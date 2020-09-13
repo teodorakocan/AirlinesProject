@@ -34,6 +34,7 @@ export class RentacarComponent implements OnInit {
     this.service.getServiceInfo(this.name).subscribe(
       (res)=>{
         this.rentservice = res;
+        this.serviceId = this.rentservice.id;
         this.service.allBranches(this.rentservice.id).subscribe(
           (res: Branch[])=>{
             this.branches = res;
@@ -71,7 +72,8 @@ export class RentacarComponent implements OnInit {
       Class: this.search.Class,
       Price: this.search.Price
     }
-    this.service.searchVehicle(searched).subscribe(
+    debugger
+    this.service.searchVehicle(this.serviceId,searched).subscribe(
       (res: Vehicle[])=>{
         debugger
         this.vehicles = res;

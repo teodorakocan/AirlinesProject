@@ -117,13 +117,12 @@ export class RentACarService{
     deleteVehicle(vehicleId){
       return this._http.delete(this._baseUrl + '/api/service/delete-vehicle/' + vehicleId);
     }
-
-    findService(searched): Observable<any>{
-      return this._http.get(this._baseUrl + '/api/service/search-service?name='+searched.Name+'&city='+searched.City+'&state='+searched.State); 
+    
+    searchService(searched):Observable<any>{
+      return this._http.get(this._baseUrl + '/api/service/search-service?name='+searched.Name+'&city='+searched.City+'&StartDate='+searched.StartDate+'&EndDate='+searched.EndDate); 
     }
 
-    searchVehicle(searched):Observable<any>{
-      debugger
-      return this._http.get(this._baseUrl + '/api/service/search-vehicle?brand='+searched.Brand+'&vehicleClass='+searched.Class+'&numberOfSeats='+searched.NumberOfSeats+'&price='+searched.Price); 
+    searchVehicle(serviceId, searched):Observable<any>{
+      return this._http.get(this._baseUrl + '/api/service/search-vehicle?brand='+searched.Brand+'&vehicleClass='+searched.Class+'&numberOfSeats='+searched.NumberOfSeats+'&price='+searched.Price+'&id='+serviceId); 
     }
 }

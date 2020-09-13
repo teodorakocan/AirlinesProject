@@ -45,4 +45,34 @@
 
     <button type="button" class="btn btn-dark" (click)="AddVehicle()">Add vehicle</button>
     <button type="button" class="btn btn-danger" style="float:right; width: 200px;" (click)="DeleteBranch()"> Delete branche office</button>
+
+    <div *ngIf="exist1"><br/><br/>
+        <section class="Vehicles">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Number of seats</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Price per day</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let vehicle of vehicles">
+                    <td><img [src]="createImgPath(vehicle.image)" alt="vehicle picture" style="width:60px; height:60px;"></td>
+                    <td>{{vehicle.brand}}</td>
+                    <td>{{vehicle.numberOfSeats}}</td>
+                    <td>{{vehicle.class}}</td>
+                    <td>{{vehicle.price}}$</td>
+                    <td><button type="button" class="btn btn-primary" (click)="EditVehicle(vehicle.id)">Edit vehicle</button></td>
+                    <td><button type="button" class="btn btn-danger" (click)="DeleteVehicle(vehicle.id)">Delete vehicle</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <div *ngIf="!exist1"><br/><br/>
+        <p style="font: 28px;">There is no vehicle</p>
+    </div><br/>
 </div>

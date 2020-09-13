@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Branch } from 'src/app/models';
 import { NgForm } from '@angular/forms';
+import { Vehicle } from 'src/app/models';
 
 @Component({
   selector: 'app-edit-branch',
@@ -14,6 +15,8 @@ import { NgForm } from '@angular/forms';
 export class EditBranchComponent implements OnInit {
   public branchId:number;
   public branch;
+  vehicles: Vehicle[];
+  exist1: boolean;
   state$;
 
   constructor(private route: ActivatedRoute, private toastr: ToastrService, public service: RentACarService, private router: Router) { }
@@ -28,6 +31,19 @@ export class EditBranchComponent implements OnInit {
         },
         err=>{
           this.toastr.error('Error 500','Server failed.');
+        }
+      )
+
+      this.service.branchVehicle(this.branchId).subscribe(
+        (res: Vehicle[])=>{
+            if(res.length == 0)
+            {
+              this.exist1 == false;
+            }
+            else{
+              this.exist1 = true;
+              this.vehicles = res;
+            }
         }
       )
     });
@@ -72,5 +88,36 @@ export class EditBranchComponent implements OnInit {
         this.toastr.error('Error 500.', 'Server faild.')
       }
     );
+  }
+
+  DeleteVehicle(vehicleId){
+    this.service.deleteVehicle(vehicleId).subscribe(
+      (res)=>{
+        this.toastr.success('Vehicle is successfully deleted', 'Deleted.');
+        this.service.branchVehicle(this.branchId).subscribe(
+          (res: Vehicle[])=>{
+            this.vehicles = res;
+          }
+        );
+      },
+      err=>{
+        if(err.status == 400)
+        {
+          this.toastr.error('This vehicle is reserved.','Delete failed.');
+        }
+        else
+        {
+          this.toastr.error('Error 500','Server failed.');
+        }
+      }
+    )
+  }
+
+  EditVehicle(vehicleId){
+    this.router.navigateByUrl('edit-vehicle/' + vehicleId);
+  }
+
+  createImgPath(serverPath: string){
+    return `http://localhost:50081/${serverPath}`;
   }
 }
