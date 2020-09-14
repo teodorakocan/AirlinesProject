@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { datepickerAnimation } from 'ngx-bootstrap/datepicker/datepicker-animations';
+import { debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -58,6 +59,7 @@ export class HomeComponent implements OnInit {
 
     this.rentaService.allServices().subscribe(
       (companies) => {
+        debugger
           this.rentacarCompanies = companies;
       });
 
@@ -111,8 +113,10 @@ export class HomeComponent implements OnInit {
       StartDate: startDate,
       EndDate: endDate
     }
+
     this.rentaService.findService(searched).subscribe(
       (res)=>{
+        debugger
         this.rentacarCompanies = res;
       }
     );

@@ -618,15 +618,10 @@ namespace WebApp.Controllers
         {
             List<ServiceViewModel> allServices = new List<ServiceViewModel>();
             List<RentACar> services = new List<RentACar>();
-            List<CarReservation> reservations = new List<CarReservation>();
-            services = await _context.RentACars.ToListAsync();
+            services = _context.RentACars.ToList();
+            List<CarReservation> reservations = new List<CarReservation>(); 
             reservations = await _context.CarReservations.ToListAsync();
-
-            CarReservation carReservationDate = new CarReservation()
-            {
-                ReservationFrom = StartDate,
-                ReservationTo = EndDate
-            };
+            int branchId = 0;
             
             if (name == null && city == null && StartDate.Date.Year == 1 && EndDate.Date.Year == 1)
             {
@@ -636,85 +631,55 @@ namespace WebApp.Controllers
 
             if(name != null && city != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
             {
-                
                 services = services.FindAll(s => s.Name.Contains(name) && s.City.Contains(city));
-                foreach(var service in services)
+                foreach (var service in services)
                 {
-                    if(service.Reservations.Contains(carReservationDate))
+                    List<Branch> branches = FindBranch(service.ID);
+                    foreach (Branch branch in branches)
                     {
-                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
-                        foreach(var reservation in reservations)
+                        foreach (CarReservation reservation in reservations)
                         {
-                            service.Branches.Remove(reservation.Branch);
+                            bool unavailable = true;
+
+                            if (reservation.BranchID == branch.ID)
+                            {
+                                if (StartDate <= reservation.ReservationFrom && reservation.ReservationTo <= EndDate)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            if (unavailable)
+                            {
+                                ServiceViewModel svm = new ServiceViewModel()
+                                {
+                                    ServiceID = service.ID,
+                                    ServiceName = service.Name,
+                                    ServiceAddress = service.Address,
+                                    ServiceCity = service.City,
+                                    ServiceState = service.State,
+                                    ServicePromoDescription = service.PromoDescription,
+                                    BranchId = branch.ID,
+                                    BranchName = branch.Name,
+                                    BranchAddress = branch.Address,
+                                    BranchCity = branch.City,
+                                    BranchState = branch.State,
+                                    NumberOfVehicle = branch.NumberOfVehicle
+                                };
+                                allServices.Add(svm);
+                            }
+
                         }
                     }
                 }
-                
+
             }
             else if( name != null && city != null)
             {
                 services = services.FindAll(s => s.Name.Contains(name) && s.City.Contains(city));
-            }
-            else if (name != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
-            {
-                services = services.FindAll(s => s.Name.Contains(name));
-                foreach (var service in services)
+                foreach(RentACar service in services)
                 {
-                    if (service.Reservations.Contains(carReservationDate))
-                    {
-                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
-                        foreach (var reservation in reservations)
-                        {
-                            service.Branches.Remove(reservation.Branch);
-                        }
-                    }
-                }
-            }
-            else if (city != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
-            {
-                services = services.FindAll(s => s.City.Contains(city));
-                foreach (var service in services)
-                {
-                    if (service.Reservations.Contains(carReservationDate))
-                    {
-                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
-                        foreach (var reservation in reservations)
-                        {
-                            service.Branches.Remove(reservation.Branch);
-                        }
-                    }
-                }
-            }
-            else if (name != null)
-            {
-                services = services.FindAll(s => s.Name.Contains(name));
-            }
-            else if (city != null)
-            {
-                services = services.FindAll(s => s.City.Contains(city));
-            }
-            else if (StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
-            {
-                foreach (var service in services)
-                {
-                    if (service.Reservations.Contains(carReservationDate))
-                    {
-                        reservations = reservations.FindAll(r => r.ReservationTo.Equals(StartDate) && r.ReservationFrom.Equals(EndDate));
-                        foreach (var reservation in reservations)
-                        {
-                            service.Branches.Remove(reservation.Branch);
-                        }
-                    }
-                }
-            }
-
-            foreach(var service in services)
-            {
-                List<Branch> branches = new List<Branch>();
-                branches = await _context.Branches.ToListAsync();
-                foreach(Branch branch in branches)
-                {
-                    if(branch.RentACarID == service.ID)
+                    List<Branch> branches = FindBranch(service.ID);
+                    foreach (Branch branch in branches)
                     {
                         ServiceViewModel svm = new ServiceViewModel()
                         {
@@ -735,14 +700,210 @@ namespace WebApp.Controllers
                     }
                 }
             }
+            else if (name != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
+            {
+                services = services.FindAll(s => s.Name.Contains(name));
+                foreach (var service in services)
+                {
+                    List<Branch> branches = FindBranch(service.ID);
+                    foreach (Branch branch in branches)
+                    {
+                        foreach (CarReservation reservation in reservations)
+                        {
+                            bool unavailable = true;
+
+                            if (reservation.BranchID == branch.ID)
+                            {
+                                if (StartDate <= reservation.ReservationFrom && reservation.ReservationTo <= EndDate)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            if (unavailable)
+                            {
+                                ServiceViewModel svm = new ServiceViewModel()
+                                {
+                                    ServiceID = service.ID,
+                                    ServiceName = service.Name,
+                                    ServiceAddress = service.Address,
+                                    ServiceCity = service.City,
+                                    ServiceState = service.State,
+                                    ServicePromoDescription = service.PromoDescription,
+                                    BranchId = branch.ID,
+                                    BranchName = branch.Name,
+                                    BranchAddress = branch.Address,
+                                    BranchCity = branch.City,
+                                    BranchState = branch.State,
+                                    NumberOfVehicle = branch.NumberOfVehicle
+                                };
+                                allServices.Add(svm);
+                            }
+
+                        }
+                    }
+                }
+            }
+            else if (city != null && StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
+            {
+                services = services.FindAll(s => s.City.Contains(city));
+                foreach (var service in services)
+                {
+                    List<Branch> branches = FindBranch(service.ID);
+                    foreach (Branch branch in branches)
+                    {
+                        foreach (CarReservation reservation in reservations)
+                        {
+                            bool unavailable = true;
+
+                            if (reservation.BranchID == branch.ID)
+                            {
+                                if (StartDate <= reservation.ReservationFrom && reservation.ReservationTo <= EndDate)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            if (unavailable)
+                            {
+                                ServiceViewModel svm = new ServiceViewModel()
+                                {
+                                    ServiceID = service.ID,
+                                    ServiceName = service.Name,
+                                    ServiceAddress = service.Address,
+                                    ServiceCity = service.City,
+                                    ServiceState = service.State,
+                                    ServicePromoDescription = service.PromoDescription,
+                                    BranchId = branch.ID,
+                                    BranchName = branch.Name,
+                                    BranchAddress = branch.Address,
+                                    BranchCity = branch.City,
+                                    BranchState = branch.State,
+                                    NumberOfVehicle = branch.NumberOfVehicle
+                                };
+                                allServices.Add(svm);
+                            }
+
+                        }
+                    }
+                }
+            }
+            else if (name != null)
+            {
+                services = services.FindAll(s => s.Name.Contains(name));
+                foreach (RentACar service in services)
+                {
+                    List<Branch> branches = FindBranch(service.ID);
+                    foreach (Branch branch in branches)
+                    {
+                        ServiceViewModel svm = new ServiceViewModel()
+                        {
+                            ServiceID = service.ID,
+                            ServiceName = service.Name,
+                            ServiceAddress = service.Address,
+                            ServiceCity = service.City,
+                            ServiceState = service.State,
+                            ServicePromoDescription = service.PromoDescription,
+                            BranchId = branch.ID,
+                            BranchName = branch.Name,
+                            BranchAddress = branch.Address,
+                            BranchCity = branch.City,
+                            BranchState = branch.State,
+                            NumberOfVehicle = branch.NumberOfVehicle
+                        };
+                        allServices.Add(svm);
+                    }
+                }
+            }
+            else if (city != null)
+            {
+                services = services.FindAll(s => s.City.Contains(city));
+                foreach (RentACar service in services)
+                {
+                    List<Branch> branches = FindBranch(service.ID);
+                    foreach (Branch branch in branches)
+                    {
+                        ServiceViewModel svm = new ServiceViewModel()
+                        {
+                            ServiceID = service.ID,
+                            ServiceName = service.Name,
+                            ServiceAddress = service.Address,
+                            ServiceCity = service.City,
+                            ServiceState = service.State,
+                            ServicePromoDescription = service.PromoDescription,
+                            BranchId = branch.ID,
+                            BranchName = branch.Name,
+                            BranchAddress = branch.Address,
+                            BranchCity = branch.City,
+                            BranchState = branch.State,
+                            NumberOfVehicle = branch.NumberOfVehicle
+                        };
+                        allServices.Add(svm);
+                    }
+                }
+            }
+            else if (StartDate.Date.Year != 1 && EndDate.Date.Year != 1)
+            {
+                foreach (var service in services)
+                {
+                    List<Branch> branches = FindBranch(service.ID);
+                    foreach (Branch branch in branches)
+                    {
+                        foreach (CarReservation reservation in reservations)
+                        {
+                            bool unavailable = true;
+
+                            if (reservation.BranchID == branch.ID)
+                            {
+                                if (StartDate <= reservation.ReservationFrom && reservation.ReservationTo <= EndDate)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            if (unavailable)
+                            {
+                                ServiceViewModel svm = new ServiceViewModel()
+                                {
+                                    ServiceID = service.ID,
+                                    ServiceName = service.Name,
+                                    ServiceAddress = service.Address,
+                                    ServiceCity = service.City,
+                                    ServiceState = service.State,
+                                    ServicePromoDescription = service.PromoDescription,
+                                    BranchId = branch.ID,
+                                    BranchName = branch.Name,
+                                    BranchAddress = branch.Address,
+                                    BranchCity = branch.City,
+                                    BranchState = branch.State,
+                                    NumberOfVehicle = branch.NumberOfVehicle
+                                };
+                                allServices.Add(svm);
+                            }
+
+                        }
+                    }
+                }
+            }
             return Ok(allServices);
+        }
+
+        private List<Branch> FindBranch(int serviceId)
+        {
+            List<Branch> branches = new List<Branch>();
+            List<Branch> serviceBranches = new List<Branch>();
+            branches = _context.Branches.ToList();
+            foreach(Branch branch in branches)
+            {
+                if(branch.RentACarID == serviceId)
+                {
+                    serviceBranches.Add(branch);
+                }
+            }
+            return serviceBranches;
         }
 
         [HttpGet]
         [Route("search-vehicles")]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> SearchAvailableVehicle(string brand, string numberOfSeats, string price, string city1, string city2, DateTime dateFrom, DateTime dateTo)
+        public async Task<ActionResult<IEnumerable<Vehicle>>> SearchAvailableVehicle(int branchId, string brand, string price, string numberOfSeats, DateTime dateFrom, DateTime dateTo)
         {
-            //price promenuti izracunati koliki je za zadati interval vremena za kada je korisniku potreban auto
             double vehiclePrice = 0;
             int nos = 0;
             if (numberOfSeats != null)
@@ -754,8 +915,318 @@ namespace WebApp.Controllers
             {
                 vehiclePrice = double.Parse(price);
             }
+            List<CarReservation> carReservations = new List<CarReservation>();
+            carReservations = await _context.CarReservations.ToListAsync();
+            var branchVehicle = new List<Vehicle>();
+            branchVehicle = BranchVehicles(branchId); //vozila proslednjene filijale
 
-            return Ok();
+            List<Vehicle> availableVehicles = new List<Vehicle>();
+
+            if(brand == null && numberOfSeats == null && price == null && dateFrom.Date.Year == 1 && dateTo.Date.Year == 1)
+            {
+                return Ok(branchVehicle);
+            }
+            foreach (Vehicle vehicle in branchVehicle)
+            {
+                if (brand != null && numberOfSeats != null && price != null && dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    if (vehicle.Brand.Contains(brand) && vehicle.Price.Equals(vehiclePrice) && vehicle.NumberOfSeats.Equals(nos))
+                    {
+                        foreach (CarReservation reservation in carReservations)
+                        {
+                            bool unavailable = true;
+                            if (reservation.VehicleID == vehicle.ID)
+                            {
+                                if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            else
+                            {
+                                if (unavailable)
+                                {
+                                    TimeSpan totalDateReservation = new TimeSpan();
+                                    totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                    int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                    vehicle.Price = totalPrice;
+                                    availableVehicles.Add(vehicle);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (brand != null && price != null && numberOfSeats != null)
+                {
+                    if (vehicle.Brand.Contains(brand) && vehicle.Price.Equals(vehiclePrice) && vehicle.NumberOfSeats.Equals(nos))
+                    {
+                        availableVehicles.Add(vehicle);
+                    }
+                }
+                else if (brand != null && numberOfSeats != null && dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    if (vehicle.Brand.Contains(brand) && vehicle.NumberOfSeats.Equals(nos))
+                    {
+                        foreach (CarReservation reservation in carReservations)
+                        {
+                            bool unavailable = true;
+                            if (reservation.VehicleID == vehicle.ID)
+                            {
+                                if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            else
+                            {
+                                if (unavailable)
+                                {
+                                    TimeSpan totalDateReservation = new TimeSpan();
+                                    totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                    int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                    vehicle.Price = totalPrice;
+                                    availableVehicles.Add(vehicle);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (brand != null && price != null && dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    if (vehicle.Brand.Contains(brand) && vehicle.Price.Equals(vehiclePrice))
+                    {
+                        foreach (CarReservation reservation in carReservations)
+                        {
+                            bool unavailable = true;
+                            if (reservation.VehicleID == vehicle.ID)
+                            {
+                                if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            else
+                            {
+                                if (unavailable)
+                                {
+                                    TimeSpan totalDateReservation = new TimeSpan();
+                                    totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                    int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                    vehicle.Price = totalPrice;
+                                    availableVehicles.Add(vehicle);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (numberOfSeats != null && price != null && dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    if (vehicle.Price.Equals(vehiclePrice) && vehicle.NumberOfSeats.Equals(nos))
+                    {
+                        foreach (CarReservation reservation in carReservations)
+                        {
+                            bool unavailable = true;
+                            if (reservation.VehicleID == vehicle.ID)
+                            {
+                                if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            else
+                            {
+                                if (unavailable)
+                                {
+                                    TimeSpan totalDateReservation = new TimeSpan();
+                                    totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                    int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                    vehicle.Price = totalPrice;
+                                    availableVehicles.Add(vehicle);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (price != null && dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    if (vehicle.Price.Equals(vehiclePrice))
+                    {
+                        foreach (CarReservation reservation in carReservations)
+                        {
+                            bool unavailable = true;
+                            if (reservation.VehicleID == vehicle.ID)
+                            {
+                                if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                                {
+                                    unavailable = false; ;
+                                }
+                            }
+                            else
+                            {
+                                if (unavailable)
+                                {
+                                    TimeSpan totalDateReservation = new TimeSpan();
+                                    totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                    int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                    vehicle.Price = totalPrice;
+                                    availableVehicles.Add(vehicle);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (numberOfSeats != null && dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    if (vehicle.NumberOfSeats.Equals(nos))
+                    {
+                        foreach (CarReservation reservation in carReservations)
+                        {
+                            bool unavailable = true;
+                            if (reservation.VehicleID == vehicle.ID)
+                            {
+                                if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            else
+                            {
+                                if (unavailable)
+                                {
+                                    TimeSpan totalDateReservation = new TimeSpan();
+                                    totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                    int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                    vehicle.Price = totalPrice;
+                                    availableVehicles.Add(vehicle);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (brand != null && dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    if (vehicle.Brand.Contains(brand))
+                    {
+                        foreach (CarReservation reservation in carReservations)
+                        {
+                            bool unavailable = true;
+                            if (reservation.VehicleID == vehicle.ID)
+                            {
+                                if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                                {
+                                    unavailable = false;
+                                }
+                            }
+                            else
+                            {
+                                if (unavailable)
+                                {
+                                    TimeSpan totalDateReservation = new TimeSpan();
+                                    totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                    int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                    vehicle.Price = totalPrice;
+                                    availableVehicles.Add(vehicle);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (brand != null && numberOfSeats != null)
+                {
+                    if (vehicle.Brand.Contains(brand) && vehicle.NumberOfSeats.Equals(nos))
+                    {
+                        availableVehicles.Add(vehicle);
+                    }
+                }
+                else if (brand != null && price != null)
+                {
+                    if (vehicle.Brand.Contains(brand) && vehicle.Price.Equals(vehiclePrice))
+                    {
+                        availableVehicles.Add(vehicle);
+                    }
+                }
+                else if (numberOfSeats != null && price != null)
+                {
+                    if (vehicle.NumberOfSeats.Equals(nos) && vehicle.Price.Equals(vehiclePrice))
+                    {
+                        availableVehicles.Add(vehicle);
+                    }
+                }
+                else if (brand != null)
+                {
+                    if (vehicle.Brand.Contains(brand))
+                    {
+                        availableVehicles.Add(vehicle);
+                    }
+                }
+                else if (price != null)
+                {
+                    if (vehicle.Price.Equals(vehiclePrice))
+                    {
+                        availableVehicles.Add(vehicle);
+                    }
+                }
+                else if (numberOfSeats != null)
+                {
+                    if (vehicle.NumberOfSeats.Equals(nos))
+                    {
+                        availableVehicles.Add(vehicle);
+                    }
+                }
+                else if (dateFrom.Date.Year != 1 && dateTo.Date.Year != 1)
+                {
+                    foreach (CarReservation reservation in carReservations)
+                    {
+                        bool unavailable = true;
+                        if (reservation.VehicleID == vehicle.ID)
+                        {
+                            if (dateFrom <= reservation.ReservationFrom && reservation.ReservationTo <= dateTo)
+                            {
+                                unavailable = false;
+                            }
+                        }
+                        else
+                        {
+                            if (unavailable)
+                            {
+                                TimeSpan totalDateReservation = new TimeSpan();
+                                totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+                                int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+                                vehicle.Price = totalPrice;
+                                availableVehicles.Add(vehicle);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return Ok(availableVehicles);
+        }
+
+        private List<Vehicle> BranchVehicles(int branchId)
+        {
+            List<Branch> allBranches = new List<Branch>();
+            List<Vehicle> vehicles = new List<Vehicle>();
+            vehicles = _context.Vehicles.ToList();
+            List<Vehicle> vehicleList = new List<Vehicle>();
+            allBranches = _context.Branches.ToList();
+
+            foreach (Branch branch in allBranches)
+            {
+                if (branch.ID == branchId)
+                {
+                    foreach(Vehicle vehicle in vehicles)
+                    {
+                        if(vehicle.BranchID == branch.ID)
+                        {
+                            vehicleList.Add(vehicle);
+                        }
+                    }
+                }
+            }
+
+            return vehicleList;
         }
 
         [HttpPost]

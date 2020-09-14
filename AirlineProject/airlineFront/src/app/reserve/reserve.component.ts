@@ -20,8 +20,6 @@ export class ReserveComponent implements OnInit {
   maxDate: Date;
   search = {
     Brand: '',
-    City: '',
-    ReturnCity: '',
     NumberOfSeats: '',
     Price: '',
     DateRange: ''
@@ -69,13 +67,10 @@ export class ReserveComponent implements OnInit {
       Brand: this.search.Brand,
       NumberOfSeats: this.search.NumberOfSeats,
       Price: this.search.Price,
-      City: this.search.City,
-      ReturnCity: this.search.ReturnCity,
       StartDate: startDate,
       EndDate: endDate
     }
-    debugger
-    this.service.searchVehicle2(searched).subscribe(
+    this.service.searchVehicle2(this.branchId, searched).subscribe(
       (res:Vehicle[])=>{
         this.vehicles = res;
       },
