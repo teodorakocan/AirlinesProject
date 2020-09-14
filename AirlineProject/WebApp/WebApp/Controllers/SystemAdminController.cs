@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Authentication;
 using WebApp.Models;
+using WebApp.Models.ViewModel;
 
 namespace WebApp.Controllers
 {
@@ -275,6 +276,33 @@ namespace WebApp.Controllers
             }
 
             return Ok(searchedUser);
+        }
+
+        [HttpGet]
+        [Route("all-reservations")]
+        public async Task<ActionResult<IEnumerable<ReservationViewModel>>> AllReservations()
+        {
+            List<CarReservation> carReservations = new List<CarReservation>();
+            carReservations = await _context.CarReservations.ToListAsync();
+            List<ReservationViewModel> listOfReservations = new List<ReservationViewModel>();
+
+            foreach (CarReservation carReservation in carReservations)
+            {
+                RentACar service = _context.RentACars.Find(carReservation.RentACarID);
+                MyUser user = _context.MyUsers.Find(carReservation.UserID);
+                Branch branch = _context.Branches.Find(carReservation.BranchID);
+                ReservationViewModel reservation = new ReservationViewModel()
+                {
+                    ReservationFrom = carReservation.ReservationFrom,
+                    ReservationTo = carReservation.ReservationTo,
+                    ServiceName = service.Name,
+                    BranchName = branch.Name,
+                    UserName = user.Name + " " + user.Surname
+                };
+                listOfReservations.Add(reservation);
+            }
+
+            return Ok(listOfReservations);
         }
     }
 }

@@ -1,0 +1,15 @@
+.vehicles{
+    margin:auto;
+    border: 1px solid black;
+    padding: 10px;
+    width: 70%;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.search{
+    box-shadow: 5px 10px #888888;
+    background-color: rgb(158, 62, 158);
+    width: 80%;
+    margin: auto;
+  }

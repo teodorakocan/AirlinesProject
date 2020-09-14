@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WebApp.Authentication;
 using WebApp.Models;
+using WebApp.Models.ViewModel;
 
 namespace WebApp.Controllers
 {
@@ -177,6 +178,72 @@ namespace WebApp.Controllers
             }
 
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Server faild!" });
+        }
+
+        [HttpGet]
+        [Route("user-reservations/{email}")]
+        public async Task<ActionResult<IEnumerable<ReservationViewModel>>> MyReservations(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+
+            List<CarReservation> carReservations = new List<CarReservation>();
+            carReservations = await _context.CarReservations.ToListAsync();
+            List<ReservationViewModel> listOfReservations = new List<ReservationViewModel>();
+
+            foreach (CarReservation carReservation in carReservations)
+            {
+                if (carReservation.UserID == user.UserID && carReservation.ReservationTo > date)
+                {
+                    RentACar service = _context.RentACars.Find(carReservation.RentACarID);
+                    MyUser myUser = _context.MyUsers.Find(carReservation.UserID);
+                    Branch branch = _context.Branches.Find(carReservation.BranchID);
+                    ReservationViewModel reservation = new ReservationViewModel()
+                    {
+                        ReservationFrom = carReservation.ReservationFrom,
+                        ReservationTo = carReservation.ReservationTo,
+                        ServiceName = service.Name,
+                        BranchName = branch.Name,
+                        UserName = myUser.Name + " " + myUser.Surname
+                    };
+                    listOfReservations.Add(reservation);
+                }
+            }
+            return Ok(listOfReservations);
+        }
+
+        [HttpGet]
+        [Route("old-reservations/{email}")]
+        public async Task<ActionResult<IEnumerable<ReservationViewModel>>> OldReservations(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+
+            List<CarReservation> carReservations = new List<CarReservation>();
+            carReservations = await _context.CarReservations.ToListAsync();
+            List<ReservationViewModel> listOfReservations = new List<ReservationViewModel>();
+
+            foreach (CarReservation carReservation in carReservations)
+            {
+                if (carReservation.UserID == user.UserID && carReservation.ReservationTo < date)
+                {
+                    RentACar service = _context.RentACars.Find(carReservation.RentACarID);
+                    MyUser myUser = _context.MyUsers.Find(carReservation.UserID);
+                    Branch branch = _context.Branches.Find(carReservation.BranchID);
+                    ReservationViewModel reservation = new ReservationViewModel()
+                    {
+                        ReservationFrom = carReservation.ReservationFrom,
+                        ReservationTo = carReservation.ReservationTo,
+                        ServiceName = service.Name,
+                        BranchName = branch.Name,
+                        UserName = myUser.Name + " " + myUser.Surname
+                    };
+                    listOfReservations.Add(reservation);
+                }
+            }
+            return Ok(listOfReservations);
         }
 
     }

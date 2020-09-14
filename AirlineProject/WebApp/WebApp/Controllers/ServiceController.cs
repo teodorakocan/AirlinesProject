@@ -737,5 +737,99 @@ namespace WebApp.Controllers
             }
             return Ok(allServices);
         }
+
+        [HttpGet]
+        [Route("search-vehicles")]
+        public async Task<ActionResult<IEnumerable<Vehicle>>> SearchAvailableVehicle(string brand, string numberOfSeats, string price, string city1, string city2, DateTime dateFrom, DateTime dateTo)
+        {
+            //price promenuti izracunati koliki je za zadati interval vremena za kada je korisniku potreban auto
+            double vehiclePrice = 0;
+            int nos = 0;
+            if (numberOfSeats != null)
+            {
+                nos = Int32.Parse(numberOfSeats);
+            }
+
+            if (price != null)
+            {
+                vehiclePrice = double.Parse(price);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("reserve-vehicle/{email}/{branchId}/{vehicleId}")]
+        public async Task<ActionResult<int>> ReserveAVehicle(string email, int branchId, int vehicleId, CarReservation reservation)
+        {
+            Branch branch = new Branch();
+            branch = _context.Branches.Find(branchId);
+            RentACar rentacar = new RentACar();
+            rentacar = _context.RentACars.Find(branch.RentACarID);
+            var user = await userManager.FindByEmailAsync(email);
+            MyUser myUser = new MyUser();
+            myUser = _context.MyUsers.Find(user.UserID);
+            Vehicle vehicle = new Vehicle();
+            vehicle = _context.Vehicles.Find(vehicleId);
+
+            List<CarReservation> reservations = new List<CarReservation>();
+            reservations = _context.CarReservations.ToList();
+            foreach (CarReservation r in reservations)
+            {
+                if (r.VehicleID == vehicleId)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Vehicle is allready reserved!" });
+                }
+            }
+
+            reservation.Branch = branch;
+            reservation.BranchID = branchId;
+            reservation.Vehicle = vehicle;
+            reservation.VehicleID = vehicleId;
+            reservation.User = myUser;
+            reservation.UserID = myUser.ID;
+            reservation.RentACar = rentacar;
+            reservation.RentACarID = rentacar.ID;
+            _context.CarReservations.Add(reservation);
+
+            await _context.SaveChangesAsync();
+
+            TimeSpan totalDateReservation = new TimeSpan();
+            totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
+            int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+
+            return Ok(totalPrice);
+        }
+
+        [HttpGet]
+        [Route("service-reservations/{serviceId}")]
+        public async Task<ActionResult<IEnumerable<ReservationViewModel>>> ServiceReservations(int serviceId)
+        {
+            List<CarReservation> carReservations = new List<CarReservation>();
+            carReservations = await _context.CarReservations.ToListAsync();
+            List<ReservationViewModel> listOfReservations = new List<ReservationViewModel>();
+            foreach(CarReservation carReservation in carReservations)
+            {
+                carReservations = carReservations.FindAll(reservation => reservation.RentACarID == serviceId);
+            }
+
+            foreach(CarReservation carReservation in carReservations)
+            {
+                RentACar service = _context.RentACars.Find(carReservation.RentACarID);
+                MyUser user = _context.MyUsers.Find(carReservation.UserID);
+                Branch branch = _context.Branches.Find(carReservation.BranchID);
+                ReservationViewModel reservation = new ReservationViewModel()
+                {
+                    ReservationFrom = carReservation.ReservationFrom,
+                    ReservationTo = carReservation.ReservationTo,
+                    ServiceName = service.Name,
+                    BranchName = branch.Name,
+                    UserName = user.Name + " " + user.Surname
+                };
+                listOfReservations.Add(reservation);
+            }
+            
+            return Ok(listOfReservations);
+        }
     }
 }

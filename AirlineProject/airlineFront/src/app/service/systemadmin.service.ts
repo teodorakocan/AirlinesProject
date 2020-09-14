@@ -93,8 +93,11 @@ export class SystemAdminService{
       return this._http.get(this._baseUrl + '/api/systemadmin/all-companies');
     }
 
-    findUser(searched)
-    {
+    allReservations(){
+      return this._http.get(this._baseUrl + '/api/systemadmin/all-reservations');
+    }
+
+    findUser(searched){
       return this._http.get(this._baseUrl + '/api/systemadmin/search-user?role='+searched.Role+'&email='+searched.Email+'&name='+searched.Name+'&surname='+searched.Surname);
     }
 }

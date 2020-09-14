@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { from } from 'rxjs';
 import { SystemAdminService } from 'src/app/service/systemadmin.service';
 import { RentACarService } from 'src/app/service/rent_a_car.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-system',
@@ -15,10 +16,11 @@ import { RentACarService } from 'src/app/service/rent_a_car.service';
 export class SystemComponent implements OnInit {
 
   constructor(public systemservice: SystemAdminService, private toastr: ToastrService, private router: Router, 
-    public rentacarservice: RentACarService) { }
+    public rentacarservice: RentACarService, public service: UserService) { }
 
   public users: Object[];
   public companies: Object[];
+  public reservations: Object[];
   searchUser ={
     Role: '',
     Name: '',
@@ -63,6 +65,21 @@ export class SystemComponent implements OnInit {
         }
       }
     );
+
+    this.systemservice.allReservations().subscribe(
+      (res:Object[])=>{
+        this.reservations = res;
+      },
+      err=>{
+        if(err.status == 400)
+        {
+          this.toastr.error('There are no reservations','Failed to load reservations.');
+        }
+        else{
+          this.toastr.error('Error 500','Server failed.');
+        }
+      }
+    );
   }
 
   DeleteCompany(id){
@@ -86,7 +103,32 @@ export class SystemComponent implements OnInit {
         );
       }
     );
+  }
 
-    
+  DeleteUser(userEmail){
+    this.service.deleteAccount(userEmail).subscribe(
+      (res)=>{
+        this.toastr.success('User is successfully deleted','Success.');
+        this.systemservice.allUsers().subscribe(
+          (res:Object[])=>{
+            this.users = res;
+          },
+          err=>
+          {
+            if(err.status == 400)
+            {
+              this.toastr.error('There are no registered users','Failed to load users.');
+            }
+            else{
+              this.toastr.error('Error 500','Server failed.');
+            }
+          }
+        );
+      },
+      err=>
+      {
+        this.toastr.error('Error 500','Server failed.');
+      }
+    );
   }
 }

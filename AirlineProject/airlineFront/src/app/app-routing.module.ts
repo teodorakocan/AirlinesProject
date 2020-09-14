@@ -10,6 +10,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { SettingsComponent } from './home/settings/settings.component';
 import { AdminConfirmationComponent } from './admin-confirmation/admin-confirmation.component';
 import { RoleServiceAdminGuard } from './auth/auth.roleServiceAdmin';
+import { RoleUserGuard } from 'src/app/auth/auth.roleUserGuard';
 import { NewBranchComponent } from './branch/new-branch/new-branch.component';
 import { EditBranchComponent } from './branch/edit-branch/edit-branch.component';
 import { NewVehicleComponent } from './vehicle/new-vehicle/new-vehicle.component';
@@ -19,6 +20,7 @@ import { RentacarComponent } from './profile/rentacar/rentacar.component';
 import { RoleSystemAdminGuard } from './auth/aut.roleSystemAdmin';
 import { RentServiceComponent } from './home/rent-service/rent-service.component';
 import { SystemComponent } from './home/system/system.component';
+import { ReserveComponent } from './reserve/reserve.component';
 
 const routes: Routes = [
   {
@@ -39,7 +41,8 @@ const routes: Routes = [
   { path: 'new-branch/:serviceId', component:NewBranchComponent, canActivate: [RoleServiceAdminGuard]},
   { path: 'edit-branch/:branchId', component:EditBranchComponent, canActivate: [RoleServiceAdminGuard]},
   { path: 'new-vehicle/:branchId', component:NewVehicleComponent, canActivate: [RoleServiceAdminGuard]},
-  { path: 'edit-vehicle/:vehicleId', component:EditVehicleComponent, canActivate: [RoleServiceAdminGuard]}
+  { path: 'edit-vehicle/:vehicleId', component:EditVehicleComponent, canActivate: [RoleServiceAdminGuard]},
+  { path: 'reserve/:branchId', component: ReserveComponent, canActivate:[RoleUserGuard]}
 ];
 
 @NgModule({

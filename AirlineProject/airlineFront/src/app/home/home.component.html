@@ -69,7 +69,7 @@
 
             <div class="companies" *ngFor="let rentacarCompany of rentacarCompanies">
                     <label style="font-size:24px; color: purple;"><b>{{rentacarCompany.serviceName}}</b></label>
-                    <button type="button" class="btn btn-info" style="float: right;" (click)="ProfileService(rentacarCompany.name)">More</button><br/>
+                    <button type="button" class="btn btn-info" style="float: right;" (click)="Reserve(rentacarCompany.branchId)">Make reservation</button><br/>
                     <label style="font-size:14px;">{{rentacarCompany.serviceCity}}, {{rentacarCompany.serviceState}}</label><br/>
                     <label style="font-size:14px;">Address: {{rentacarCompany.serviceAddress}}</label><br/>
                     <label style="font-size:20px;">{{rentacarCompany.servicePromoDescription}}</label><br/>

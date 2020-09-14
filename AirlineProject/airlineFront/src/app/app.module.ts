@@ -34,6 +34,7 @@ import { AirlineComponent } from './profile/airline/airline.component';
 import { SystemAdminService } from './service/systemadmin.service';
 import { SystemComponent } from './home/system/system.component';
 import { RentServiceComponent } from './home/rent-service/rent-service.component';
+import { ReserveComponent } from './reserve/reserve.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { RentServiceComponent } from './home/rent-service/rent-service.component
     AirlineComponent,
     SystemComponent,
     RentServiceComponent,
+    ReserveComponent,
   ],
   imports: [
     BrowserModule,

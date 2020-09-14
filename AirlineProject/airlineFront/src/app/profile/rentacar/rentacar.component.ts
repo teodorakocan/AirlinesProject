@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RentACarService } from 'src/app/service/rent_a_car.service';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { RentService, Branch, Vehicle } from 'src/app/models';

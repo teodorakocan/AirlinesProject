@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
     return `http://localhost:50081/${serverPath}`;
   }
 
-  Reserve(vehicle: Vehicle)
+  Reserve(branchId)
   {
     if(localStorage.getItem('token') == null)
     {
@@ -80,9 +80,9 @@ export class HomeComponent implements OnInit {
     else{
       if(localStorage.getItem('role') != "User")
       {
-        this.toastr.error('With admin role you cannot make reservatio.','Reservation denied.');
+        this.toastr.error('With admin role you cannot make reservation.','Reservation denied.');
       }
-      //rezervisi vozilo
+      this.router.navigateByUrl('reserve/' + branchId);
     }
   }
 

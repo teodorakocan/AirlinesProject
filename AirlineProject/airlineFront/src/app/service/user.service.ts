@@ -135,4 +135,12 @@ export class UserService{
       };
       return this._http.put(this._baseUrl + '/api/user/change-password/' + email, newPassword, {params:{token:localStorage.getItem('token')}});
     }
+
+    Reservations(email){
+      return this._http.get(this._baseUrl + '/api/user/user-reservations/'+ email);
+    }
+
+    OldReservations(email){
+      return this._http.get(this._baseUrl + '/api/user/old-reservations/'+ email);
+    }
 }

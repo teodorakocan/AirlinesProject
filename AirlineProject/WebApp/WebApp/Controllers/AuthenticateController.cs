@@ -220,7 +220,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPut]
-        [Route("confim-email/{email}")]
+        [Route("confirm-email/{email}")]
         public async Task<IActionResult> Confirmation(string email)
         {
             if(email == "")

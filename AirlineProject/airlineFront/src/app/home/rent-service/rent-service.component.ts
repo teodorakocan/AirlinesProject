@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Branch, Vehicle } from 'src/app/models';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-rent-service',
@@ -17,6 +18,7 @@ export class RentServiceComponent implements OnInit {
   public myService;
   public branches: Branch[];
   public vehicles: Vehicle[];
+  public reservations: Object[];
   public exist1: boolean;
   public exist2: boolean;
   public exist3: boolean;
@@ -51,6 +53,12 @@ export class RentServiceComponent implements OnInit {
                         else{
                           this.exist3 = true;
                           this.vehicles = res;
+                          debugger
+                          this.service.allReservations(this.serviceId).subscribe(
+                            (res:Object[])=>{
+                              this.reservations = res;
+                            }
+                          );
                         }
                     }
                   )

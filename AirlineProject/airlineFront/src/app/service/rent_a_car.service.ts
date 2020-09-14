@@ -125,4 +125,17 @@ export class RentACarService{
     searchVehicle(serviceId, searched):Observable<any>{
       return this._http.get(this._baseUrl + '/api/service/search-vehicle?brand='+searched.Brand+'&vehicleClass='+searched.Class+'&numberOfSeats='+searched.NumberOfSeats+'&price='+searched.Price+'&id='+serviceId); 
     }
+
+    searchVehicle2(searched):Observable<any>{
+      return this._http.get(this._baseUrl + '/api/service/search-vehicles?brand='+searched.Brand+'&numberOfSeats='+searched.NumberOfSeats+'&price='+searched.Price+'&city1='+searched.City+'&city2='+searched.ReturnCity+'&dateFrom='+searched.StartDate+'&dateTo='+searched.EndDate); 
+    }
+
+    reserveVehicle(branchId, vehicleId, reserved){
+      return this._http.post(this._baseUrl + '/api/service/reserve-vehicle/' + localStorage.getItem('email')+'/'+branchId+'/'+vehicleId, reserved)
+    }
+
+    allReservations(serviceId){
+      debugger
+      return this._http.get(this._baseUrl + '/api/service/service-reservations/'+serviceId); 
+    }
 }

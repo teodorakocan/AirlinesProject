@@ -22,6 +22,8 @@ export class SettingsComponent implements OnInit {
   public admins: Admin[];
   public users: User[];
   public discounts: Discounts[];
+  public reservations:Object[];
+  public oldReservations: Object[];
   discount={
     Points: 0,
     Discounts: 0
@@ -50,6 +52,19 @@ export class SettingsComponent implements OnInit {
             this.toastr.error('There is no registered admins.', 'Not found.')
         }
       )
+    }
+    if(this.role == "User")
+    {
+      this.service.Reservations(this.email).subscribe(
+        (res:Object[])=>{
+          this.reservations = res;
+        }
+      );
+        this.service.OldReservations(this.email).subscribe(
+          (res:Object[])=>{
+            this.oldReservations = res;
+          }
+        );
     }
   }
 

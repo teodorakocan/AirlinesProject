@@ -22,7 +22,7 @@ export class ConfirmationComponent implements OnInit {
 
   Confirmation(){
       this.service.confirmation(this.email).subscribe(
-        (res: any) => {
+        (res) => {
           this.router.navigateByUrl('/signin');
         },
         err=>{

@@ -175,5 +175,25 @@
                 </div>
         </mat-tab>
 
+        <mat-tab *ngIf="exist1" label="All reservations">
+            <table class="table table-dark" style="overflow-x: hidden;">
+                <thead>
+                <tr>
+                    <th scope="col">Resrvation date</th>
+                    <th scope="col">Service name</th>
+                    <th scope="col">Branch office name</th>
+                    <th scope="col">User name</th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let reservation of reservations">
+                <tr>
+                    <td>{{reservation.reservationFrom}}-{{reservation.reservationTo}}</td>
+                    <td>{{reservation.serviceName}}</td>
+                    <td>{{reservation.branchName}}</td>
+                    <td>{{reservation.userName}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </mat-tab>
     </mat-tab-group>
 </div>
