@@ -391,6 +391,46 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RentACarRaiting",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Mark = table.Column<int>(nullable: false),
+                    RentACarID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: false),
+                    RentACarRaitings = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RentACarRaiting", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_RentACarRaiting_RentACars_RentACarID",
+                        column: x => x.RentACarID,
+                        principalTable: "RentACars",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RentACarRaiting_MyUsers_RentACarRaitings",
+                        column: x => x.RentACarRaitings,
+                        principalTable: "MyUsers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RentACarRaiting_RentACars_RentACarRaitings",
+                        column: x => x.RentACarRaitings,
+                        principalTable: "RentACars",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RentACarRaiting_MyUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "MyUsers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RentPriceLists",
                 columns: table => new
                 {
@@ -683,15 +723,55 @@ namespace WebApp.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "VehicleRaiting",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Mark = table.Column<int>(nullable: false),
+                    VehicleID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: false),
+                    VehicleRaitings = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehicleRaiting", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_VehicleRaiting_MyUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "MyUsers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VehicleRaiting_Vehicles_VehicleID",
+                        column: x => x.VehicleID,
+                        principalTable: "Vehicles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VehicleRaiting_MyUsers_VehicleRaitings",
+                        column: x => x.VehicleRaitings,
+                        principalTable: "MyUsers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VehicleRaiting_Vehicles_VehicleRaitings",
+                        column: x => x.VehicleRaitings,
+                        principalTable: "Vehicles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "98e0a27b-226e-4678-9f4d-06e3f537b8e3", "6481646a-4c4b-43a1-bc33-42e06246a4a6", "Admin", "ADMIN" },
-                    { "27d7d38e-bfee-412c-bd94-f0d9d43127f5", "fb84d095-4258-4b5e-9ac3-b2c9f105c44b", "Airline_Admin", "AIRLINE_ADMIN" },
-                    { "5460f399-cc78-452f-81e4-94b1b862a955", "eec4d94d-21f5-4a95-9269-b60685f920ed", "Service_Admin", "SERVICE_ADMIN" },
-                    { "432f5915-9b8c-4ea4-8622-5941bf09753d", "08430c65-3e5b-493c-b71c-46bb37190897", "User", "USER" }
+                    { "69f20f0f-8dae-4c43-bc20-312d083b39d1", "b9800f29-ed61-4e34-aa34-0f99d67fe72c", "Admin", "ADMIN" },
+                    { "4181f231-0493-440c-b420-d8e1bf46db86", "281140a7-93b8-41d1-ab05-3d476422e371", "Airline_Admin", "AIRLINE_ADMIN" },
+                    { "a426403f-f569-4e7e-bee6-20127d0ec7cd", "664e1b23-6e81-484b-9995-5b3d970806c6", "Service_Admin", "SERVICE_ADMIN" },
+                    { "92276a4c-68c3-4b60-aff5-983c35a6c842", "289d570c-4aec-4f52-9add-4e930f3da0fc", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -849,6 +929,21 @@ namespace WebApp.Migrations
                 column: "PriceListServiceConnections");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RentACarRaiting_RentACarID",
+                table: "RentACarRaiting",
+                column: "RentACarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentACarRaiting_RentACarRaitings",
+                table: "RentACarRaiting",
+                column: "RentACarRaitings");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentACarRaiting_UserID",
+                table: "RentACarRaiting",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RentaPriceListServices_RentPriceListID",
                 table: "RentaPriceListServices",
                 column: "RentPriceListID");
@@ -872,6 +967,21 @@ namespace WebApp.Migrations
                 name: "IX_RentPriceLists_RentACarID",
                 table: "RentPriceLists",
                 column: "RentACarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehicleRaiting_UserID",
+                table: "VehicleRaiting",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehicleRaiting_VehicleID",
+                table: "VehicleRaiting",
+                column: "VehicleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehicleRaiting_VehicleRaitings",
+                table: "VehicleRaiting",
+                column: "VehicleRaitings");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_BranchID",
@@ -923,16 +1033,19 @@ namespace WebApp.Migrations
                 name: "PriceListServices");
 
             migrationBuilder.DropTable(
+                name: "RentACarRaiting");
+
+            migrationBuilder.DropTable(
                 name: "RentaPriceListServices");
+
+            migrationBuilder.DropTable(
+                name: "VehicleRaiting");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Vehicles");
 
             migrationBuilder.DropTable(
                 name: "Destinations");
@@ -948,6 +1061,9 @@ namespace WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "RentServices");
+
+            migrationBuilder.DropTable(
+                name: "Vehicles");
 
             migrationBuilder.DropTable(
                 name: "Admins");

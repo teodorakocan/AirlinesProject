@@ -44,5 +44,7 @@ namespace WebApp.Authentication
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<CarReservation> CarReservations { get; set; }
         public DbSet<Discounts> Discounts { get; set; }
+        public DbSet<RentACarRaiting> RentACarRaitings { get; set; }
+        public DbSet<VehicleRaiting> VehicleRaitings { get; set; }
     }
 }

@@ -27,6 +27,12 @@ namespace WebApp.Models
         [ForeignKey("AircraftConfiguration")]
         public virtual ICollection<AircraftConfiguration> AircraftConfigurations { get; set; }
 
+        [ForeignKey("VehicleRaitings")]
+        public virtual ICollection<VehicleRaiting> VehicleRaitings { get; set; }
+
+        [ForeignKey("RentACarRaitings")]
+        public virtual ICollection<RentACarRaiting> RentACarRaitings { get; set; }
+
         [ForeignKey("FastReservation")]
         public virtual ICollection<FastReservation> FastReservations { get; set; }
 
@@ -38,6 +44,8 @@ namespace WebApp.Models
             this.AircraftConfigurations = new HashSet<AircraftConfiguration>();
             this.FastReservations = new HashSet<FastReservation>();
             this.CarReservations = new HashSet<CarReservation>();
+            this.VehicleRaitings = new HashSet<VehicleRaiting>();
+            this.RentACarRaitings = new HashSet<RentACarRaiting>();
         }
     }
 }

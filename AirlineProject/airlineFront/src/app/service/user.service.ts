@@ -143,4 +143,13 @@ export class UserService{
     OldReservations(email){
       return this._http.get(this._baseUrl + '/api/user/old-reservations/'+ email);
     }
+    
+    serviceForRating(){
+      return this._http.get(this._baseUrl + '/api/user/service-for-rating/'+localStorage.getItem('email')); 
+    }
+
+    rateService(serviceId, mark)
+    {
+      return this._http.post(this._baseUrl + '/api/user/rate-service/'+mark+'/'+serviceId+'/'+localStorage.getItem('email'), {}); 
+    }
 }

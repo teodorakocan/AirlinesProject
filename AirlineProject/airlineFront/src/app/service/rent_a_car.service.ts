@@ -131,11 +131,10 @@ export class RentACarService{
     }
 
     reserveVehicle(branchId, vehicleId, reserved){
-      return this._http.post(this._baseUrl + '/api/service/reserve-vehicle/' + localStorage.getItem('email')+'/'+branchId+'/'+vehicleId, reserved)
+      return this._http.put(this._baseUrl + '/api/service/reserve-vehicle/' + localStorage.getItem('email')+'/'+branchId+'/'+vehicleId, reserved)
     }
 
     allReservations(serviceId){
-      debugger
       return this._http.get(this._baseUrl + '/api/service/service-reservations/'+serviceId); 
     }
 }

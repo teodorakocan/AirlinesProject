@@ -1229,46 +1229,54 @@ namespace WebApp.Controllers
             return vehicleList;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("reserve-vehicle/{email}/{branchId}/{vehicleId}")]
         public async Task<ActionResult<int>> ReserveAVehicle(string email, int branchId, int vehicleId, CarReservation reservation)
         {
-            Branch branch = new Branch();
-            branch = _context.Branches.Find(branchId);
-            RentACar rentacar = new RentACar();
-            rentacar = _context.RentACars.Find(branch.RentACarID);
-            var user = await userManager.FindByEmailAsync(email);
-            MyUser myUser = new MyUser();
-            myUser = _context.MyUsers.Find(user.UserID);
-            Vehicle vehicle = new Vehicle();
-            vehicle = _context.Vehicles.Find(vehicleId);
-
-            List<CarReservation> reservations = new List<CarReservation>();
-            reservations = _context.CarReservations.ToList();
-            foreach (CarReservation r in reservations)
+            if(reservation.ReservationFrom.Date.Year == 1 && reservation.ReservationTo.Date.Year == 1)
             {
-                if (r.VehicleID == vehicleId)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Vehicle is allready reserved!" });
-                }
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "You have to pick a date!" });
             }
 
-            reservation.Branch = branch;
-            reservation.BranchID = branchId;
-            reservation.Vehicle = vehicle;
-            reservation.VehicleID = vehicleId;
-            reservation.User = myUser;
-            reservation.UserID = myUser.ID;
-            reservation.RentACar = rentacar;
-            reservation.RentACarID = rentacar.ID;
-            _context.CarReservations.Add(reservation);
-
+            Branch branch = _context.Branches.Find(branchId);
+            RentACar rentacar = _context.RentACars.Find(branch.RentACarID);
+            var user = await userManager.FindByEmailAsync(email);
+            MyUser myUser = _context.MyUsers.Find(user.UserID);
+            Vehicle vehicle = _context.Vehicles.Find(vehicleId);
+            myUser.Points += 10;
+            _context.Entry(myUser).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
+            CarReservation newReservation = new CarReservation()
+            {
+                ReservationFrom = reservation.ReservationFrom,
+                ReservationTo = reservation.ReservationTo,
+                BranchID = branch.ID,
+                VehicleID = vehicle.ID,
+                UserID = myUser.ID,
+                RentACarID = rentacar.ID
+            };
+            _context.CarReservations.Add(newReservation);
+            _context.SaveChanges();
+
+            List<Discounts> discounts = new List<Discounts>();
+            int totalPrice = 0;
             TimeSpan totalDateReservation = new TimeSpan();
             totalDateReservation = reservation.ReservationTo - reservation.ReservationFrom;
-            int totalPrice = totalDateReservation.Days * (int)vehicle.Price;
 
+            foreach (Discounts discount in discounts)
+            {
+                if(myUser.Points == discount.Points)
+                {
+                    totalPrice = (totalDateReservation.Days * (int)vehicle.Price) * discount.Discount/100;
+                }
+            }
+            
+            if(totalPrice == 0)
+            {
+                totalPrice = totalDateReservation.Days * (int)vehicle.Price;
+            }
+            
             return Ok(totalPrice);
         }
 

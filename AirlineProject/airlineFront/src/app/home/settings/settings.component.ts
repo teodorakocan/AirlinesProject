@@ -24,6 +24,8 @@ export class SettingsComponent implements OnInit {
   public discounts: Discounts[];
   public reservations:Object[];
   public oldReservations: Object[];
+  public rentacarCompanies;
+  public currentRate = 0;
   discount={
     Points: 0,
     Discounts: 0
@@ -55,16 +57,24 @@ export class SettingsComponent implements OnInit {
     }
     if(this.role == "User")
     {
+
       this.service.Reservations(this.email).subscribe(
         (res:Object[])=>{
           this.reservations = res;
         }
       );
-        this.service.OldReservations(this.email).subscribe(
-          (res:Object[])=>{
-            this.oldReservations = res;
-          }
-        );
+
+      this.service.OldReservations(this.email).subscribe(
+        (res:Object[])=>{
+          this.oldReservations = res;
+        }
+      );
+
+      this.service.serviceForRating().subscribe(
+        (res)=>{
+          this.rentacarCompanies = res;
+        }
+      );
     }
   }
 
@@ -172,5 +182,13 @@ export class SettingsComponent implements OnInit {
           this.toastr.error('Error 500','Server failed.');
       }
     )
+  }
+
+  onRateService(rating: number,serviceId) {
+    this.service.rateService(serviceId, rating).subscribe(
+      (res)=>{
+        this.rentacarCompanies = res;
+      }
+    );
   }
 }

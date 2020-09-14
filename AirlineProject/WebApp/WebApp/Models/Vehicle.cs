@@ -27,9 +27,13 @@ namespace WebApp.Models
         [ForeignKey("CarReservations")]
         public virtual ICollection<CarReservation> CarReservations { get; set; }
 
+        [ForeignKey("VehicleRaitings")]
+        public virtual ICollection<VehicleRaiting> Raitings { get; set; }
+
         public Vehicle()
         {
             this.CarReservations = new HashSet<CarReservation>();
+            this.Raitings = new HashSet<VehicleRaiting>();
         }
 
     }

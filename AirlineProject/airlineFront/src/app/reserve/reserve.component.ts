@@ -101,14 +101,18 @@ export class ReserveComponent implements OnInit {
       ReservationFrom: startDate,
       ReservationTo: endDate
     }
-    debugger
     this.service.reserveVehicle(this.branchId, vehicle.id, reserved).subscribe(
       (res)=>
       {
         this.toastr.success('You reserved '+vehicle.name+'.Total price is '+res+'$','Reservation successful.');
       },
       err=>{
-        this.toastr.error('Error 500.','Serve failed.');
+        if(err.status == 400){
+          this.toastr.error('You have to pick a date.','Reservation failed.');
+        }
+        else{
+          this.toastr.error('Error 500.','Serve failed.');
+        }
       }
     );
   }

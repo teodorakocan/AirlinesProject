@@ -246,5 +246,69 @@ namespace WebApp.Controllers
             return Ok(listOfReservations);
         }
 
+        [HttpGet]
+        [Route("service-for-rating/{email}")]
+        public async Task<ActionResult<IEnumerable<RentACar>>> ServiceForRaiting(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            List<CarReservation> reservations = new List<CarReservation>();
+            reservations = await _context.CarReservations.ToListAsync();
+            List<RentACar> services = new List<RentACar>();
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+           
+            foreach(CarReservation reservation in reservations)
+            {
+                if(reservation.UserID == user.UserID)
+                {
+                    if (reservation.ReservationFrom <= date)
+                    {
+                        RentACar rentacar = _context.RentACars.Find(reservation.RentACarID);
+                        services.Add(rentacar);
+                    }
+                }
+            }
+
+            return Ok(services);
+        }
+
+        [HttpPost]
+        [Route("rate-service/{mark}/{serviceId}/{email}")]
+        public async Task<ActionResult<IEnumerable<RentACar>>> RateService(int mark, int serviceId, string email)
+        {
+            List<MyUser> users = await _context.MyUsers.ToListAsync();
+            MyUser myUser = new MyUser();
+            foreach(MyUser user in users)
+            {
+                if(user.Email.Equals(email))
+                {
+                    myUser = user;
+                }    
+            }
+
+            RentACarRaiting rentACarRaiting = new RentACarRaiting()
+            {
+                Mark = mark,
+                RentACarID = serviceId,
+                UserID = myUser.ID
+            };
+
+            _context.RentACarRaitings.Add(rentACarRaiting);
+            await _context.SaveChangesAsync();
+
+            List<RentACarRaiting> raitings = new List<RentACarRaiting>();
+            raitings = await _context.RentACarRaitings.ToListAsync();
+            List<RentACar> leftServices = new List<RentACar>();
+            foreach(RentACarRaiting rate in raitings)
+            {
+                if(rate.RentACarID !=serviceId)
+                {
+                    RentACar rentACar = _context.RentACars.Find(serviceId);
+                    leftServices.Add(rentACar);
+                }
+            }
+
+            return Ok(leftServices);
+        }
     }
 }

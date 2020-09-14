@@ -231,6 +231,7 @@
                     </div>
                 </form>
         </mat-tab>
+
         <mat-tab *ngIf="role=='User'" label="Reservations">
             <table class="table table-dark" style="overflow-x: hidden;">
                 <thead>
@@ -270,6 +271,16 @@
                 </tr>
                 </tbody>
             </table>
+        </mat-tab>
+        
+        <mat-tab *ngIf="role=='User'" label="Services for raiting">
+            <div class="companies" *ngFor="let rentacarCompany of rentacarCompanies">
+                <label style="font-size:24px; color: purple;"><b>{{rentacarCompany.name}}</b></label>
+                <ngb-rating style="float: right;" [max]="5" [(rate)]="currentRate" [readonly]="false" (rateChange)="onRateService($event,rentacarCompany.id)"></ngb-rating><br/>
+                <label style="font-size:14px;">{{rentacarCompany.serviceCity}}, {{rentacarCompany.state}}</label><br/>
+                <label style="font-size:14px;">Address: {{rentacarCompany.address}}</label><br/>
+                <label style="font-size:20px;">{{rentacarCompany.promoDescription}}</label><br/>
+        </div><br/><br/><br/>
         </mat-tab>
     </mat-tab-group>
 </div>

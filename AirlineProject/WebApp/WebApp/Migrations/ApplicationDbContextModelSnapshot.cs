@@ -48,29 +48,29 @@ namespace WebApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "98e0a27b-226e-4678-9f4d-06e3f537b8e3",
-                            ConcurrencyStamp = "6481646a-4c4b-43a1-bc33-42e06246a4a6",
+                            Id = "69f20f0f-8dae-4c43-bc20-312d083b39d1",
+                            ConcurrencyStamp = "b9800f29-ed61-4e34-aa34-0f99d67fe72c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "27d7d38e-bfee-412c-bd94-f0d9d43127f5",
-                            ConcurrencyStamp = "fb84d095-4258-4b5e-9ac3-b2c9f105c44b",
+                            Id = "4181f231-0493-440c-b420-d8e1bf46db86",
+                            ConcurrencyStamp = "281140a7-93b8-41d1-ab05-3d476422e371",
                             Name = "Airline_Admin",
                             NormalizedName = "AIRLINE_ADMIN"
                         },
                         new
                         {
-                            Id = "5460f399-cc78-452f-81e4-94b1b862a955",
-                            ConcurrencyStamp = "eec4d94d-21f5-4a95-9269-b60685f920ed",
+                            Id = "a426403f-f569-4e7e-bee6-20127d0ec7cd",
+                            ConcurrencyStamp = "664e1b23-6e81-484b-9995-5b3d970806c6",
                             Name = "Service_Admin",
                             NormalizedName = "SERVICE_ADMIN"
                         },
                         new
                         {
-                            Id = "432f5915-9b8c-4ea4-8622-5941bf09753d",
-                            ConcurrencyStamp = "08430c65-3e5b-493c-b71c-46bb37190897",
+                            Id = "92276a4c-68c3-4b60-aff5-983c35a6c842",
+                            ConcurrencyStamp = "289d570c-4aec-4f52-9add-4e930f3da0fc",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -702,6 +702,36 @@ namespace WebApp.Migrations
                     b.ToTable("RentACars");
                 });
 
+            modelBuilder.Entity("WebApp.Models.RentACarRaiting", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentACarID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RentACarRaitings")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("RentACarID");
+
+                    b.HasIndex("RentACarRaitings");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("RentACarRaiting");
+                });
+
             modelBuilder.Entity("WebApp.Models.RentPriceList", b =>
                 {
                     b.Property<int>("ID")
@@ -828,6 +858,36 @@ namespace WebApp.Migrations
                     b.HasIndex("Vehicle");
 
                     b.ToTable("Vehicles");
+                });
+
+            modelBuilder.Entity("WebApp.Models.VehicleRaiting", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VehicleRaitings")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("VehicleID");
+
+                    b.HasIndex("VehicleRaitings");
+
+                    b.ToTable("VehicleRaiting");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1037,6 +1097,29 @@ namespace WebApp.Migrations
                         .HasForeignKey("PriceListServiceConnections");
                 });
 
+            modelBuilder.Entity("WebApp.Models.RentACarRaiting", b =>
+                {
+                    b.HasOne("WebApp.Models.RentACar", "RentACar")
+                        .WithMany()
+                        .HasForeignKey("RentACarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.MyUser", null)
+                        .WithMany("RentACarRaitings")
+                        .HasForeignKey("RentACarRaitings");
+
+                    b.HasOne("WebApp.Models.RentACar", null)
+                        .WithMany("RentACarRaitings")
+                        .HasForeignKey("RentACarRaitings");
+
+                    b.HasOne("WebApp.Models.MyUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebApp.Models.RentPriceList", b =>
                 {
                     b.HasOne("WebApp.Models.RentACar", "RentACar")
@@ -1080,6 +1163,29 @@ namespace WebApp.Migrations
                     b.HasOne("WebApp.Models.Branch", null)
                         .WithMany("Vehicles")
                         .HasForeignKey("Vehicle");
+                });
+
+            modelBuilder.Entity("WebApp.Models.VehicleRaiting", b =>
+                {
+                    b.HasOne("WebApp.Models.MyUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.MyUser", null)
+                        .WithMany("VehicleRaitings")
+                        .HasForeignKey("VehicleRaitings");
+
+                    b.HasOne("WebApp.Models.Vehicle", null)
+                        .WithMany("Raitings")
+                        .HasForeignKey("VehicleRaitings");
                 });
 #pragma warning restore 612, 618
         }
